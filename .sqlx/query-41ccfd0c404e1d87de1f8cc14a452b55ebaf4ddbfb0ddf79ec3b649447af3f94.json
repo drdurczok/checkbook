@@ -1,0 +1,31 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO projects\n                (household_id, linked_property_id, name, budget, valuation_date,\n                 stored_status, started_on, ended_on, notes, data_source, source_key)\n             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'app_manual', $10)\n             RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Date",
+        "Text",
+        "Date",
+        "Date",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "41ccfd0c404e1d87de1f8cc14a452b55ebaf4ddbfb0ddf79ec3b649447af3f94"
+}

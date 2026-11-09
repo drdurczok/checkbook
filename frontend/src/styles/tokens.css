@@ -1,0 +1,29 @@
+:root {
+  font-family: Manrope, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  color: #172033;
+  background: #f7f8fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --surface: 255 255 255;
+  --surface-lowest: 247 248 251;
+  --surface-low: 239 242 247;
+  --surface-high: 226 232 240;
+  --surface-highest: 203 213 225;
+  --surface-bright: 255 255 255;
+  --gold: 30 111 214;
+  --gold-deep: 22 88 178;
+  --emerald: 18 148 111;
+  --accent: 30 111 214;
+  --accent-strong: 22 88 178;
+  --success: 18 148 111;
+  --danger: 196 63 63;
+  --ink: 23 32 51;
+  --mist: 91 107 128;
+  --outline: 220 226 236;
+  --shadow: 21 34 56;
+}

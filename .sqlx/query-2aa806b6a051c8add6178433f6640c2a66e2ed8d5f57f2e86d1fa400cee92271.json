@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id,source_key,utility_contract_id FROM utility_bills WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "source_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "utility_contract_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "2aa806b6a051c8add6178433f6640c2a66e2ed8d5f57f2e86d1fa400cee92271"
+}

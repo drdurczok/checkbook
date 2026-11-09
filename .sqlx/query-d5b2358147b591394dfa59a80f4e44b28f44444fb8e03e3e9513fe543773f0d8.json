@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT owner_scope FROM ledger_entries\n         WHERE household_id = $1 AND id = $2\n           AND direction = 'expense' AND status = 'actual'",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "owner_scope",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "d5b2358147b591394dfa59a80f4e44b28f44444fb8e03e3e9513fe543773f0d8"
+}

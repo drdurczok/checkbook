@@ -1,0 +1,67 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT p.id AS \"property_id!\", g.id AS \"expense_group_id!\", g.is_retired AS \"is_retired!\",\n                  date_trunc('month', b.charge_date)::date AS \"period?\",\n                  coalesce(sum(b.amount), 0)::numeric AS \"amount!: Decimal\",\n                  count(b.id) AS \"entry_count!\",\n                  min(b.charge_date) AS \"first_entry_date?\",\n                  max(b.charge_date) AS \"last_entry_date?\"\n           FROM properties p\n           JOIN expense_groups g\n             ON g.household_id = p.household_id AND g.linked_property_id = p.id\n           LEFT JOIN utility_bills b\n             ON b.household_id = p.household_id AND b.property_id = p.id\n            AND b.owner_scope = ANY($2)\n            AND ($3::date IS NULL OR b.charge_date >= $3)\n            AND ($4::date IS NULL OR b.charge_date <= $4)\n           WHERE p.household_id = $1 AND p.category = 'property'\n             AND p.utilities_enabled AND p.expenses_enabled\n           GROUP BY p.id, g.id, g.is_retired, date_trunc('month', b.charge_date)::date\n           ORDER BY p.id, 4",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "property_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "expense_group_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "is_retired!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 3,
+        "name": "period?",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "entry_count!",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 6,
+        "name": "first_entry_date?",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "last_entry_date?",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "ad7f765f1198f452121a1b7057002649fe2314029d3c1ea826b96b2b6986a326"
+}

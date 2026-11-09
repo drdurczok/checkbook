@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_contract_import_sources (household_id,property_id,source_service_key,utility_contract_id)\n         VALUES ($1,$2,$3,$4) ON CONFLICT (household_id,property_id,source_service_key) DO NOTHING",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "100026f894fa1c06a2eb16e4c62ca104c86df15222c7a7ede157e34d02ea20a1"
+}

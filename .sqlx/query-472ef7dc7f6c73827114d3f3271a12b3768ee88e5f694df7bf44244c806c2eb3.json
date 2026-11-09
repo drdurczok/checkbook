@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM account_balance_snapshots\n         WHERE household_id = $1 AND account_id = $2 AND id = $3 AND source_key LIKE $4",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "472ef7dc7f6c73827114d3f3271a12b3768ee88e5f694df7bf44244c806c2eb3"
+}

@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO income_source_milestones\n                (household_id, income_source_id, label, milestone_date, sort_order)\n             VALUES ($1, $2, $3, $4, $5)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Date",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "733631e845bcb48d9724300793d5a152b2ef1a1e996f87aeaac5d98dc11a9083"
+}

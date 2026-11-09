@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT category_id AS \"category_id!\"\n             FROM property_categories WHERE household_id = $1 AND property_id = $2\n             UNION\n             SELECT c.id AS \"category_id!\"\n             FROM categories c\n             JOIN expense_groups g\n               ON g.household_id = c.household_id AND g.id = c.expense_group_id\n             WHERE c.household_id = $1 AND g.linked_property_id = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "category_id!",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "c24e09521633daffbd624372955bd9910f4dfe25f42226083d4722241d6ffbf6"
+}

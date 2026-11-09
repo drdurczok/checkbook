@@ -1,0 +1,133 @@
+/* Expense category detail modal (ExpensesPage.tsx's ExpenseDetailModal) —
+   was rendering with no CSS at all (unstyled `.record-detail-modal` class),
+   so it had no padding and its content overflowed instead of scrolling.
+   Same header/scrollable-body split as .income-source-modal--designed
+   above, minus the footer row since this modal has none. */
+.record-detail-modal {
+	display: grid;
+	/* Explicit minmax(0, 1fr) column: an implicit auto track sizes to the
+	   header's max-content, so a long title plus its group pill blew the
+	   header past the dialog edge instead of shrinking. */
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: 0;
+	width: min(50rem, calc(100vw - 2rem));
+	max-height: min(46rem, calc(100vh - 2rem));
+	padding: 0;
+	overflow: hidden;
+}
+
+.record-detail-modal .drive-picker__header {
+	padding: 1rem 1.1rem;
+	border-bottom: 1px solid rgb(var(--outline) / 0.75);
+}
+
+/* `.drive-picker__header span { display: block; font-size: 0.7rem;
+   text-transform: uppercase; ... }` (the eyebrow-label rule, above) also
+   matches these spans and — at equal-or-higher specificity — was winning,
+   forcing the expense name onto a stacked line styled like a tiny uppercase
+   eyebrow instead of a real title. Scope under both ancestor classes to
+   out-specify it. */
+.record-detail-modal .drive-picker__header .expense-detail-title {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	min-width: 0;
+	color: rgb(var(--ink));
+	font-size: 1.5rem;
+	font-weight: 800;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+/* The name fills the header and ellipsizes so the row never wraps. Scoped
+   under both ancestors to out-specify the shared eyebrow rule that would
+   otherwise restyle any span in the header. */
+.record-detail-modal .drive-picker__header .expense-detail-name {
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	color: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	letter-spacing: normal;
+	text-overflow: ellipsis;
+	text-transform: none;
+	white-space: nowrap;
+}
+
+/* Flexbox, not grid: a nested overflow:hidden grid child (.chart-stat-grid)
+   inside a `grid-auto-rows: auto` container doesn't reliably get its real
+   content height counted for that row's track size in Chrome, causing the
+   row to collapse and the next row to overlap it. Flex's cross-axis sizing
+   doesn't have that failure mode. */
+.record-detail-modal .page-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	min-height: 0;
+	overflow: auto;
+	padding: 1.2rem 1.25rem 1.4rem;
+}
+
+/* ValueTrendChart/LoanPayoffChart (charts.tsx) both render `.loan-payoff-chart
+   svg { height: 100% }`, which needs a definite ancestor height to resolve
+   against. Inside an `align-content: start` grid (this modal's page-stack,
+   above) rows size to content instead of stretching, so without an explicit
+   height here the chart collapses to a blank gap. `.loan-payoff-chart`
+   itself already draws the card border/background, so this wrapper only
+   supplies the missing height. */
+.expense-value-trend {
+	display: grid;
+	height: 16rem;
+}
+
+.expense-detail-actions {
+	flex-wrap: nowrap;
+}
+
+.expense-settings-editor {
+	display: grid;
+	gap: 0.75rem;
+	padding: 0.85rem;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.7rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.expense-settings-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
+}
+
+.expense-settings-actions .button--danger-ghost {
+	margin-right: auto;
+}
+
+@media (max-width: 767px) {
+	.record-detail-modal .drive-picker__header {
+		flex-direction: row;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.75rem 0.85rem;
+	}
+
+	.record-detail-modal .drive-picker__header > div:first-child {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.record-detail-modal .drive-picker__header .expense-detail-title {
+		font-size: 1.1rem;
+	}
+
+	.record-detail-modal .page-stack {
+		padding: 0.85rem;
+	}
+
+	.expense-settings-actions {
+		flex-wrap: wrap;
+	}
+}

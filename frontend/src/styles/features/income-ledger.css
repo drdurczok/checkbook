@@ -1,0 +1,744 @@
+/* ---- Payslip composer ---- */
+.income-payslip-composer {
+	display: grid;
+	gap: 0.85rem;
+	border: 1px solid rgb(var(--accent) / 0.4);
+	border-radius: 0.75rem;
+	padding: 1rem;
+	background: rgb(var(--surface));
+	box-shadow: 0 1px 2px rgb(var(--shadow) / 0.12);
+}
+
+.income-payslip-composer__head {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	gap: 0.7rem;
+}
+
+.income-payslip-group {
+	display: grid;
+	gap: 0.4rem;
+	padding: 0.8rem 0.9rem;
+	border: 1px solid transparent;
+	border-radius: 0.7rem;
+}
+
+.income-payslip-group--earn {
+	border-color: rgb(var(--emerald) / 0.28);
+	background: rgb(var(--emerald) / 0.06);
+}
+
+.income-payslip-group--contrib {
+	border-color: rgb(var(--danger) / 0.24);
+	background: rgb(var(--danger) / 0.05);
+}
+
+.income-payslip-group--adjust {
+	border-color: rgb(var(--accent) / 0.24);
+	background: rgb(var(--accent) / 0.06);
+}
+
+.income-payslip-group__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+
+.income-payslip-group__title {
+	margin: 0;
+	color: rgb(var(--mist));
+	font-size: 0.7rem;
+	font-weight: 850;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.income-payslip-group__grid {
+	display: grid;
+	gap: 0.35rem;
+}
+
+.income-payslip-field {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	min-width: 0;
+}
+
+.income-payslip-field > span {
+	flex: 1;
+	min-width: 0;
+	color: rgb(var(--ink));
+	font-size: 0.8rem;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.income-payslip-field__input {
+	position: relative;
+	flex: 0 0 9rem;
+	width: 9rem;
+}
+
+.income-payslip-field__input i {
+	position: absolute;
+	left: 0.55rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: rgb(var(--mist));
+	font-size: 0.8rem;
+	font-style: normal;
+	pointer-events: none;
+}
+
+.income-payslip-field__input input {
+	width: 100%;
+	min-height: 2.4rem;
+	padding: 0.45rem 0.6rem 0.45rem 1.4rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.55rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	font-weight: 650;
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.income-payslip-field__input input.is-negative {
+	color: rgb(var(--danger));
+}
+
+.income-payslip-autofill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	border: 1px solid rgb(var(--accent) / 0.4);
+	border-radius: 999px;
+	padding: 0.25rem 0.6rem;
+	background: rgb(var(--accent) / 0.08);
+	color: rgb(var(--accent));
+	font-size: 0.7rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.income-payslip-total {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.6rem 0.75rem;
+	border: 1px solid rgb(var(--surface-highest));
+	border-radius: 0.55rem;
+	background: rgb(var(--surface-low));
+}
+
+.income-payslip-total--accent {
+	border-color: rgb(var(--accent) / 0.3);
+	background: rgb(var(--accent) / 0.07);
+}
+
+.income-payslip-total__label {
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	font-weight: 800;
+}
+
+.income-payslip-total--accent .income-payslip-total__label {
+	color: rgb(var(--accent));
+}
+
+.income-payslip-total__grow {
+	flex: 1;
+}
+
+.income-payslip-total__toggle {
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 999px;
+	padding: 0.2rem 0.5rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+}
+
+.income-payslip-total__toggle.is-auto {
+	border-color: rgb(var(--accent) / 0.4);
+	background: rgb(var(--accent) / 0.1);
+	color: rgb(var(--accent));
+}
+
+.income-payslip-total input:not(.outlined-field__input) {
+	width: 8rem;
+	min-height: 2.4rem;
+	padding: 0.45rem 0.6rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.55rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	font-size: 1rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.income-payslip-total--accent input {
+	color: rgb(var(--accent));
+}
+
+.income-payslip-composer__footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.6rem;
+}
+
+.income-payslip-composer__net {
+	margin-right: auto;
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+}
+
+.income-payslip-composer__net strong {
+	margin-left: 0.4rem;
+	color: rgb(var(--emerald));
+	font-size: 0.95rem;
+}
+
+.income-source-edit {
+	display: grid;
+	gap: 1rem;
+}
+
+.income-edit-toggle {
+	display: inline-grid;
+	place-items: center;
+	width: 2.2rem;
+	height: 2.2rem;
+	flex: 0 0 auto;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.6rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	cursor: pointer;
+}
+
+.income-edit-toggle.is-active {
+	border-color: rgb(var(--accent) / 0.5);
+	background: rgb(var(--accent) / 0.1);
+	color: rgb(var(--accent));
+}
+
+.income-ledger-panel {
+	display: grid;
+	gap: 0.8rem;
+	min-width: 0;
+}
+
+.income-ledger-panel__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.income-ledger-panel__actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+.income-ledger-panel__lead {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+.income-ledger-panel__head span {
+	color: rgb(var(--mist));
+	font-size: 0.7rem;
+	font-weight: 850;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+}
+
+.income-ledger-panel__head strong {
+	color: rgb(var(--ink));
+	font-size: 1rem;
+	font-weight: 900;
+}
+
+/* ---- Payslip list (expandable rows) ---- */
+.income-payslip-list {
+	display: grid;
+	gap: 0.45rem;
+}
+
+.income-payslip-row {
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.6rem;
+	background: rgb(var(--surface));
+}
+
+.income-payslip-row.is-open {
+	border-color: rgb(var(--outline) / 1);
+}
+
+.income-payslip-row__summary {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	width: 100%;
+	border: 0;
+	padding: 0.6rem 0.75rem;
+	background: transparent;
+	color: rgb(var(--ink));
+	text-align: left;
+	cursor: pointer;
+}
+
+.income-payslip-row__summary--static {
+	cursor: default;
+}
+
+.income-payslip-row__toggle {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	min-width: 0;
+	border: 0;
+	padding: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.income-payslip-row__toggle--amount {
+	flex: 1;
+	justify-content: flex-end;
+}
+
+.income-payslip-row__edit {
+	display: inline-grid;
+	place-items: center;
+	width: 1.9rem;
+	height: 1.9rem;
+	flex: 0 0 auto;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.5rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	cursor: pointer;
+}
+
+.income-payslip-row__edit:hover {
+	border-color: rgb(var(--accent) / 0.5);
+	color: rgb(var(--accent));
+}
+
+.income-payslip-row__icon {
+	display: inline-grid;
+	place-items: center;
+	width: 2.2rem;
+	height: 2.2rem;
+	flex: 0 0 auto;
+	border-radius: 0.55rem;
+	background: rgb(var(--accent) / 0.1);
+	color: rgb(var(--accent));
+}
+
+.income-payslip-row__icon--rental {
+	background: rgba(18, 148, 111, 0.13);
+	color: #12946f;
+}
+.income-payslip-row__icon--business {
+	background: rgba(217, 119, 6, 0.13);
+	color: #d97706;
+}
+.income-payslip-row__icon--investment {
+	background: rgba(139, 92, 246, 0.13);
+	color: #8b5cf6;
+}
+.income-payslip-row__icon--benefit {
+	background: rgba(15, 118, 110, 0.13);
+	color: #0f766e;
+}
+
+.income-payslip-row__identity {
+	display: grid;
+	gap: 0.12rem;
+	min-width: 0;
+}
+
+.income-payslip-row__identity strong {
+	overflow: hidden;
+	color: rgb(var(--ink));
+	font-size: 0.88rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.income-payslip-row__identity small {
+	overflow: hidden;
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.income-payslip-row__grow {
+	flex: 1;
+}
+
+.income-payslip-row__amount {
+	display: grid;
+	gap: 0.05rem;
+	flex: 0 0 auto;
+	text-align: right;
+}
+
+.income-payslip-row__amount strong {
+	color: rgb(var(--emerald));
+	font-size: 0.98rem;
+	font-weight: 850;
+}
+
+.income-payslip-row__amount small {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+	font-weight: 700;
+}
+
+.income-payslip-row__chevron {
+	flex: 0 0 auto;
+	color: rgb(var(--mist));
+	transition: transform 160ms ease;
+}
+
+.income-payslip-row__chevron.is-open {
+	transform: rotate(180deg);
+}
+
+.income-payslip-row__details {
+	display: grid;
+	gap: 0.7rem;
+	padding: 0.7rem 1.6rem 1rem;
+	border-top: 1px solid rgb(var(--outline) / 0.7);
+	background: rgb(var(--surface-low));
+}
+
+.income-payslip-row__group p {
+	margin: 0 0 0.25rem;
+	color: rgb(var(--mist));
+	font-size: 0.64rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.income-payslip-row__line {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.65rem;
+	padding: 0.26rem 0;
+	border-top: 1px solid rgb(var(--outline) / 0.55);
+	font-size: 0.82rem;
+}
+
+/* No divider directly beneath a group heading (Earnings, Adjustments, etc.) */
+.income-payslip-row__group p + .income-payslip-row__line {
+	border-top: none;
+}
+
+/* Gross pay / Net payable totals sit flush with their group — no divider above */
+.income-payslip-row__line.is-total {
+	border-top: none;
+}
+
+.income-payslip-row__line span {
+	color: rgb(var(--ink));
+	font-weight: 650;
+}
+
+.income-payslip-row__line strong {
+	color: rgb(var(--ink));
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.income-payslip-row__line strong.is-negative {
+	color: rgb(var(--danger));
+}
+
+.income-payslip-row__line strong.is-positive {
+	color: rgb(var(--emerald));
+}
+
+.income-payslip-row__line.is-total span,
+.income-payslip-row__line.is-total strong {
+	font-weight: 850;
+}
+
+/* ---- Paycheck composer (rental / investment / benefit) ---- */
+.income-paycheck-composer {
+	display: grid;
+	gap: 0.6rem;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.75rem;
+	padding: 0.9rem 1rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.income-paycheck-composer__grid {
+	display: grid;
+	grid-template-columns: 1.2fr 1fr 1fr auto;
+	gap: 0.6rem;
+	align-items: end;
+}
+
+.income-paycheck-composer__hint {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+}
+
+.income-ledger-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding-top: 0.5rem;
+	border-top: 1px solid rgb(var(--outline) / 0.8);
+}
+
+.income-ledger-foot small {
+	color: rgb(var(--mist));
+	font-weight: 750;
+}
+
+.income-ledger-foot strong {
+	color: rgb(var(--ink));
+	font-size: 1.05rem;
+	font-weight: 850;
+}
+
+/* ---- Danger / delete (inside Details) ---- */
+.income-source-danger {
+	padding-top: 0.4rem;
+	border-top: 1px solid rgb(var(--outline) / 0.8);
+}
+
+.income-delete-trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border: 0;
+	padding: 0.3rem 0;
+	background: transparent;
+	color: rgb(var(--danger));
+	font-size: 0.84rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.income-delete-confirm {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	padding: 0.85rem;
+	border: 1px solid rgb(var(--danger) / 0.4);
+	border-radius: 0.6rem;
+	background: rgb(var(--danger) / 0.06);
+}
+
+.income-delete-confirm > div {
+	display: grid;
+	gap: 0.1rem;
+	flex: 1;
+	min-width: 12rem;
+}
+
+.income-delete-confirm strong {
+	color: rgb(var(--ink));
+	font-size: 0.86rem;
+}
+
+.income-delete-confirm small {
+	color: rgb(var(--mist));
+}
+
+.income-payslip-table-shell {
+	min-width: 0;
+	min-height: 0;
+	max-height: 31rem;
+	overflow: auto;
+	border: 1px solid rgb(var(--outline) / 0.8);
+	border-radius: 0.7rem;
+	background: rgb(var(--surface));
+}
+
+.income-payslip-table {
+	min-width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 0.78rem;
+}
+
+.income-payslip-table th,
+.income-payslip-table td {
+	border-right: 1px solid rgb(var(--outline) / 0.72);
+	border-bottom: 1px solid rgb(var(--outline) / 0.72);
+	padding: 0.48rem 0.6rem;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.income-payslip-table thead th {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: rgb(var(--surface-low));
+	color: rgb(var(--ink));
+	font-weight: 900;
+}
+
+.income-payslip-table th:first-child {
+	position: sticky;
+	left: 0;
+	z-index: 3;
+	min-width: 13rem;
+	background: rgb(var(--surface-low));
+	text-align: left;
+}
+
+.income-payslip-table tbody th:first-child {
+	z-index: 1;
+	background: rgb(var(--surface));
+}
+
+.income-payslip-table tr.is-total th,
+.income-payslip-table tr.is-total td {
+	border-top: 1px solid rgb(var(--surface-highest));
+	font-weight: 850;
+}
+
+.income-payslip-table tr.is-accent td {
+	background: rgb(var(--accent) / 0.05);
+}
+
+/* The sticky first column must stay opaque or scrolled values show through it */
+.income-payslip-table tr.is-accent th:first-child {
+	background-color: rgb(var(--surface));
+	background-image: linear-gradient(
+		rgb(var(--accent) / 0.05),
+		rgb(var(--accent) / 0.05)
+	);
+}
+
+.income-payslip-table td.is-negative {
+	color: rgb(var(--danger));
+}
+
+.income-payslip-table td.is-accent {
+	color: rgb(var(--emerald));
+}
+
+.income-payslip-table td.is-zero {
+	color: rgb(var(--mist) / 0.55);
+}
+
+.income-generic-ledger {
+	display: grid;
+	gap: 0.8rem;
+}
+
+.income-ledger-empty {
+	border: 1px dashed rgb(var(--outline) / 0.95);
+	border-radius: 0.7rem;
+	padding: 1.2rem;
+	color: rgb(var(--mist));
+	text-align: center;
+	font-size: 0.86rem;
+	font-weight: 750;
+}
+
+@media (max-width: 767px) {
+	.project-modal-hero__stats {
+		gap: 0.85rem;
+	}
+
+	.income-page > .metric-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.45rem;
+	}
+
+	.income-page > .metric-grid .metric-card {
+		padding: 0.55rem 0.4rem;
+	}
+
+	.property-card-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.income-custom-field {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+	}
+
+	.project-item__row {
+		grid-template-columns: auto minmax(0, 1fr) auto auto;
+	}
+
+	.project-item__total-input {
+		grid-column: 2 / -1;
+		grid-row: 2;
+		width: 100%;
+	}
+
+	.project-item__total {
+		grid-column: 2 / -1;
+		grid-row: 2;
+		text-align: right;
+	}
+
+	.project-item__details {
+		grid-template-columns: 1fr;
+	}
+
+	.property-room-item--status {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+	}
+
+	.property-room-item--status small {
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	.property-room-item--status strong {
+		grid-column: 3;
+		grid-row: 1 / span 2;
+		align-self: center;
+	}
+
+	.property-room-item--status .property-item-status {
+		grid-row: 1 / span 2;
+	}
+
+	.property-room-item--status .property-item-note {
+		grid-column: 1 / -1;
+	}
+}

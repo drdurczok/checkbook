@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT period FROM utility_months WHERE household_id=$1\n         AND property_id IS NOT DISTINCT FROM $2 AND contract_id IS NOT DISTINCT FROM $3\n         AND completed",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "d3fae3bdeb1a4936e6bdebbd6b45758577280bbdb676029f2a7db6ceb5211ee0"
+}

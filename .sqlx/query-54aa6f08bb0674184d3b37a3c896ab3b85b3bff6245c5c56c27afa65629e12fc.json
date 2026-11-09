@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE utility_meter_readings SET previous_reading_id=$3,usage_amount=$4,updated_at=now()\n            WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Numeric"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "54aa6f08bb0674184d3b37a3c896ab3b85b3bff6245c5c56c27afa65629e12fc"
+}

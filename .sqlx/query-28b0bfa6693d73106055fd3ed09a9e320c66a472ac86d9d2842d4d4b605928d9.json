@@ -1,0 +1,41 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT income_source_id, income_source_line_id, label, value\n         FROM income_source_custom_fields\n         WHERE household_id = $1\n           AND (income_source_id = $2 OR income_source_line_id IN (\n               SELECT id FROM income_source_lines\n               WHERE household_id = $1 AND income_source_id = $2\n           ))\n         ORDER BY sort_order, created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "income_source_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "income_source_line_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "value",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "28b0bfa6693d73106055fd3ed09a9e320c66a472ac86d9d2842d4d4b605928d9"
+}

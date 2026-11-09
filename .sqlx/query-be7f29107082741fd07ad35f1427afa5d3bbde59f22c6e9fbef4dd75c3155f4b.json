@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT app.expense_group_can_delete(household_id, id) AS \"can_delete!\"\n           FROM expense_groups WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "can_delete!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "be7f29107082741fd07ad35f1427afa5d3bbde59f22c6e9fbef4dd75c3155f4b"
+}

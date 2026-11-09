@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE household_invitations\n             SET accepted_at = now(), updated_at = now()\n             WHERE household_id = $1 AND id = $2 AND accepted_at IS NULL",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "780b162afb32466113a318574c70a49eefdc521d142084b3bc91c3ded990e339"
+}

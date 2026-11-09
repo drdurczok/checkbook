@@ -1,0 +1,48 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO loans\n            (household_id, account_id, name, liability_type, owner_scope, original_balance,\n             current_balance, interest_rate, monthly_payment, start_date, end_date, notes,\n             linked_property_id, data_source, source_key)\n         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)\n         ON CONFLICT (household_id, source_key) DO UPDATE SET\n            name = EXCLUDED.name, liability_type = EXCLUDED.liability_type,\n            owner_scope = EXCLUDED.owner_scope, original_balance = EXCLUDED.original_balance,\n            current_balance = EXCLUDED.current_balance, interest_rate = EXCLUDED.interest_rate,\n            monthly_payment = EXCLUDED.monthly_payment, start_date = EXCLUDED.start_date,\n            end_date = EXCLUDED.end_date, notes = EXCLUDED.notes,\n            linked_property_id = EXCLUDED.linked_property_id,\n            terms_payload = loans.terms_payload - 'payment_schedule', updated_at = now()\n         RETURNING id, schedule_opening_balance, (xmax = 0) AS \"inserted!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "schedule_opening_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "inserted!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Date",
+        "Date",
+        "Text",
+        "Uuid",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      null
+    ]
+  },
+  "hash": "cfbb7a0e74a2954dbe7c031edc35b86ad68642456bb183fb133bf6963beed714"
+}

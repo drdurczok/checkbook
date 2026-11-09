@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE projects\n             SET linked_property_id = $3, name = $4, budget = $5,\n                 valuation_date = $6, stored_status = $7, started_on = $8,\n                 ended_on = $9, notes = $10, updated_at = now()\n             WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Date",
+        "Text",
+        "Date",
+        "Date",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "95baf8882f15a7b70334e879b2f9d8545fe353fae7e8cab17dd474c58e9c98ee"
+}

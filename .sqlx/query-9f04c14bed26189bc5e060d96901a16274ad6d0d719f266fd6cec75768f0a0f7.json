@@ -1,0 +1,65 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, source_type, owner_scope, started_on, ended_on, notes, sort_order\n         FROM income_sources\n         WHERE household_id = $1 AND owner_scope = ANY($2)\n         ORDER BY sort_order, name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "source_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 6,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "sort_order",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "9f04c14bed26189bc5e060d96901a16274ad6d0d719f266fd6cec75768f0a0f7"
+}

@@ -1,0 +1,40 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id AS \"id!\", household_id AS \"household_id!\", role AS \"role!\",\n                  relationship_kind AS \"relationship_kind!\"\n         FROM app.pending_invitation_for_email($1)",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "household_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "role!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "relationship_kind!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "bafb1005b5f01ca4cea037965b2d591644eff623648c59b66549c316304ad327"
+}

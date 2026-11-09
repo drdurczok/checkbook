@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO payday_months (household_id, month) VALUES ($1,$2) ON CONFLICT (household_id, month) DO NOTHING RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "97d1bfad8e5a1e5159e593a05cdd78f772ac0f1af2aaadb8acf3e581f08dfd0c"
+}

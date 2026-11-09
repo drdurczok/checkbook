@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT stable_key FROM planning_rules WHERE household_id = $1 AND stable_key LIKE 'system:%'",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "stable_key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "fc8514491e7762486f96df739bd752e176eef3798a197cfc2da6de608491e31d"
+}

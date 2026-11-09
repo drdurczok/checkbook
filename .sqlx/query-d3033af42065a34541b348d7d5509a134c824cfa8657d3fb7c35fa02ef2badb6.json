@@ -1,0 +1,84 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT c.id,c.property_id,s.service_key AS key,s.label,s.color,c.tracking_mode,s.unit,\n           c.start_date,c.end_date,COALESCE(c.end_date < $3,false) AS \"retired!\",c.sort_order\n           FROM utility_contracts c JOIN utility_services s\n             ON s.household_id=c.household_id AND s.id=c.service_id\n           WHERE c.household_id=$1 AND c.property_id=$2 ORDER BY c.sort_order,c.start_date,c.id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "property_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "color",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "tracking_mode",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "unit",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "start_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "end_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 9,
+        "name": "retired!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 10,
+        "name": "sort_order",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      null,
+      false
+    ]
+  },
+  "hash": "d3033af42065a34541b348d7d5509a134c824cfa8657d3fb7c35fa02ef2badb6"
+}

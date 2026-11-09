@@ -1,0 +1,1790 @@
+/* Project Gantt --------------------------------------------------------- */
+.gantt {
+	overflow-x: auto;
+}
+
+.gantt__chart {
+	min-width: 600px;
+}
+
+.gantt__head {
+	position: relative;
+	height: 1.3rem;
+	margin-bottom: 0.45rem;
+}
+
+.gantt__month {
+	position: absolute;
+	top: 0;
+	padding-left: 0.3rem;
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 750;
+	white-space: nowrap;
+}
+
+.gantt__body {
+	position: relative;
+	display: grid;
+	gap: 0.4rem;
+	padding-top: 0.1rem;
+	min-height: 2.6rem;
+}
+
+.gantt__gridline {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background: rgb(var(--outline) / 0.85);
+	pointer-events: none;
+}
+
+.gantt__today {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 0;
+	border-left: 2px dashed rgb(var(--accent) / 0.75);
+	pointer-events: none;
+	z-index: 3;
+}
+
+.gantt__today-flag {
+	position: absolute;
+	top: 0;
+	transform: translateX(-50%);
+	padding: 0.05rem 0.45rem;
+	border-radius: 999px;
+	background: rgb(var(--accent));
+	color: #fff;
+	font-size: 0.6rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* Brush slider: pan through time, drag the handles to snap the window wider/narrower. */
+/* Overview: a date ruler with a glass magnifier window that pans/zooms the chart. */
+.gantt-overview {
+	margin-bottom: 1rem;
+	padding: 0.6rem 0.7rem 0.5rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.7rem;
+	background: rgb(var(--surface));
+}
+
+.gantt-overview__track {
+	position: relative;
+	height: 2.6rem;
+	border-radius: 0.5rem;
+	background: rgb(var(--surface-lowest));
+	box-shadow: inset 0 0 0 1px rgb(var(--outline) / 0.7);
+	touch-action: none;
+}
+
+.gantt-overview__tick {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	border-left: 1px solid rgb(var(--outline) / 0.85);
+	padding-left: 0.3rem;
+	color: rgb(var(--mist));
+	font-size: 0.64rem;
+	font-weight: 750;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.gantt-overview__today {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 0;
+	border-left: 1px dashed rgb(var(--accent) / 0.7);
+	pointer-events: none;
+	z-index: 1;
+}
+
+.gantt-overview__window {
+	position: absolute;
+	top: -2px;
+	bottom: -2px;
+	border: 2px solid rgb(var(--accent));
+	border-radius: 0.5rem;
+	background:
+		linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.5),
+			rgba(255, 255, 255, 0.04) 48%
+		),
+		rgb(var(--accent) / 0.1);
+	box-shadow:
+		0 4px 14px rgb(var(--accent) / 0.22),
+		inset 0 1px 0 rgba(255, 255, 255, 0.65);
+	cursor: grab;
+	touch-action: none;
+	z-index: 2;
+}
+
+.gantt-overview__window:active {
+	cursor: grabbing;
+}
+
+.gantt-overview__handle {
+	position: absolute;
+	top: 50%;
+	width: 0.8rem;
+	height: 1.6rem;
+	transform: translateY(-50%);
+	border-radius: 0.3rem;
+	background: rgb(var(--accent));
+	cursor: ew-resize;
+	touch-action: none;
+	box-shadow: 0 1px 4px rgb(var(--shadow) / 0.35);
+}
+
+.gantt-overview__handle::after {
+	content: "";
+	position: absolute;
+	inset: 0.42rem 0.3rem;
+	border-left: 1px solid rgba(255, 255, 255, 0.8);
+	border-right: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.gantt-overview__handle--start {
+	left: -0.4rem;
+}
+
+.gantt-overview__handle--end {
+	right: -0.4rem;
+}
+
+.gantt__lane {
+	position: relative;
+	height: 2.3rem;
+}
+
+.gantt__bar {
+	position: absolute;
+	top: 0.3rem;
+	display: flex;
+	align-items: center;
+	height: 1.7rem;
+	min-width: 2.5rem;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.55rem;
+	padding: 0 0.55rem;
+	background: rgb(var(--surface));
+	cursor: pointer;
+	text-align: left;
+	z-index: 2;
+	transition:
+		filter 140ms ease,
+		box-shadow 140ms ease;
+}
+
+.gantt__bar:hover {
+	box-shadow: 0 6px 16px rgb(var(--shadow) / 0.18);
+	filter: brightness(0.98);
+}
+
+.gantt__bar-fill {
+	position: absolute;
+	inset: 0 auto 0 0;
+	border-radius: 0.5rem 0 0 0.5rem;
+	pointer-events: none;
+}
+
+.gantt__bar-label {
+	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 0.76rem;
+	font-weight: 750;
+	color: rgb(var(--ink));
+}
+
+.gantt__bar.is-planned {
+	border-color: #c3cede;
+	background: #eef2f8;
+}
+
+.gantt__bar.is-planned .gantt__bar-fill {
+	background: rgb(var(--mist) / 0.2);
+}
+
+.gantt__bar.is-active {
+	border-color: #eccb8e;
+	background: #fdf6e8;
+}
+
+.gantt__bar.is-active .gantt__bar-fill {
+	background: rgba(227, 162, 58, 0.32);
+}
+
+.gantt__bar.is-completed {
+	border-color: #9ed9bd;
+	background: #ecfaf3;
+}
+
+.gantt__bar.is-completed .gantt__bar-fill {
+	background: rgb(var(--emerald) / 0.3);
+}
+
+.gantt__undated {
+	display: grid;
+	gap: 0.4rem;
+	margin-top: 0.9rem;
+}
+
+.gantt__undated-label {
+	color: rgb(var(--mist));
+	font-size: 0.66rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.gantt__undated-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	gap: 0.6rem;
+}
+
+.gantt__card {
+	display: grid;
+	gap: 0.35rem;
+	min-width: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.55rem;
+	padding: 0.7rem 0.85rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	cursor: pointer;
+	text-align: left;
+}
+
+.gantt__card:hover {
+	border-color: rgb(var(--accent) / 0.4);
+	background: rgb(var(--surface-lowest));
+}
+
+.gantt__card-head {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-width: 0;
+	font-size: 0.85rem;
+	font-weight: 750;
+}
+
+.gantt__card-head span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.gantt__card small {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 650;
+}
+
+.gantt__card-dot {
+	flex: 0 0 auto;
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 999px;
+}
+
+.gantt__card.is-active {
+	border-color: #eccb8e;
+}
+
+.gantt__card.is-completed {
+	border-color: #9ed9bd;
+}
+
+/* The overview quick-add modal picks the record kind from a dropdown in the
+title instead of a tab strip below the header. */
+.record-add-modal.quick-add-modal {
+	grid-template-rows: auto minmax(0, 1fr);
+}
+
+.record-add-kind {
+	position: relative;
+	min-width: 0;
+}
+
+.record-add-kind-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	border: 0;
+	border-radius: 0.45rem;
+	padding: 0.1rem 0.4rem 0.1rem 0.55rem;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.record-add-kind-toggle:hover,
+.record-add-kind-toggle:focus-visible {
+	background: rgb(var(--accent) / 0.08);
+}
+
+.record-add-kind-toggle svg {
+	flex: 0 0 auto;
+	color: rgb(var(--mist));
+}
+
+.record-add-kind-menu {
+	position: absolute;
+	top: calc(100% + 0.35rem);
+	left: 0;
+	z-index: 30;
+	display: grid;
+	min-width: 10rem;
+	border: 1px solid rgb(var(--outline));
+	border-radius: 0.65rem;
+	padding: 0.35rem;
+	background: rgb(var(--surface));
+	box-shadow: 0 18px 40px rgb(var(--shadow) / 0.2);
+}
+
+.record-add-kind-menu button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 0.55rem;
+	border: 0;
+	border-radius: 0.45rem;
+	padding: 0.55rem 0.65rem;
+	background: transparent;
+	color: rgb(var(--mist));
+	font-size: 0.85rem;
+	font-weight: 700;
+	text-align: left;
+	cursor: pointer;
+}
+
+.record-add-kind-menu button:hover {
+	background: rgb(var(--accent) / 0.07);
+	color: rgb(var(--ink));
+}
+
+.record-add-kind-menu button.is-active {
+	background: rgb(var(--accent) / 0.1);
+	color: rgb(var(--accent));
+}
+
+.record-add-modal .quick-add-form {
+	display: grid;
+	/* The full-height mobile modal leaves slack below the fields; it goes
+	   between the two rows so the action bar keeps its natural height at the
+	   bottom instead of stretching to absorb it. */
+	align-content: space-between;
+	gap: 0;
+	padding: 1rem;
+	background: rgb(var(--surface));
+}
+
+.record-add-modal .inline-field {
+	gap: 0.42rem;
+}
+
+/* Legacy label styling for any plain inline-fields still rendered inside the
+   quick-add modal. Icon-led fields are excluded: their control box is a span
+   too, and this rule's specificity would shrink its font below the
+   record-add-field primitive's. */
+.record-add-modal .inline-field:not(.record-add-field) span {
+	color: rgb(var(--mist) / 0.9);
+	font-size: 0.68rem;
+	font-weight: 850;
+}
+
+.record-add-modal input:not(.outlined-field__input),
+.record-add-modal select:not(.outlined-field__input),
+.record-add-modal textarea:not(.outlined-field__input) {
+	border-color: rgb(var(--outline) / 0.95);
+	background: rgb(var(--surface-lowest));
+}
+
+.record-add-modal input:not(.outlined-field__input):focus,
+.record-add-modal select:not(.outlined-field__input):focus,
+.record-add-modal textarea:not(.outlined-field__input):focus {
+	background: rgb(var(--surface));
+}
+
+.record-add-modal textarea:not(.outlined-field__input) {
+	min-height: 6.5rem;
+}
+
+/* Icon-led record fields and the notes toggle live in styles/primitives.css
+   as the shared field primitive (`record-add-field`); modal-specific layout
+   for the quick add form stays below. */
+
+.record-add-modal .quick-add-actions {
+	position: sticky;
+	bottom: 0;
+	z-index: 4;
+	/* The primary action centers on the page even with the owner toggle
+	   beside it: symmetric 1fr side columns keep the button on the viewport
+	   centerline while the toggle anchors the row's right edge. */
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+	gap: 0.5rem;
+	width: auto;
+	max-width: none;
+	margin-top: 0.9rem;
+	margin-right: -1rem;
+	margin-bottom: -1rem;
+	margin-left: -1rem;
+	padding: 0.95rem 1rem calc(0.95rem + env(safe-area-inset-bottom, 0px));
+	border-radius: 0;
+	/* Flat footer: the same surface color as the modal background. */
+	background: rgb(var(--surface));
+}
+
+.record-add-modal .quick-add-actions .button[type="submit"] {
+	grid-column: 2;
+}
+
+.record-add-modal .quick-add-actions .quick-add-owner-toggle {
+	grid-column: 3;
+	justify-self: end;
+}
+
+.feedback {
+	margin: 0 0 1rem;
+	padding: 0.75rem 1rem;
+	border-radius: 0.6rem;
+	font-size: 0.9rem;
+}
+
+.feedback--error {
+	border: 1px solid rgb(var(--danger) / 0.28);
+	background: rgb(var(--danger) / 0.08);
+	color: rgb(var(--danger));
+}
+
+.feedback--success {
+	border: 1px solid rgb(var(--success) / 0.25);
+	background: rgb(var(--success) / 0.08);
+	color: rgb(var(--success));
+}
+
+.metric-strip {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.overview-details {
+	display: grid;
+	gap: 0.85rem;
+	margin-top: 1rem;
+}
+
+.overview-stat-row {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+}
+
+.overview-stat-row > div {
+	min-width: 0;
+	padding: 0.75rem;
+	background: rgb(var(--surface));
+}
+
+.overview-stat-row span {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.overview-stat-row strong {
+	display: block;
+	color: rgb(var(--ink));
+	font-size: 1rem;
+	font-weight: 800;
+	overflow-wrap: anywhere;
+}
+
+.cash-flow-detail-modal .overview-stat-row > div,
+.cash-flow-detail-modal .overview-stat-row span,
+.cash-flow-detail-modal .overview-stat-row strong {
+	text-align: center;
+}
+
+.loan-summary-panel {
+	display: grid;
+	gap: 0.75rem;
+	min-height: 0;
+	overflow: auto;
+}
+
+/* Loan summary: balances above a progress bar, dates below it. The payment
+   and rate ride centered between the values and the bar; the payment arrow
+   marks a planned payment that differs from the fixed formula payment. */
+.loan-progress {
+	display: grid;
+	gap: 0.45rem;
+	padding: 0.9rem 1rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--surface));
+}
+
+.loan-progress__values,
+.loan-progress__dates {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.loan-progress__values strong {
+	color: rgb(var(--ink));
+	font-size: 1.02rem;
+	font-weight: 850;
+	white-space: nowrap;
+}
+
+.loan-progress__values {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	gap: 0.4rem;
+}
+
+.loan-progress__paid {
+	grid-column: 1;
+}
+
+.loan-progress__remaining {
+	grid-column: 3;
+	text-align: right;
+}
+
+.loan-progress__amount {
+	grid-column: 2;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: baseline;
+	gap: 0.2rem 0.4rem;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	text-align: center;
+}
+
+.loan-progress__interest {
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 750;
+}
+
+/* Payment and rate ride below the bar with the dates, centered between the
+   start and end figures. */
+.loan-progress__meta {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.loan-progress__payment {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.22rem;
+	cursor: help;
+}
+
+.loan-progress__payment svg {
+	color: rgb(var(--accent));
+}
+
+.loan-progress__track {
+	height: 0.55rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgb(var(--mist) / 0.28);
+}
+
+.loan-progress__fill {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: rgb(var(--accent) / 0.9);
+	transition: width 200ms ease;
+}
+
+.loan-progress__fill--paid-off {
+	background: rgb(var(--success) / 0.9);
+}
+
+.loan-progress__dates {
+	color: rgb(var(--mist));
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.loan-summary-graph {
+	display: grid;
+	height: 22rem;
+	min-height: 18rem;
+}
+
+/* Loan notes collapse into their own card below the chart: the toggle row
+   carries the card's border, and the body only occupies space when open. */
+.loan-notes-card {
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--surface));
+}
+
+.loan-notes-card__toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.6rem;
+	width: 100%;
+	min-height: 2.4rem;
+	border: 0;
+	border-radius: inherit;
+	padding: 0.6rem 0.9rem;
+	background: transparent;
+	color: rgb(var(--ink));
+	font-size: 0.8rem;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.loan-notes-card__toggle:hover {
+	background: rgb(var(--surface-low));
+}
+
+.loan-notes-card__toggle:focus-visible {
+	outline: 2px solid rgb(var(--accent) / 0.55);
+	outline-offset: -2px;
+}
+
+.loan-notes-card__chevron {
+	color: rgb(var(--mist));
+	transition: transform 160ms ease;
+}
+
+.loan-notes-card__toggle[aria-expanded="true"] .loan-notes-card__chevron {
+	transform: rotate(180deg);
+}
+
+.loan-notes-card__body {
+	padding: 0 0.9rem 0.75rem;
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	line-height: 1.45;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.detail-table {
+	display: grid;
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+}
+
+.detail-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(5rem, auto);
+	gap: 1rem;
+	align-items: center;
+	min-width: 0;
+	padding: 0.75rem 0.85rem;
+	background: rgb(var(--surface));
+}
+
+/* `.record-add-form` itself has no rules. `.quick-add-modal`'s own
+   `display: grid; gap: 1rem` only spaces its direct children — since the
+   form is that single direct child, it did nothing for the fields *inside*
+   the form (Name/Color/Notes/actions sat flush with no gap between them). */
+.quick-add-modal .record-add-form {
+	display: grid;
+	gap: 1rem;
+}
+
+/* Inline entry-edit form (ExpensesPage.tsx's entryEditor) rendered as a row
+   inside .detail-table — same missing-gap issue, but this context also has
+   no ambient padding/background at all, so it sat flush against the
+   table's grey 1px-gap background. */
+.detail-table .record-add-form {
+	display: grid;
+	gap: 0.85rem;
+	/* 1rem on all sides so .quick-add-actions's `margin: 0.75rem -1rem -1rem`
+	   bleeds its footer bar exactly to this form's edges. */
+	padding: 1rem;
+	background: rgb(var(--surface));
+}
+
+.detail-row--button {
+	width: 100%;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.detail-row--button:hover,
+.detail-row--button.is-active {
+	background: rgb(var(--surface-lowest));
+}
+
+.detail-row--button.is-active {
+	box-shadow: inset 3px 0 0 rgb(var(--accent));
+}
+
+/* Total cost row pinned to the bottom of the detail table: a heavier separator
+   above it plus a slightly raised tint sets it apart as the running total. */
+.detail-row--total {
+	border-top: 2px solid rgb(var(--outline));
+	background: rgb(var(--surface-lowest));
+}
+
+.detail-row--total span,
+.detail-row--total strong {
+	font-size: 0.95rem;
+	font-weight: 850;
+}
+
+.detail-row span {
+	min-width: 0;
+	color: rgb(var(--ink));
+	font-size: 0.86rem;
+	font-weight: 750;
+	overflow-wrap: anywhere;
+}
+
+.detail-row strong {
+	color: rgb(var(--ink));
+	font-size: 0.86rem;
+	font-weight: 800;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.detail-row small {
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 700;
+	text-align: right;
+	overflow-wrap: anywhere;
+}
+
+.detail-row .is-positive,
+.chart-stat-grid .is-positive {
+	color: rgb(var(--success));
+}
+
+.detail-row .is-negative,
+.chart-stat-grid .is-negative {
+	color: rgb(var(--danger));
+}
+
+@media (max-width: 1100px) {
+	.metric-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.grid--two,
+	.grid--three {
+		grid-template-columns: 1fr;
+	}
+
+	.composition-chart {
+		grid-template-columns: 1fr;
+	}
+
+	/* Gantt scales to the viewport instead of scrolling horizontally on mobile. */
+	.gantt {
+		overflow-x: hidden;
+	}
+
+	.gantt__chart {
+		min-width: 0;
+	}
+
+	.gantt__month {
+		font-size: 0.6rem;
+	}
+
+}
+
+@media (max-width: 767px) {
+	.app-shell {
+		padding-top: var(--mobile-header-height);
+	}
+
+	.app-topbar {
+		min-height: 2.95rem;
+		gap: 0.6rem;
+		padding: 0.45rem 0.75rem;
+		transition:
+			transform 180ms ease,
+			opacity 180ms ease;
+		will-change: transform;
+	}
+
+	.app-topbar--hidden {
+		transform: translateY(-100%);
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.app-mobile-menu-button,
+	.app-sidebar,
+	.app-sidebar-backdrop,
+	.app-profile-shell {
+		display: none;
+	}
+
+	.app-bottom-nav {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 45;
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.35rem max(0.45rem, env(safe-area-inset-right))
+			calc(0.35rem + env(safe-area-inset-bottom))
+			max(0.45rem, env(safe-area-inset-left));
+		border-top: 0;
+		background: rgb(var(--surface));
+		backdrop-filter: none;
+		transition:
+			transform 180ms ease,
+			opacity 180ms ease;
+		will-change: transform;
+	}
+
+	.app-bottom-nav--hidden {
+		transform: translateY(100%);
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.app-bottom-nav button {
+		display: inline-grid;
+		flex: 1 1 0;
+		width: auto;
+		max-width: 4rem;
+		height: 2.35rem;
+		place-items: center;
+		min-width: 0;
+		border: 0;
+		border-radius: 0.5rem;
+		padding: 0.3rem;
+		background: transparent;
+		color: rgb(var(--mist));
+		cursor: pointer;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
+	.app-bottom-nav button svg {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+
+	.app-bottom-nav button span {
+		display: none;
+	}
+
+	.app-bottom-nav button.is-active {
+		background: rgb(var(--accent) / 0.1);
+		color: rgb(var(--accent));
+	}
+
+	.app-bottom-nav-preview {
+		position: fixed;
+		bottom: calc(4.5rem + env(safe-area-inset-bottom));
+		left: clamp(3rem, var(--preview-x, 50vw), calc(100vw - 3rem));
+		z-index: 46;
+		max-width: calc(100vw - 1.5rem);
+		padding: 0.35rem 0.7rem;
+		border-radius: 0.6rem;
+		background: rgb(var(--ink));
+		color: rgb(var(--surface));
+		font-size: 0.78rem;
+		font-weight: 600;
+		line-height: 1.2;
+		white-space: nowrap;
+		pointer-events: none;
+		box-shadow: 0 0.4rem 1rem rgb(var(--shadow) / 0.3);
+		transform: translate(-50%, 0.35rem) scale(0.96);
+		opacity: 0;
+		animation: app-bottom-nav-preview-in 110ms ease-out forwards;
+	}
+
+	.app-bottom-nav-preview::after {
+		content: "";
+		position: absolute;
+		bottom: -0.28rem;
+		left: 50%;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 0 0 0.18rem 0;
+		background: rgb(var(--ink));
+		transform: translateX(-50%) rotate(45deg);
+	}
+
+	@keyframes app-bottom-nav-preview-in {
+		from {
+			opacity: 0;
+			transform: translate(-50%, 0.55rem) scale(0.92);
+		}
+
+		to {
+			opacity: 1;
+			transform: translate(-50%, 0) scale(1);
+		}
+	}
+
+	.app-mobile-profile-menu {
+		position: fixed;
+		right: max(0.8rem, env(safe-area-inset-right));
+		bottom: calc(4.8rem + env(safe-area-inset-bottom));
+		left: max(0.8rem, env(safe-area-inset-left));
+		z-index: 120;
+		display: block;
+		padding: 0.6rem;
+	}
+
+	.app-mobile-profile-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 119;
+		display: block;
+		border: 0;
+		background: rgb(var(--shadow) / 0.45);
+	}
+
+	.app-content-sidebar-open,
+	.app-content-sidebar-collapsed {
+		margin-left: 0;
+	}
+
+	.page-shell {
+		padding-bottom: calc(4.25rem + env(safe-area-inset-bottom));
+	}
+
+	.shell--centered {
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
+
+	.auth-card {
+		width: calc(100vw - 2rem);
+		max-width: 22rem;
+		justify-self: start;
+		padding: 1.25rem;
+	}
+
+	.grid--two,
+	.grid--three,
+	.form-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.app-shell {
+		--quick-add-fab-bottom: calc(3.75rem + env(safe-area-inset-bottom));
+	}
+
+	.app-shell--mobile-chrome-hidden {
+		--mobile-header-height: 0px;
+		--mobile-footer-height: 0px;
+		--quick-add-fab-bottom: calc(1rem + env(safe-area-inset-bottom));
+	}
+
+	.quick-add-fab {
+		right: 1rem;
+		width: 2.75rem;
+		height: 2.75rem;
+		box-shadow: 0 10px 22px rgb(var(--accent) / 0.24);
+	}
+
+	.quick-add-fab svg {
+		width: 1.15rem;
+		height: 1.15rem;
+	}
+
+	.quick-add-modal {
+		width: 100vw;
+		max-width: none;
+		height: 100dvh;
+		max-height: none;
+		border: 0;
+		border-radius: 0;
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.quick-add-form {
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.record-add-header {
+		align-items: center;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		padding: 0.85rem 1rem;
+	}
+
+	.record-add-title {
+		flex: 1 1 auto;
+		gap: 0.6rem;
+		min-width: 0;
+	}
+
+	.record-add-title span {
+		display: none;
+	}
+
+	.record-add-title h2 {
+		display: block;
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 850;
+		letter-spacing: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.record-add-icon {
+		display: inline-flex;
+		flex: 0 0 auto;
+		width: 1.9rem;
+		height: 1.9rem;
+		border-radius: 0.5rem;
+	}
+
+	.record-add-close {
+		flex: 0 0 2.25rem;
+		width: 2.25rem;
+		height: 2.25rem;
+		margin-left: auto;
+	}
+
+	.record-add-kind-toggle {
+		padding: 0.05rem 0.35rem 0.05rem 0.45rem;
+	}
+
+	.record-add-kind-menu {
+		min-width: 9rem;
+	}
+
+	/* No form bottom padding: the sticky action bar lands flush on the screen
+	   bottom and carries its own safe-area padding. */
+	.record-add-modal .quick-add-form {
+		padding: 0.75rem 0.75rem 0;
+	}
+
+	/* Field-label and control mobile behavior lives with the shared
+	   `record-add-field` primitive in styles/primitives.css. */
+
+	.record-add-pair {
+		gap: 0.5rem;
+	}
+
+	.record-add-modal .quick-add-actions {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: stretch;
+		gap: 0.5rem;
+		margin-right: -0.75rem;
+		margin-bottom: 0;
+		margin-left: -0.75rem;
+	}
+
+	/* Thumb-sized primary action on phones: the center column grows to the
+	   button's min-width while the 1fr side columns stay symmetric, so the
+	   button remains centered with the owner toggle at the right edge. */
+	.record-add-modal .quick-add-actions .button[type="submit"] {
+		min-width: min(60vw, 22rem);
+	}
+
+	.quick-add-form {
+		overflow: auto;
+	}
+
+	.quick-add-actions {
+		position: sticky;
+		bottom: 0;
+		z-index: 4;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: stretch;
+		gap: 0.5rem;
+		width: 100%;
+		max-width: 100%;
+		margin: 1rem 0 0;
+		padding: 0.85rem 0.75rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
+		/* The footer is not a separate surface: same color as the modal
+		   background, no shadow, no rounding — just the buttons, with the
+		   background kept only so scrolled fields don't show through the
+		   sticky bar. */
+		background: rgb(var(--surface));
+	}
+
+	.quick-add-actions .button,
+	.record-add-modal .quick-add-actions .button {
+		flex: 1 1 0;
+		width: auto;
+		min-width: 0;
+		max-width: none;
+		padding-right: 0.55rem;
+		padding-left: 0.55rem;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.quick-add-actions .button span,
+	.record-add-modal .quick-add-actions .button span {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.quick-add-actions .button--mobile-icon,
+	.record-add-modal .quick-add-actions .button--mobile-icon {
+		flex: 0 0 2.65rem;
+		width: 2.65rem;
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	.quick-add-actions .button--mobile-icon .mobile-action-label,
+	.record-add-modal
+		.quick-add-actions
+		.button--mobile-icon
+		.mobile-action-label {
+		display: none;
+	}
+
+	.record-add-modal .record-add-cancel {
+		display: inline-flex;
+	}
+
+	/* Sheet footer: the primary action stays dead-center with the owner
+	   toggle pinned to the right edge, as in the full-screen layout. */
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		.quick-add-actions:has(.quick-add-owner-toggle) {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+	}
+
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		.quick-add-actions
+		.button[type="submit"] {
+		grid-column: 2;
+	}
+
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		.quick-add-actions
+		.quick-add-owner-toggle {
+		grid-column: 3;
+		justify-self: end;
+	}
+
+	.metric-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.record-add-modal .quick-add-actions .button[type="submit"] {
+		flex: 0 1 auto;
+		min-width: min(12rem, 100%);
+	}
+
+	.metric-card,
+	.list-row,
+	.goal-card,
+	.loan-card {
+		padding: 0.85rem;
+	}
+
+	.list-row,
+	.loan-card,
+	.metric-strip {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.panel__header {
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.3rem 0.6rem;
+	}
+
+	.panel__actions {
+		flex-shrink: 0;
+	}
+
+	.panel__actions .button,
+	.panel__actions .app-header-select.utility-metric-trigger {
+		padding-inline: 0.55rem;
+		font-size: 0.8rem;
+		white-space: nowrap;
+	}
+
+	.panel__actions .inline-field {
+		width: 100%;
+	}
+
+	.overview-stat-row,
+	.detail-row {
+		grid-template-columns: 1fr;
+	}
+
+	.overview-stat-row--mobile-inline {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.overview-stat-row--mobile-inline > div {
+		padding: 0.55rem 0.4rem;
+	}
+
+	.overview-stat-row--mobile-inline span {
+		min-height: 1.8em;
+		font-size: 0.58rem;
+		letter-spacing: 0;
+		line-height: 1.2;
+	}
+
+	.overview-stat-row--mobile-inline strong {
+		font-size: 0.76rem;
+		line-height: 1.25;
+	}
+
+	.detail-row strong,
+	.detail-row small {
+		text-align: left;
+		white-space: normal;
+	}
+
+	/* Expense mix, savings allocation, and money flow rows stay one line
+	   each inside the overview detail modals: label left, value and share
+	   in their own right-aligned columns so the numbers line up. */
+	.overview-detail-modal .detail-row {
+		grid-template-columns: minmax(0, 1fr) auto minmax(3.5rem, auto);
+		gap: 0.6rem;
+		padding: 0.55rem 0.7rem;
+	}
+
+	.overview-detail-modal .detail-row strong,
+	.overview-detail-modal .detail-row small {
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	/* Expense category rows: keep each on a single compact line — title left,
+	   monthly value right — and drop the grey "entries · last" label so the
+	   list stays scannable on a phone. Scoped to the expenses page so other
+	   detail rows (asset modals, cash-flow) keep their own mobile layouts. */
+	.expenses-page .detail-row {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.5rem;
+		padding: 0.5rem 0.7rem;
+	}
+
+	.expenses-page .detail-row span {
+		font-size: 0.78rem;
+	}
+
+	.expenses-page .detail-row strong {
+		font-size: 0.78rem;
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	.expenses-page .detail-row small {
+		display: none;
+	}
+
+	.property-room-card__header,
+	.property-room-section__header,
+	.property-room-item,
+	.property-inline-edit {
+		grid-template-columns: 1fr;
+	}
+
+	.property-room-card__header span,
+	.property-room-section__header span,
+	.property-room-item strong {
+		white-space: normal;
+	}
+
+	/* Loans (asset-detail-modal) uses this compact phone padding; the net
+	   worth and utilities table modals match it so every full-bleed month
+	   table shares the same edge inset. Their overflow stays as the shell
+	   scrolls internally, so only the padding is shared here. */
+	.asset-detail-modal,
+	.net-worth-detail-modal,
+	.utilities-modal {
+		padding: 0.55rem;
+	}
+
+	.asset-detail-modal {
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.asset-detail-modal .detail-table {
+		overflow: visible;
+		border: 0;
+		background: transparent;
+	}
+
+	.asset-detail-modal .detail-row {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.asset-detail-modal .detail-row strong,
+	.asset-detail-modal .detail-row small {
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	.property-room-breakdown {
+		gap: 0.65rem;
+		padding: 0.35rem 0;
+		background: transparent;
+	}
+
+	.property-details-edit {
+		grid-template-columns: 1fr;
+	}
+
+	.property-value-trend .loan-payoff-chart {
+		max-width: 100%;
+	}
+
+	.property-room-card {
+		--room-card-pad: 0.65rem;
+	}
+
+	.property-room-card__header,
+	.property-room-section__header {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.property-room-card__header span,
+	.property-room-section__header span,
+	.property-room-item strong {
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	.property-room-item {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.2rem 0.65rem;
+		padding: 0.6rem 0.65rem;
+	}
+
+	.property-room-item small {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.property-room-item strong {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		align-self: center;
+	}
+
+	.property-room-item .property-item-note {
+		grid-column: 1 / -1;
+		text-align: left;
+	}
+
+	.drive-picker {
+		width: 100vw;
+		max-height: none;
+	}
+
+	.modal-backdrop {
+		align-items: stretch;
+		justify-content: stretch;
+		padding: 0;
+	}
+
+	.modal-backdrop > .modal-shell,
+	.drive-picker,
+	.net-worth-modal,
+	.asset-detail-modal,
+	.loan-detail-modal,
+	.cash-flow-modal,
+	.utilities-modal,
+	.overview-detail-modal,
+	.quick-add-modal {
+		width: 100vw;
+		max-width: none;
+		height: 100vh;
+		height: 100dvh;
+		max-height: none;
+		border: 0;
+		border-radius: 0;
+	}
+
+	/* Property details is the exception: it stays a floating card that hugs
+	   its rows. Short lists leave the backdrop visible below instead of the
+	   modal stretching to the full screen height; long lists cap at the
+	   viewport and scroll inside. */
+	.modal-backdrop > .modal-shell.asset-detail-modal:not(.loan-detail-modal) {
+		align-self: center;
+		width: calc(100vw - 1.1rem);
+		height: auto;
+		max-height: calc(100dvh - 1.1rem);
+		border: 1px solid rgb(var(--outline));
+		border-radius: 0.75rem;
+	}
+
+	.modal-shell {
+		overflow: hidden;
+		overflow-x: hidden;
+	}
+
+	.modal-shell.asset-detail-modal:not(.loan-detail-modal) {
+		grid-template-columns: minmax(0, 1fr);
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.asset-detail-modal:not(.loan-detail-modal) .drive-picker__header {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		gap: 0.75rem;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.asset-detail-modal:not(.loan-detail-modal) .detail-table {
+		min-width: 0;
+	}
+
+	.asset-detail-modal:not(.loan-detail-modal)
+		.drive-picker__header
+		> div:first-child {
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+
+	.asset-detail-modal:not(.loan-detail-modal) .drive-picker__header h2 {
+		overflow: hidden;
+		max-width: 100%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.asset-detail-modal .asset-detail-actions {
+		flex: 0 0 auto;
+		flex-wrap: nowrap;
+		justify-content: flex-end;
+		gap: 0.4rem;
+		max-width: 100%;
+	}
+
+	.asset-detail-modal .asset-detail-actions .button {
+		flex: 0 0 2.25rem;
+		width: 2.25rem;
+		height: 2.25rem;
+		min-width: 2.25rem;
+		padding: 0;
+	}
+
+	.asset-detail-modal .asset-detail-actions .mobile-action-label {
+		display: none;
+	}
+
+	.loan-detail-modal {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Every month table shares the loans table's compact phone metrics, so
+	   each one fits its bordered shell inside the modal padding: smaller
+	   tabular digits, tighter cells, wrapped headers, and a narrow month
+	   column. */
+	.net-worth-table {
+		font-size: 0.64rem;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.net-worth-table th,
+	.net-worth-table td {
+		padding: 0.26rem 0.28rem;
+	}
+
+	.net-worth-table thead th {
+		font-size: 0.6rem;
+		white-space: normal;
+	}
+
+	.net-worth-table th:not(:first-child),
+	.net-worth-table td:not(:first-child) {
+		min-width: 0;
+	}
+
+	.net-worth-table th:first-child,
+	.net-worth-table td:first-child {
+		width: 1.7rem;
+		min-width: 1.7rem;
+	}
+
+	.loan-detail-tabs {
+		flex: 0 0 auto;
+		width: 100%;
+	}
+
+	.loan-detail-modal .loan-summary-panel,
+	.loan-detail-modal .detail-table,
+	.loan-detail-modal .loan-outlook-panel {
+		flex: 0 0 auto;
+		min-height: auto;
+	}
+
+	.loan-detail-modal .loan-summary-panel {
+		overflow: visible;
+	}
+
+	.loan-detail-modal .loan-outlook-panel {
+		overflow: visible;
+	}
+
+	/* Table view keeps the modal pinned: the header and tabs stay put and
+	   only the table shell scrolls to the bottom of the screen. */
+	.loan-detail-modal--table {
+		overflow: hidden;
+	}
+
+	.loan-detail-modal--table .loan-outlook-panel {
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+
+	/* The graph card keeps a constant height on phones: the stage sizes to
+	   the chart's own aspect ratio, so the card hugs the plot and the legend
+	   sits right under it — no viewport-scaled card with letterbox gaps
+	   above the plot or below it before the legend. */
+	.loan-detail-modal .loan-summary-graph {
+		height: auto;
+		min-height: 0;
+	}
+
+	.loan-detail-modal .loan-summary-graph .loan-payoff-chart {
+		height: auto;
+	}
+
+	.loan-detail-modal .loan-summary-graph .loan-payoff-chart .chart-stage {
+		aspect-ratio: 900 / 320;
+	}
+
+	.loan-progress {
+		gap: 0.4rem;
+		padding: 0.75rem 0.8rem;
+	}
+
+	.loan-progress__values strong {
+		font-size: 0.92rem;
+	}
+
+	.drive-picker__header {
+		align-items: center;
+		flex-direction: row;
+	}
+
+	/* Net worth, loans, and utilities headers share the one-row
+	   .detail-table-header grid from styles/primitives.css: options far
+	   left, title in the middle, close far right. */
+
+	/* Cash flow details: title + close on one row, no eyebrow. */
+	.cash-flow-detail-modal .drive-picker__header {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+		gap: 0.55rem 0.6rem;
+	}
+
+	.cash-flow-detail-modal .drive-picker__header > div:first-child {
+		min-width: 0;
+	}
+
+	.cash-flow-detail-modal .drive-picker__header span {
+		display: none;
+	}
+
+	.cash-flow-detail-modal .nw-close {
+		justify-self: end;
+	}
+
+	.overview-detail-modal .drive-picker__header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 0.55rem 0.6rem;
+	}
+
+	.overview-detail-modal .drive-picker__header > div:first-child {
+		min-width: 0;
+	}
+
+	.overview-detail-modal .nw-close {
+		justify-self: end;
+	}
+
+	/* Full-bleed rows on mobile: the overview-details escapes the modal
+	   padding like the net worth and cash flow tables, so detail rows reach
+	   the screen edges with their own inner padding. */
+	.overview-detail-modal .overview-details {
+		margin-right: -1rem;
+		margin-left: -1rem;
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
+
+	.overview-detail-modal .detail-table {
+		border-right: 0;
+		border-left: 0;
+		border-radius: 0;
+	}
+
+	.drive-search {
+		grid-template-columns: 1fr;
+	}
+
+	.chart-stat-grid {
+		grid-template-columns: 1fr;
+	}
+
+	/* Two-up stat pairs (Current/Change, Average/Average deviation) stay on
+	   one row. The expenses page summary and the expense detail modal keep
+	   their 2x2 tiles (average/total on the first row, month figures on the
+	   second) instead of stacking into a single column. */
+	.chart--line .chart-stat-grid--compact,
+	.expense-mix-stats,
+	.expense-summary-grid,
+	.expense-detail-stats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.chart--line .chart-stat-grid--compact div {
+		padding: 0.55rem 0.45rem;
+	}
+
+	.chart--line .chart-stat-grid--compact span {
+		font-size: 0.58rem;
+	}
+
+	.chart--line .chart-stat-grid--compact strong {
+		font-size: clamp(0.72rem, 3vw, 0.86rem);
+	}
+
+	.cash-flow-chart__stats {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.cash-flow-chart__stats div {
+		padding: 0.55rem 0.45rem;
+	}
+
+	.cash-flow-chart__stats span {
+		font-size: 0.58rem;
+	}
+
+	.cash-flow-chart__stats strong {
+		font-size: clamp(0.72rem, 3vw, 0.86rem);
+	}
+
+	.bar-list-row {
+		grid-template-columns: 1fr;
+	}
+
+	.sankey-chart svg {
+		min-height: 16rem;
+	}
+
+	.view-toggle {
+		width: 100%;
+	}
+
+	.forecast-row--head {
+		display: none;
+	}
+
+	.forecast-row {
+		grid-template-columns: 1fr 1fr;
+		gap: 0.55rem 1rem;
+		align-items: start;
+		padding: 0.85rem;
+	}
+
+	.forecast-balance {
+		grid-column: 1 / -1;
+	}
+
+	.forecast-status {
+		justify-self: start;
+	}
+
+	.forecast-detail,
+	.forecast-summary-row {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.app-topbar > .gantt-overview {
+	width: min(40rem, 60vw);
+	margin: 0;
+	padding: 0.3rem 0.5rem;
+}
+
+.app-topbar > .gantt-overview .gantt-overview__track {
+	height: 2rem;
+	min-height: 0;
+}

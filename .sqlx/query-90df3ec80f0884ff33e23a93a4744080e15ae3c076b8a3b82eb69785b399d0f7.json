@@ -1,0 +1,82 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, household_id, privacy_mode, allow_cross_member_visibility,\n                projection_baseline_window_months, projection_horizon_months,\n                savings_allocation_strategy, backup_path, backup_retention,\n                created_at, updated_at\n         FROM household_settings WHERE household_id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "household_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "privacy_mode",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "allow_cross_member_visibility",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 4,
+        "name": "projection_baseline_window_months",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "projection_horizon_months",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "savings_allocation_strategy",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "backup_path",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "backup_retention",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "90df3ec80f0884ff33e23a93a4744080e15ae3c076b8a3b82eb69785b399d0f7"
+}

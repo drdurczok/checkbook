@@ -1,0 +1,71 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, parent_id, expense_group_id, is_system, sort_order, is_retired,\n                 app.expense_category_can_delete(household_id, id) AS \"can_delete!\",\n                 linked_loan_id IS NOT NULL AS \"is_source_linked!\"\n         FROM categories\n         WHERE household_id = $1 AND id = $2\n           AND kind = 'expense' AND parent_id IS NULL",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "parent_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "expense_group_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 4,
+        "name": "is_system",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 5,
+        "name": "sort_order",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "is_retired",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 7,
+        "name": "can_delete!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "is_source_linked!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "87e08f8ea881a95c44fcaf630fdabf4877cd226c5b66b64a5b751c7f5dea25ff"
+}

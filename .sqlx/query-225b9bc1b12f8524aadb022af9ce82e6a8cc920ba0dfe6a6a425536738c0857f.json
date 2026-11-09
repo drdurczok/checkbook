@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT user_id\n         FROM household_memberships\n         WHERE household_id = $1 AND is_active\n         ORDER BY CASE WHEN relationship_kind = 'owner' THEN 0 ELSE 1 END, created_at\n         LIMIT 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "user_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "225b9bc1b12f8524aadb022af9ce82e6a8cc920ba0dfe6a6a425536738c0857f"
+}

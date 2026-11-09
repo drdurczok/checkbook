@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE utility_bills SET amount=$3,updated_at=now() WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Numeric"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "63e3907e8746ced6a701fb70129b47de97864b7ba13332f02c6ed01166c5fbaf"
+}

@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE loan_payments SET schedule_order = $4 WHERE household_id = $1 AND loan_id = $2 AND id = $3 AND schedule_order IS DISTINCT FROM $4",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e8c53f1fb50c466f7864399a53543224855cc876803b7e2cce6595b75bfc4faa"
+}

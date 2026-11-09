@@ -1,0 +1,71 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE expense_groups\n         SET name = $3, normalized_name = $4, color = $5, notes = $6,\n             sort_order = $7, is_retired = COALESCE($8, is_retired), updated_at = now()\n         WHERE household_id = $1 AND id = $2\n         RETURNING id, name, color, notes, sort_order, is_retired,\n                    app.expense_group_can_delete(household_id, id) AS \"can_delete!\",\n                    EXISTS(SELECT 1 FROM properties p\n                           WHERE p.household_id = expense_groups.household_id\n                             AND p.id = expense_groups.linked_property_id\n                             AND p.category IN ('property', 'vehicle')) AS \"is_source_linked!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "color",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "sort_order",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "is_retired",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 6,
+        "name": "can_delete!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 7,
+        "name": "is_source_linked!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Int4",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "bc0a07e097a54f1b614776cde199d58f70cb572723ebf68365acd81398458ac7"
+}

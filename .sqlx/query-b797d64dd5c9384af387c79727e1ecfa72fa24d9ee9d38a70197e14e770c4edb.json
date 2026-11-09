@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO ledger_entries\n                        (household_id, direction, status, amount, entry_date, description,\n                         owner_scope, data_source, category_id, source_key)\n                     VALUES ($1,'expense','actual',$2,$3,$4,'joint','app_manual',$5,$6)\n                     ON CONFLICT (household_id, source_key)\n                     DO UPDATE SET amount = EXCLUDED.amount,\n                                   entry_date = EXCLUDED.entry_date,\n                                   description = EXCLUDED.description,\n                                   category_id = EXCLUDED.category_id,\n                                   updated_at = now()",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Numeric",
+        "Date",
+        "Text",
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b797d64dd5c9384af387c79727e1ecfa72fa24d9ee9d38a70197e14e770c4edb"
+}

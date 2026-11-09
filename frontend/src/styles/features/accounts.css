@@ -1,0 +1,125 @@
+/* Accounts (asset category) feature: holdings table, panel header totals,
+   and the compact account editor sheet. Reuses property-card, form-grid,
+   and quick-add-form styles from the shared layers. */
+
+.holdings-panel__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+}
+
+.holdings-panel__totals {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.15rem 0.7rem;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 750;
+}
+
+.holdings-panel__totals span:last-child {
+	color: rgb(var(--ink));
+}
+
+/* Mirrors the net-worth table shells: a table wider than its panel scrolls
+   inside this box instead of breaking the mobile page layout. */
+.holdings-table-shell {
+	min-width: 0;
+	overflow-x: auto;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--surface));
+	scrollbar-width: thin;
+	scrollbar-color: rgb(var(--mist) / 0.45) transparent;
+}
+
+.holdings-table {
+	width: 100%;
+	min-width: 26rem;
+	border-collapse: collapse;
+	font-size: 0.82rem;
+}
+
+.holdings-table th,
+.holdings-table td {
+	padding: 0.5rem 0.7rem;
+	border-bottom: 1px solid rgb(var(--outline) / 0.6);
+	text-align: left;
+	white-space: nowrap;
+}
+
+.holdings-table thead th {
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.holdings-table tbody th {
+	max-width: 14rem;
+	overflow: hidden;
+	color: rgb(var(--ink));
+	font-weight: 750;
+	text-overflow: ellipsis;
+}
+
+.holdings-table tbody tr:last-child th,
+.holdings-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.holdings-table__actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.35rem;
+}
+
+.holdings-table__icon-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.3rem;
+	border: 0;
+	border-radius: 0.45rem;
+	background: none;
+	color: rgb(var(--mist));
+	cursor: pointer;
+	transition:
+		color 140ms ease,
+		background-color 140ms ease;
+}
+
+.holdings-table__icon-button:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+.holdings-table__icon-button:hover:not(:disabled) {
+	background: rgb(var(--surface-low));
+	color: rgb(var(--ink));
+}
+
+.holdings-table__icon-button:focus-visible {
+	outline: 2px solid rgb(var(--accent));
+	outline-offset: 1px;
+}
+
+/* A summary without the mandatory-costs card (accounts) is one full-width
+   column instead of the property summary's two-column split. */
+.property-summary--single {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.holdings-prices-note { padding: 0 0 0.8rem; color: rgb(var(--mist)); font-size: 0.8rem; max-width: 65rem; }
+.holdings-prices-note p { margin: 0 0 0.55rem; }
+.holding-quote { display: grid; gap: 0.25rem; min-width: 12rem; }
+.holding-quote small { color: rgb(var(--mist)); white-space: normal; max-width: 20rem; }
+.holding-quote__stale { color: rgb(var(--ink)); }
+.holdings-table__ticker { display: block; color: rgb(var(--mist)); font-weight: 500; }
+@media (max-width: 640px) {
+  .holdings-panel__actions { flex-wrap: wrap; justify-content: flex-end; }
+  .holdings-prices-note { font-size: 0.75rem; }
+}

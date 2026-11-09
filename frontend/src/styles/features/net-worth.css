@@ -1,0 +1,29 @@
+.net-worth-editor { width: min(48rem, 100%); }
+.net-worth-editor__month { display: flex; align-items: center; gap: .25rem; padding: .125rem 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: .75rem; cursor: pointer; }
+.net-worth-editor__month:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.net-worth-editor .quick-add-form { display: grid; gap: 1rem; }
+@media (min-width: 768px) {
+  .net-worth-editor { display: grid; gap: 1rem; max-height: calc(100dvh - 2rem); overflow: auto; padding: 1rem; }
+}
+.net-worth-editor__summary { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.net-worth-editor__summary strong { display: flex; gap: 1rem; }
+.net-worth-editor__status { display: flex; align-items: center; gap: .5rem; }
+.net-worth-editor__groups { display: grid; gap: 1.5rem; }
+.net-worth-editor__groups.is-completed .net-worth-editor__component,
+.net-worth-editor__groups.is-completed .net-worth-editor__group > .button { opacity: .55; }
+.net-worth-editor__group { display: grid; gap: .75rem; min-width: 0; }
+.net-worth-editor__group h3 { margin: 0; }
+.net-worth-editor__group > .button { justify-self: start; }
+.net-worth-editor__component { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: center; gap: .5rem; }
+.net-worth-editor__remove { display: grid; place-items: center; min-width: 2.5rem; min-height: 2.5rem; color: rgb(var(--mist)); border: 0; border-radius: .5rem; background: transparent; cursor: pointer; }
+.net-worth-editor__remove:disabled { cursor: not-allowed; }
+.net-worth-table__summary-row.is-completed { opacity: .5; }
+.net-worth-table__summary-row:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+@media (max-width: 480px) {
+  .net-worth-editor__component { grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) 2rem; gap: .35rem; }
+  .net-worth-editor__remove { min-width: 2rem; }
+}
+
+.net-worth-editor__automatic { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-width: 0; padding: .75rem 0; }
+.net-worth-editor__automatic > span { display: grid; gap: .25rem; min-width: 0; overflow-wrap: anywhere; }
+.net-worth-editor__automatic output { flex-shrink: 0; font-variant-numeric: tabular-nums; }

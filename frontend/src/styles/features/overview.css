@@ -1,0 +1,44 @@
+.loan-editor {
+	display: grid;
+	gap: 1rem;
+}
+
+.loan-editor__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.loan-editor__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+}
+
+.loan-editor__error {
+	color: rgb(var(--danger));
+}
+
+@media (max-width: 560px) {
+	.loan-editor__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (min-width: 1101px) {
+	/* Reserve both tracks even for a single panel so every row has equal cards. */
+	.overview-page > .grid {
+		grid-template-columns: repeat(2, minmax(0, 40rem));
+		justify-content: start;
+	}
+
+	.overview-page > .grid > .panel {
+		border-top: 0;
+		border-left: 0;
+		padding-left: 0;
+	}
+
+	.overview-page > .grid > .panel > .panel__header {
+		padding-top: 0;
+	}
+}

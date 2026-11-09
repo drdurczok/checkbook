@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM expense_groups WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "af0b9c6792688a3d11eadd6a49cdcd2886ebbf3d0fe8dc2eea9c72a6505f927c"
+}

@@ -1,0 +1,46 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT module, role, can_read, can_write, can_delete\n         FROM role_permissions WHERE household_id = $1\n         ORDER BY module, role",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "module",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "role",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "can_read",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 3,
+        "name": "can_write",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 4,
+        "name": "can_delete",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "7eda1e0caa89621c863e5b83d1344cb9314171c38eb89fa51a5a2baad65ad615"
+}

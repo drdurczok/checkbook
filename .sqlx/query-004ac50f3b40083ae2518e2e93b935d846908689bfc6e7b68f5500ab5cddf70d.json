@@ -1,0 +1,77 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, payment_date, total_payment, principal_amount, interest_amount,\n                extra_payment, remaining_balance, interest_balance, completed,\n                COALESCE((extra_payload->>'uses_contractual_payment')::boolean, false) AS \"uses_contractual_payment!\"\n         FROM loan_payments WHERE household_id = $1 AND loan_id = $2\n         ORDER BY payment_date, schedule_order, id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "payment_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 2,
+        "name": "total_payment",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "principal_amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "interest_amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "extra_payment",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "remaining_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "interest_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 8,
+        "name": "completed",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 9,
+        "name": "uses_contractual_payment!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      null
+    ]
+  },
+  "hash": "004ac50f3b40083ae2518e2e93b935d846908689bfc6e7b68f5500ab5cddf70d"
+}

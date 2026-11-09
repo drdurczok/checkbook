@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE categories\n         SET name = $3, normalized_name = $4, expense_group_id = $5,\n             sort_order = $6, is_retired = COALESCE($7, is_retired), updated_at = now()\n         WHERE household_id = $1 AND id = $2\n           AND kind = 'expense' AND parent_id IS NULL\n         RETURNING id, name, parent_id, expense_group_id, is_system, sort_order, is_retired,\n                    app.expense_category_can_delete(household_id, id) AS \"can_delete!\",\n                    linked_loan_id IS NOT NULL AS \"is_source_linked!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "parent_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "expense_group_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 4,
+        "name": "is_system",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 5,
+        "name": "sort_order",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "is_retired",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 7,
+        "name": "can_delete!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "is_source_linked!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Uuid",
+        "Int4",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "51e078e27626fbc48607f1d6a687e4aea6f1f9771c96ced201ebcacfdde15741"
+}

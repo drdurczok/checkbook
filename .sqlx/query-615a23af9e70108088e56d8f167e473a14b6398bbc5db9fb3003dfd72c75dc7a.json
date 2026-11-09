@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO income_source_custom_fields\n            (household_id, income_source_id, income_source_line_id,\n             label, value, sort_order)\n         VALUES ($1, $2, $3, $4, $5, $6)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "615a23af9e70108088e56d8f167e473a14b6398bbc5db9fb3003dfd72c75dc7a"
+}

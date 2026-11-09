@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id FROM utility_contract_prices WHERE household_id=$1 AND utility_contract_id=$2 AND effective_on=$3 AND ($4::uuid IS NULL OR id<>$4)",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "33507f741564ebac745e1440f749d2cf7f691c83d94e33485e3cdf77885a1a44"
+}

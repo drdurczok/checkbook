@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, planning_rule_id, period\n             FROM planning_occurrences\n             WHERE household_id = $1 AND planning_rule_id = ANY($2)",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "planning_rule_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "period",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "UuidArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "a9627355c7c7d948e0d6c1e2a47db1790d02023a6247c3e2e2953d4092af9742"
+}

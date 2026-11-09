@@ -1,0 +1,38 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_contract_prices (id,household_id,utility_contract_id,effective_on,price)\n         VALUES ($1,$2,$3,$4,$5) ON CONFLICT (id) DO UPDATE SET effective_on=EXCLUDED.effective_on,price=EXCLUDED.price,updated_at=now()\n         RETURNING id,effective_on,price",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "effective_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 2,
+        "name": "price",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Numeric"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "1d606f71fb4a449e169722f006fdcb67a5187e379eed19687f021e92f321e345"
+}

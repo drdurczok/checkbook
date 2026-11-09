@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COALESCE(sum(COALESCE(CASE WHEN COALESCE(extra_payload->'payslip'->>'netPayable', extra_payload->>'netPayable') ~ '^[0-9]+([.][0-9]+)?$' THEN COALESCE(extra_payload->'payslip'->>'netPayable', extra_payload->>'netPayable')::numeric END, amount)),0)::numeric AS \"amount!\" FROM ledger_entries WHERE household_id=$1 AND direction='income' AND status='actual' AND owner_scope=ANY($2) AND entry_date >= $3 AND entry_date < $4",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "amount!",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "c9ceef0062fd252884e9f29ffa1444b4f2735e8c42ebbeda9163fdbf76d2bc73"
+}

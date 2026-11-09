@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO expense_groups (household_id, name, normalized_name, color)\n         VALUES ($1, $2, $3, $4)\n         ON CONFLICT (household_id, normalized_name)\n         DO UPDATE SET color = EXCLUDED.color, updated_at = now()\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "4f0d12450f382c46a5fb927db0963bb6622747caf1c272c90c9349a274a02018"
+}

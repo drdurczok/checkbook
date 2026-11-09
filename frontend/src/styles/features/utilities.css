@@ -1,0 +1,256 @@
+.utility-color-dot {
+	display: inline-block;
+	width: .65rem;
+	height: .65rem;
+	margin-inline-end: .4rem;
+	border-radius: 50%;
+	background: rgb(var(--mist));
+	vertical-align: middle;
+}
+
+.utility-field-checklist {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	min-width: 0;
+	margin: 1rem 0 0;
+	padding: 0.75rem;
+	border: 1px solid rgb(var(--outline));
+	border-radius: 0.65rem;
+}
+
+.utility-field-checklist legend {
+	padding: 0 0.35rem;
+	color: rgb(var(--ink));
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+.utility-field-checklist .checkbox {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 0.5rem;
+	padding: 0.5rem;
+	border-radius: 0.4rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	font-size: 0.8rem;
+}
+
+.utility-field-checklist .checkbox input {
+	flex: 0 0 auto;
+	width: 1.1rem;
+	height: 1.1rem;
+	margin: 0;
+}
+
+/* Utility entry keeps fixed chrome around a separately scrollable form. */
+.modal-backdrop > .modal-shell.utilities-entry-modal {
+	display: flex;
+	flex-direction: column;
+	width: min(48rem, calc(100vw - 2rem));
+	max-height: calc(100dvh - 2rem);
+	padding: 0;
+	overflow: hidden;
+}
+
+.utilities-entry-modal > .drive-picker__header {
+	flex: 0 0 auto;
+	padding: 1rem;
+}
+
+.utility-values-form {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	flex: 1 1 auto;
+	overflow: hidden;
+}
+
+.utility-values-form__body {
+	display: block;
+	flex: 1 1 auto;
+	min-height: 0;
+	padding: 1rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.utility-values-form__body > .utility-entry-grid {
+	margin-top: 1rem;
+}
+
+.utility-values-form__footer {
+	display: flex;
+	justify-content: flex-end;
+	flex: 0 0 auto;
+	padding: 0.75rem 1rem;
+	border-top: 1px solid rgb(var(--outline));
+	background: rgb(var(--surface));
+}
+
+.utilities-entry-modal .utility-entry-row {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: start;
+	gap: 0.75rem;
+	min-width: 0;
+}
+
+.utility-entry-row__title {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 0.85rem;
+}
+
+.utility-values-form__status {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.utility-entry-row__values {
+	grid-column: 1 / -1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem 2rem;
+	margin: 0;
+}
+
+.utility-entry-row__values dt {
+	color: rgb(var(--mist));
+	font-size: 0.8rem;
+}
+
+.utility-entry-row__values dd {
+	margin: 0.25rem 0 0;
+	overflow-wrap: anywhere;
+}
+
+/* The entry window renders through the shared FormSheet: its mobile sheet
+   chrome lives in the .modal-sheet primitives. */
+@media (max-width: 767px) {
+	.modal-backdrop > .modal-shell.utilities-entry-modal {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.utilities-entry-modal .utility-entry-row {
+		gap: 0.5rem;
+		padding: 0.65rem;
+	}
+}
+
+/* Utilities feature: chart metric dropdown and shared board action rows. */
+.subject-utilities-panel > .panel__header {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	margin-bottom: 0;
+}
+
+.subject-utilities-panel > .panel__header > .panel__actions {
+	margin-left: auto;
+}
+
+.utility-board-actions {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+.utility-board-actions > * {
+	flex: 0 0 auto;
+}
+
+/* The money/meters switch mirrors the loans summary/table toggle: a row
+   under the header, capped like .loan-detail-tabs (full width on phones). */
+.utility-details-metric {
+	width: min(24rem, 100%);
+}
+
+@media (max-width: 767px) {
+	.utility-details-metric {
+		width: 100%;
+	}
+}
+
+/* The modal gains a third row for the money/meters switch, which sits full
+   width under the shared header like the loans summary/table tabs. */
+.utilities-modal {
+	grid-template-rows: auto auto minmax(0, 1fr);
+	gap: 0.85rem;
+}
+
+.utilities-modal .overview-details {
+	/* The modal's own grid gap spaces this row; the wrapper's default
+	   margin-top would double it under the money/meters switch. */
+	margin-top: 0;
+	grid-template-rows: minmax(0, 1fr);
+}
+
+.utility-detail-table {
+	min-width: 100%;
+}
+
+.utility-detail-table td {
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.utility-detail-table td strong,
+.utility-detail-table td small {
+	display: inline;
+}
+
+.utility-detail-table td small {
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 750;
+}
+
+/* The metric trigger sits beside the compact ghost "Details" button, so it
+ * wears the same box — border, surface, radius, sizing, hover — and keeps
+ * only the chevron as its dropdown cue. Specificity (.app-header-select plus
+ * the modifier) deliberately overrides the plain title-like header select. */
+.app-header-select.utility-metric-trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	min-height: 2.25rem;
+	max-width: none;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.55rem;
+	padding: 0.45rem 0.75rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	font-size: 0.82rem;
+	font-weight: 750;
+	transition: background-color 160ms ease;
+}
+
+.app-header-select.utility-metric-trigger:hover,
+.app-header-select.utility-metric-trigger[aria-expanded="true"] {
+	background: rgb(var(--surface-low));
+	color: rgb(var(--ink));
+}
+
+@media (max-width: 520px) {
+	.utility-board-actions {
+		gap: 0.35rem;
+	}
+
+	.utility-board-actions .button {
+		padding-inline: 0.5rem;
+	}
+
+	.utility-board-actions .utility-metric-trigger {
+		max-width: 7.5rem;
+	}
+}

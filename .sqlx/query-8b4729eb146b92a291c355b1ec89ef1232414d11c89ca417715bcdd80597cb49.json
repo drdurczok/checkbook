@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT date_trunc('month', charge_date)::date AS \"period!\",\n                sum(amount)::numeric AS \"amount!\"\n         FROM utility_bills\n         WHERE household_id = $1 AND charge_date >= $2\n         GROUP BY date_trunc('month', charge_date)::date",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 1,
+        "name": "amount!",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "8b4729eb146b92a291c355b1ec89ef1232414d11c89ca417715bcdd80597cb49"
+}

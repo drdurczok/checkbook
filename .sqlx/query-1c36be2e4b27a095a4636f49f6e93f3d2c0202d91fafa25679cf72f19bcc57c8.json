@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM loan_payments WHERE household_id = $1 AND loan_id = $2 AND NOT (id = ANY($3))",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "UuidArray"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1c36be2e4b27a095a4636f49f6e93f3d2c0202d91fafa25679cf72f19bcc57c8"
+}

@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT\n            has_table_privilege(current_user, 'audit_events', 'INSERT') AS \"can_insert!\",\n            has_table_privilege(current_user, 'audit_events', 'UPDATE') AS \"can_update!\",\n            has_table_privilege(current_user, 'audit_events', 'DELETE') AS \"can_delete!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "can_insert!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 1,
+        "name": "can_update!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 2,
+        "name": "can_delete!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "86414d30c8321f1b3d6a0e6d3c83ab6c1f5184c81b420e7adca72b28283c5f0a"
+}

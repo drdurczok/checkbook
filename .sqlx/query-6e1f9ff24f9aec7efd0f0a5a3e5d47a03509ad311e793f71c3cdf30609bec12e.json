@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_months (household_id,property_id,contract_id,period,completed)\n             VALUES ($1,$2,$3,$4,$5)\n             ON CONFLICT (household_id,property_id,contract_id,period)\n             DO UPDATE SET completed=EXCLUDED.completed,updated_at=now()",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Bool"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6e1f9ff24f9aec7efd0f0a5a3e5d47a03509ad311e793f71c3cdf30609bec12e"
+}

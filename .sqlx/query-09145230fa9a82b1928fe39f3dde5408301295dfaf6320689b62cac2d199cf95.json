@@ -1,0 +1,99 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT b.id,b.source_key,b.amount_source,b.utility_contract_id,b.unit_rate, b.entry_mode, r.id AS \"reading_id?\", b.charge_date, b.amount, s.service_key, s.unit,\n                r.reading AS \"meter_reading?\", COALESCE(r.usage_amount, b.usage_amount) AS \"usage_amount?\"\n         FROM utility_bills b\n         JOIN utility_services s\n           ON s.household_id = b.household_id AND s.id = b.service_id\n         LEFT JOIN utility_meter_readings r\n           ON r.household_id = b.household_id AND r.utility_bill_id = b.id\n         WHERE b.household_id = $1 AND s.service_key = $2\n           AND b.charge_date = $3\n           AND (($4 = 'property' AND b.property_id = $5)\n             OR ($4 = 'contract' AND b.contract_id = $5))\n           AND b.owner_scope = ANY($6)\n         LIMIT 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "source_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount_source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "utility_contract_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 4,
+        "name": "unit_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "entry_mode",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "reading_id?",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 7,
+        "name": "charge_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 9,
+        "name": "service_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "unit",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "meter_reading?",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 12,
+        "name": "usage_amount?",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Date",
+        "Text",
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "09145230fa9a82b1928fe39f3dde5408301295dfaf6320689b62cac2d199cf95"
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM auth_rate_limits\n         WHERE updated_at < now() - interval '10 minutes'",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "ac9ea76b65492e8843c4ee17dcc2ebf0c11306e35eb1510cc1152e7f14370328"
+}

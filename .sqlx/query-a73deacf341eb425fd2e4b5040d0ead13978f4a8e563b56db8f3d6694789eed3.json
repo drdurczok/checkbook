@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO auth_rate_limits\n            (scope, subject_hash, window_started, request_count)\n         VALUES ($1,$2,now(),1)\n         ON CONFLICT (scope, subject_hash) DO UPDATE\n         SET request_count = CASE\n                 WHEN auth_rate_limits.window_started <= now() - interval '60 seconds'\n                 THEN 1\n                 ELSE auth_rate_limits.request_count + 1\n             END,\n             window_started = CASE\n                 WHEN auth_rate_limits.window_started <= now() - interval '60 seconds'\n                 THEN now()\n                 ELSE auth_rate_limits.window_started\n             END,\n             updated_at = now()\n         RETURNING request_count <= 30 AS \"allowed!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "allowed!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Bytea"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "a73deacf341eb425fd2e4b5040d0ead13978f4a8e563b56db8f3d6694789eed3"
+}

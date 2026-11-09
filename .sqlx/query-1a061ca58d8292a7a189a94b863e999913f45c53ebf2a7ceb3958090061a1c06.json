@@ -1,0 +1,185 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT i.id, i.invoice_number, r.title, r.template_id, r.template_name,\n                r.income_source_id, r.seller_name, r.seller_details, r.buyer_name,\n                r.buyer_details, r.buyer_nip, r.buyer_address, r.issue_date,\n                r.sale_date, r.due_date, r.currency, r.status, r.conversion_enabled,\n                r.conversion_currency, r.conversion_rate, r.subtotal, r.tax_amount,\n                r.total_amount, r.payment_terms, r.notes, r.id AS revision_id,\n                i.created_at, i.updated_at\n         FROM invoices i\n         JOIN invoice_revisions r\n           ON r.household_id = i.household_id\n          AND r.invoice_id = i.id\n          AND r.revision = i.current_revision\n         WHERE i.household_id = $1\n           AND ($2::uuid IS NULL OR r.income_source_id = $2)\n         ORDER BY r.issue_date DESC, i.created_at DESC",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "invoice_number",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "template_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 4,
+        "name": "template_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "income_source_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 6,
+        "name": "seller_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "seller_details",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "buyer_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "buyer_details",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "buyer_nip",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "buyer_address",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "issue_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 13,
+        "name": "sale_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 14,
+        "name": "due_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 15,
+        "name": "currency",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 16,
+        "name": "status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 17,
+        "name": "conversion_enabled",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 18,
+        "name": "conversion_currency",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 19,
+        "name": "conversion_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 20,
+        "name": "subtotal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 21,
+        "name": "tax_amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 22,
+        "name": "total_amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 23,
+        "name": "payment_terms",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 24,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 25,
+        "name": "revision_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 26,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 27,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "1a061ca58d8292a7a189a94b863e999913f45c53ebf2a7ceb3958090061a1c06"
+}

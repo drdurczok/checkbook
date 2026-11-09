@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE role_permissions\n                 SET can_read = COALESCE($4, can_read),\n                     can_write = COALESCE($5, can_write),\n                     can_delete = COALESCE($6, can_delete),\n                     updated_at = now()\n                 WHERE household_id = $1 AND module = $2 AND role = $3",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Bool",
+        "Bool",
+        "Bool"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c08ff68d22ff801133a699fa2412879f16c5e19e9066fcbbdea3b68557b6fcac"
+}

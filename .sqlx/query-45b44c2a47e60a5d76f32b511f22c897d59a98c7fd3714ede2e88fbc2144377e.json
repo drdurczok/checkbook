@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM account_holdings WHERE household_id = $1 AND property_id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "45b44c2a47e60a5d76f32b511f22c897d59a98c7fd3714ede2e88fbc2144377e"
+}

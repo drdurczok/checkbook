@@ -1,0 +1,83 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, current_balance, monthly_payment, interest_rate,\n                original_balance, start_date, end_date, notes, linked_property_id,\n                app.loan_terms_with_schedule(household_id, id, terms_payload) AS \"terms_payload!: Value\"\n         FROM loans WHERE household_id = $1 AND owner_scope = ANY($2)\n         ORDER BY name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "current_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "monthly_payment",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "interest_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "original_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "start_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "end_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "linked_property_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 10,
+        "name": "terms_payload!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      null
+    ]
+  },
+  "hash": "89d311610cf2e496b14d9cea2e5ef90c830bc2d9073af6f26dfe5c054ccd548e"
+}

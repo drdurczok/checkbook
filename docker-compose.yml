@@ -1,0 +1,114 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: checkbook
+      POSTGRES_USER: checkbook_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-checkbook}
+      # postgres:18 moved its default data layout and refuses a volume mounted
+      # directly at /var/lib/postgresql/data; store data in a subdirectory.
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_HOST_PORT:-25432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U checkbook_admin -d checkbook"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    networks:
+      - checkbook-network
+
+  migrate:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile
+      target: production
+    command: ["migrate"]
+    environment:
+      DATABASE_URL: postgresql://checkbook_admin:${DB_PASSWORD:-checkbook}@postgres:5432/checkbook
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    networks:
+      - checkbook-network
+
+  bootstrap:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile
+      target: production
+    command: ["bootstrap-database"]
+    environment:
+      DATABASE_URL: postgresql://checkbook_admin:${DB_PASSWORD:-checkbook}@postgres:5432/checkbook
+      DB_APP_PASSWORD: ${DB_APP_PASSWORD:-checkbook-app}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"
+    networks:
+      - checkbook-network
+
+  api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile
+      target: production
+    command: ["serve"]
+    environment:
+      DATABASE_URL: postgresql://checkbook_app:${DB_APP_PASSWORD:-checkbook-app}@postgres:5432/checkbook
+      APP_ENV: ${APP_ENV:-development}
+      LISTEN_ADDRESS: 0.0.0.0:8002
+      DEV_AUTH_LISTEN_ADDRESS: ${DEV_AUTH_LISTEN_ADDRESS:-0.0.0.0:8000}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:13009}
+      DEV_AUTH_ENABLED: ${DEV_AUTH_ENABLED:-true}
+      SESSION_HOURS: ${SESSION_HOURS:-24}
+      MAINTENANCE_INTERVAL_SECONDS: ${MAINTENANCE_INTERVAL_SECONDS:-900}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      CLOUDFLARE_ACCESS_TEAM_DOMAIN: ${CLOUDFLARE_ACCESS_TEAM_DOMAIN:-}
+      CLOUDFLARE_ACCESS_AUDIENCE: ${CLOUDFLARE_ACCESS_AUDIENCE:-}
+      BACKUP_ADMIN_ROOT: /var/lib/checkbook/backups
+      # The private data-load admin listener is opt-in. Leave these unset in the
+      # base/dev stack (the prod overlay in docker-compose.deploy.yml supplies
+      # real values). Passing them as empty strings would half-configure it.
+    volumes:
+      - backups:/var/lib/checkbook/backups
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+    ports:
+      - "${API_HOST_PORT:-18000}:8000"
+    restart: unless-stopped
+    networks:
+      - checkbook-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_ENABLE_DEV_AUTH: ${VITE_ENABLE_DEV_AUTH:-true}
+    ports:
+      - "${FRONTEND_HOST_PORT:-13009}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - checkbook-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  postgres_data:
+  backups:
+
+networks:
+  checkbook-network:
+    driver: bridge

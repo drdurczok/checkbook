@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE recurring_expenses SET description = $3, amount = $4, start_date = $5,\n         end_date = $6, cadence = $7, owner_scope = $8, category_id = $9, notes = $10,\n         next_index = $11, revision = $12, updated_at = now(),\n         price_history = CASE WHEN amount <> $4 THEN price_history ||\n             jsonb_build_array(jsonb_build_object('amount', $4::numeric::text, 'changed_at', now()))\n             ELSE price_history END\n         WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Date",
+        "Date",
+        "Text",
+        "Text",
+        "Uuid",
+        "Text",
+        "Int4",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3469fb9b341bd8e180e55f3b1c169b881fe877a9d6f214148e179d1a97612986"
+}

@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO recurring_expenses\n            (household_id, description, amount, start_date, end_date, cadence, owner_scope, category_id, notes, price_history)\n         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,\n                 jsonb_build_array(jsonb_build_object('amount', $3::numeric::text, 'changed_at', now()))) RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Date",
+        "Date",
+        "Text",
+        "Text",
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "7d819bb16903a897e48490e2cfeef9003f4daffa5788e6b36cb0b7c5d17aa961"
+}

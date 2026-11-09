@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT o.period AS \"period!\",\n                sum(CASE WHEN r.direction = 'income'\n                         THEN COALESCE(o.override_amount, o.calculated_amount)\n                         ELSE 0 END)::numeric AS \"income!: Decimal\",\n                sum(CASE WHEN r.direction = 'expense'\n                         THEN COALESCE(o.override_amount, o.calculated_amount)\n                         ELSE 0 END)::numeric AS \"expenses!: Decimal\"\n         FROM planning_occurrences o\n         JOIN planning_rules r\n           ON r.household_id = o.household_id AND r.id = o.planning_rule_id\n         WHERE o.household_id = $1 AND r.enabled AND r.owner_scope = ANY($2)\n         GROUP BY o.period ORDER BY o.period",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 1,
+        "name": "income!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "expenses!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "8facafec91f4096accc1b3965a744c4a26777a92034bcc0e3b057042ef50f8da"
+}

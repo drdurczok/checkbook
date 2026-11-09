@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT date_trunc('month', e.entry_date)::date AS \"period!\",\n                sum(e.amount)::numeric AS \"amount!: Decimal\"\n         FROM ledger_entries e\n         WHERE e.household_id = $1 AND e.direction = 'expense'\n           AND e.status = 'actual' AND e.entry_date IS NOT NULL\n           AND (e.category_id = $2 OR e.subcategory_id = $2)\n           AND e.owner_scope = ANY($3)\n         GROUP BY 1 ORDER BY 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 1,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "bc226eca08396909a82a23ccd42781955259fed7cead702441aa3767b105420c"
+}

@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_bills (household_id,property_id,service_id,utility_contract_id,provider,description,amount,currency,charge_date,owner_scope,data_source,source_key,amount_source) VALUES ($1,$2,$3,$4,'Community','Imported',1,'PLN','2026-10-01','joint','app_manual',NULL,'actual') RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "351ca90ac6537ac6dc14165d87262d4778885b8e0c9a2af86f596b649e6c3e45"
+}

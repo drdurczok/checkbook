@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO payday_allocations (household_id, month_id, template_id, title, section, position, kind, expense_group_id, expense_group_name, category_id, subcategory_id, category_name, subcategory_name, amount, notes, source, source_key) SELECT household_id, $2, id, title, section, position, kind, expense_group_id, expense_group_name, category_id, subcategory_id, category_name, subcategory_name, amount, notes, 'template', 'template:' || recurrence_id::text FROM payday_templates WHERE household_id=$1 AND starts_on <= $3 AND (ends_before IS NULL OR ends_before > $3) ON CONFLICT (household_id, month_id, source_key) DO NOTHING",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2fb547ad58019e443cc5bb184b2450b34bac2f97daaba2e002bbc285b32d6cfc"
+}

@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM project_rooms\n         WHERE household_id = $1\n           AND (property_id IS NOT DISTINCT FROM $2)\n           AND (project_id IS NOT DISTINCT FROM $3)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "da8c38a57694bfb4b9afa262e27c051341808fbd475e06c83b69748bcfc45958"
+}

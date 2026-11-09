@@ -1,0 +1,49 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT date_trunc('month', bill.charge_date)::date AS \"period!\",\n                COALESCE(service.label, bill.provider, 'Utilities') AS \"label!\",\n                sum(bill.amount)::numeric AS \"amount!: Decimal\",\n                sum(COALESCE(reading.usage_amount, bill.usage_amount))::numeric AS \"usage_amount: Decimal\",\n                max(COALESCE(reading.unit, service.unit)) AS unit\n         FROM utility_bills bill\n         LEFT JOIN utility_services service\n           ON service.household_id = bill.household_id AND service.id = bill.service_id\n         LEFT JOIN utility_meter_readings reading\n           ON reading.household_id = bill.household_id\n          AND reading.utility_bill_id = bill.id\n         WHERE bill.household_id = $1 AND bill.owner_scope = ANY($2)\n           AND ($3::date IS NULL OR bill.charge_date >= $3)\n           AND ($4::date IS NULL OR bill.charge_date <= $4)\n         GROUP BY 1, 2 ORDER BY 1, 2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 1,
+        "name": "label!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "usage_amount: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "unit",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "8d911431f6199d0fa911c8f52ee707e290ca4934d249a06ed07e04a7a0c5ffee"
+}

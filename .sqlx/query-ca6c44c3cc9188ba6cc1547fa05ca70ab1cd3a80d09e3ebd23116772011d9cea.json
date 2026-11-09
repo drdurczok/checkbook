@@ -1,0 +1,31 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO payday_allocations (household_id,month_id,template_id,title,section,kind,category_id,subcategory_id,category_name,subcategory_name,amount,notes,source,source_key,completed_at,expense_group_id,expense_group_name,position) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) ON CONFLICT (household_id,month_id,source_key) DO NOTHING",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Numeric",
+        "Text",
+        "Text",
+        "Text",
+        "Timestamptz",
+        "Uuid",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "ca6c44c3cc9188ba6cc1547fa05ca70ab1cd3a80d09e3ebd23116772011d9cea"
+}

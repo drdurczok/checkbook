@@ -1,0 +1,304 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    # Suppress duplicate push pipelines, not manual runs on an open MR branch.
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - when: always
+
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  PROJECT_NAME: checkbook
+  CARGO_HOME: "$CI_PROJECT_DIR/.cargo-ci"
+  CARGO_TERM_COLOR: always
+  # Incremental artifacts are large and rarely useful in ephemeral CI jobs.
+  CARGO_INCREMENTAL: "0"
+  # rustc 1.96 needs a 1 GiB worker stack for this dependency graph. Compile
+  # one crate at a time so the job's 7 GiB container limit leaves room for the
+  # compiler, native build scripts, and later GNU ld links.
+  CARGO_BUILD_JOBS: "1"
+  # cargo-sqlx owns an internal cargo invocation, so this keeps that dev-profile
+  # compile small too. Explicit CI build/test/clippy commands use `--profile ci`.
+  CARGO_PROFILE_DEV_DEBUG: "line-tables-only"
+  # rustc 1.96 segfaults in CI while compiling with the default compiler worker
+  # stack. The crash moved through the Typst graph, http-body-util, then ring
+  # as it was raised; its diagnostic recommends this exact 1 GiB value.
+  RUST_MIN_STACK: "1073741824"
+  # The bookworm GNU ld 2.40 in rust:1.96-bookworm is unstable in this CT: it
+  # now segfaults even linking serde_derive. Rust's bundled rust-lld also dies
+  # on the large Typst link graph, so use the separately packaged mold linker
+  # installed by every Rust job and the build image.
+  RUSTFLAGS: "-Clinker=clang -Clink-arg=-fuse-ld=mold"
+  # Compile the SQLx query! macros against the committed .sqlx/ metadata, not a
+  # live DB. Required because `cargo run -- migrate` compiles the binary before
+  # the schema exists; `cargo sqlx prepare --check` still connects on its own.
+  SQLX_OFFLINE: "true"
+  POSTGRES_DB: checkbook_test
+  POSTGRES_USER: checkbook_admin
+  POSTGRES_PASSWORD: checkbook
+  ADMIN_DATABASE_URL: postgresql://checkbook_admin:checkbook@postgres:5432/checkbook_test
+  TEST_DATABASE_URL: postgresql://checkbook_app:checkbook-app@postgres:5432/checkbook_test
+  # Keep the disposable CI role credential distinct from the deployment secret.
+  # Project-level CI/CD variables override YAML variables with the same name.
+  CI_DB_APP_PASSWORD: checkbook-app
+
+.rust-cache: &rust_cache
+  key:
+    files:
+      - Cargo.lock
+      - rust-toolchain.toml
+  when: always
+  paths:
+    - .cargo-ci/.crates.toml
+    - .cargo-ci/.crates2.json
+    - .cargo-ci/bin
+    # Deliberately NOT .cargo-ci/registry: rustup's cargo and sqlx-cli's
+    # bundled cargo each extract their own multi-GiB registry/src tree, and the
+    # combined cache once restored to 23G on a 49G disk shared with Docker and
+    # filled /builds to 100% mid-link. Re-downloading .crate files takes
+    # seconds, so only the compiled CLI tools in bin/ are worth caching.
+
+# RUSTFLAGS (global) makes clang+mold the linker for every cargo invocation, so
+# each Rust job must install them before compiling anything.
+.rust-linker-setup: &rust_linker_setup
+  - apt-get update -qq && apt-get install --no-install-recommends -y clang mold
+
+.rust-base:
+  stage: test
+  image: rust:1.96-bookworm
+  cache:
+    <<: *rust_cache
+
+rust-lint:
+  extends: .rust-base
+  # The runner VM intermittently corrupts heavy compile jobs: four distinct
+  # transient failures so far (rustc SIGSEGV, phantom diagnostics, rmeta
+  # decode ICE, gcc build-script error) — every solo re-run with identical
+  # inputs is green. Retry once so infra flakes self-heal; deterministic
+  # failures still fail on the second attempt.
+  retry:
+    max: 1
+  cache:
+    <<: *rust_cache
+    policy: pull
+  before_script:
+    - *rust_linker_setup
+    - rustup component add rustfmt clippy
+  script:
+    - &check_sqlx_metadata |
+      if [ "$(git ls-files '.sqlx/query-*.json' | wc -l)" -eq 0 ]; then
+        echo 'Missing committed SQLx metadata. Run cargo sqlx prepare --workspace -- --all-targets against a migrated database and include .sqlx/query-*.json.' >&2
+        exit 1
+      fi
+    - cargo fmt --all -- --check
+    - cargo clippy --workspace --all-targets --all-features --profile ci -- -D warnings
+  tags: [dev_runner]
+
+rust-test:
+  extends: .rust-base
+  # See rust-lint: transient runner-VM compile corruption self-heals on retry.
+  retry:
+    max: 1
+  services:
+    - name: postgres:18-alpine
+      alias: postgres
+  before_script:
+    - *rust_linker_setup
+    # The CLI tools install into $CARGO_HOME/bin (.cargo-ci/bin). Cargo finds
+    # subcommands there automatically, but putting it on PATH silences binstall's
+    # "your path is missing …" warning and lets the `command -v` guards below skip
+    # reinstalling tools that were restored from the cache. The export persists
+    # across the rest of before_script and script (GitLab runs them in one shell).
+    - export PATH="$CARGO_HOME/bin:$PATH"
+    # RUST_MIN_STACK sizes only rustc's worker threads; the main thread
+    # (resolver, LLVM) follows this limit and overflows Docker's 8 MiB default
+    # on deep crates — dying with SIGSEGV or bogus diagnostics. The runner's
+    # hard stack limit is unlimited.
+    - ulimit -s unlimited
+    # Fetch prebuilt CLI binaries instead of compiling sqlx-cli/cargo-audit/cargo-deny
+    # from source (~12 min + three release target trees on disk per run). Idempotent:
+    # skips when the cached .cargo-ci/bin already holds the pinned versions.
+    - |
+      if ! command -v cargo-binstall >/dev/null 2>&1; then
+        curl -L --proto '=https' --tlsv1.2 -sSf \
+          https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+      fi
+    - cargo binstall --no-confirm cargo-audit@0.22.0 cargo-deny@0.19.0
+    # sqlx-cli has no prebuilt binary anywhere (QuickInstall 404s, no upstream
+    # release), so a cold cache compiles it from source once with minimal features.
+    # The `command -v` guard skips the whole block — and binstall's noisy "Fatal
+    # error" fallback message — once .cargo-ci/bin is restored from the cache.
+    - |
+      command -v cargo-sqlx >/dev/null 2>&1 \
+        || cargo binstall --no-confirm --disable-strategies compile sqlx-cli@0.8.6 \
+        || cargo install sqlx-cli --locked --version 0.8.6 --no-default-features --features rustls,postgres
+  script:
+    - *check_sqlx_metadata
+    # Build the checkbook binary once, then reuse it for migrate/bootstrap instead
+    # of letting `cargo run` trigger a fresh build per invocation.
+    - cargo build --locked -p checkbook --bin checkbook --profile ci
+    - DATABASE_URL="$ADMIN_DATABASE_URL" ./target/ci/checkbook migrate
+    - DATABASE_URL="$ADMIN_DATABASE_URL" DB_APP_PASSWORD="$CI_DB_APP_PASSWORD" ./target/ci/checkbook bootstrap-database
+    - DATABASE_URL="$ADMIN_DATABASE_URL" cargo sqlx prepare --workspace --check -- --all-targets
+    # Keep test compilation serial as well: each rustc worker reserves a 1 GiB
+    # stack and link steps peak near 2 GiB for this graph.
+    - DB_APP_PASSWORD="$CI_DB_APP_PASSWORD" cargo test --workspace --all-targets --locked --profile ci --jobs 1
+    - cargo audit
+    - cargo deny check advisories bans licenses sources
+    - sh infrastructure/scripts/check-no-python-runtime.sh
+    - sh -n infrastructure/scripts/*.sh
+    - test -z "$(git diff -- frontend)"
+  after_script:
+    # Disk probe: keep the cache small enough for the CT and print real sizes if
+    # the job grows again. Runs even when the job fails.
+    - du -sh target .cargo-ci/registry .cargo-ci/bin .cargo-ci/git 2>/dev/null || true
+    - du -sh target/ci target/debug target/ci/deps target/debug/deps 2>/dev/null || true
+    - df -h /builds
+
+  tags: [dev_runner]
+
+frontend-check:
+  stage: test
+  image: node:22-alpine
+  cache:
+    key:
+      files:
+        - frontend/package-lock.json
+    paths:
+      - .npm
+  before_script:
+    - cd frontend
+    - npm ci --cache ../.npm
+  script:
+    - npx eslint src
+    - npm run test
+    - npm run build
+    - test -z "$(git diff -- .)"
+  tags: [dev_runner]
+
+frontend-e2e:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.61.1-noble
+  cache:
+    key:
+      files:
+        - frontend/package-lock.json
+    paths:
+      - .npm
+  before_script:
+    - cd frontend
+    - npm ci --cache ../.npm
+  script:
+    - npm run test:e2e
+  tags: [dev_runner]
+
+.build-images:
+  stage: build
+  image: docker:27
+  services:
+    - name: docker:27-dind
+      alias: docker
+      # DinD is isolated on the CI service network; registry connections use TLS.
+      command: ["--tls=false"]
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - until docker info >/dev/null 2>&1; do sleep 1; done
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - docker build --pull --target production -f infrastructure/docker/Dockerfile
+      -t "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA"
+      -t "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_SLUG" .
+    - docker build --pull -f frontend/Dockerfile
+      --build-arg VITE_ENABLE_DEV_AUTH="$VITE_ENABLE_DEV_AUTH"
+      -t "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA"
+      -t "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG" frontend
+    - docker network create checkbook-smoke
+    - docker run -d --name smoke-postgres --network checkbook-smoke
+      -e POSTGRES_DB=checkbook -e POSTGRES_USER=checkbook_admin -e POSTGRES_PASSWORD=checkbook
+      postgres:18-alpine
+    - until docker exec smoke-postgres pg_isready -U checkbook_admin -d checkbook; do sleep 1; done
+    - docker run --rm --network checkbook-smoke
+      -e DATABASE_URL=postgresql://checkbook_admin:checkbook@smoke-postgres:5432/checkbook
+      "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA" migrate
+    - docker run --rm --network checkbook-smoke
+      -e DATABASE_URL=postgresql://checkbook_admin:checkbook@smoke-postgres:5432/checkbook
+      -e DB_APP_PASSWORD=checkbook-app
+      "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA" bootstrap-database
+    - docker run -d --name smoke-api --network checkbook-smoke
+      -e DATABASE_URL=postgresql://checkbook_app:checkbook-app@smoke-postgres:5432/checkbook
+      -e APP_ENV=test -e DEV_AUTH_ENABLED=false
+      "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA" serve
+    - until docker exec smoke-api curl --fail --silent http://127.0.0.1:8000/health/ready; do sleep 1; done
+    - docker push "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_SLUG"
+    - docker push "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG"
+  after_script:
+    - docker rm -f smoke-api smoke-postgres || true
+    - docker network rm checkbook-smoke || true
+
+build-dev:
+  extends: .build-images
+  variables:
+    VITE_ENABLE_DEV_AUTH: "true"
+  tags: [dev_runner]
+  rules:
+    - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
+
+build-prod:
+  extends: .build-images
+  variables:
+    VITE_ENABLE_DEV_AUTH: "false"
+  tags: [prod_runner]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - when: manual
+      allow_failure: true
+
+.deploy:
+  stage: deploy
+  image: alpine:3.22
+  before_script:
+    - apk add --no-cache jq openssh-client
+    - eval "$(ssh-agent -s)"
+    - install -d -m 700 ~/.ssh
+    - printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-add ~/.ssh/id_ed25519
+    - test -n "$DEPLOY_KNOWN_HOSTS" || { echo "DEPLOY_KNOWN_HOSTS is required" >&2; exit 1; }
+    - printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+  script:
+    - export TARGET_ENV="$ENVIRONMENT"
+    - export DEPLOY_PATH="${DEPLOY_BASE_PATH:-/opt/$PROJECT_NAME}/$ENVIRONMENT"
+    - export TUNNEL_TOKEN="${TUNNEL_TOKEN:-${CLOUDFLARE_TUNNEL_TOKEN:-}}"
+    - sh infrastructure/scripts/deploy.sh
+
+deploy-dev:
+  extends: .deploy
+  needs: [build-dev]
+  variables:
+    ENVIRONMENT: dev
+  tags: [dev_runner]
+  environment:
+    name: dev
+  rules:
+    - if: '$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
+
+deploy-prod:
+  extends: .deploy
+  needs: [build-prod]
+  variables:
+    ENVIRONMENT: prod
+  tags: [prod_runner]
+  environment:
+    name: prod
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual

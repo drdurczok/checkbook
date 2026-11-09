@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_bills (household_id,property_id,service_id,utility_contract_id,provider,description,amount,currency,charge_date,owner_scope,data_source,usage_amount,unit_rate,entry_mode,amount_source,source_key)\n             SELECT $1,$2,service_id,id,'Water','Water',$4,'PLN',$5,'joint','app_manual',10,2,'usage',$6,'contract-test:' || id::text || ':' || $5::date::text\n             FROM utility_contracts WHERE household_id=$1 AND id=$3",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        "Date",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e37d1902ae6b0125d5870ebced2667fa0394b84b70707db7e1118b4d62c3efff"
+}

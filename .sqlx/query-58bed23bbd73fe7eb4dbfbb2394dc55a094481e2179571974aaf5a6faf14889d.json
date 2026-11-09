@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE household_memberships SET role='contributor' WHERE household_id=$1 AND user_id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "58bed23bbd73fe7eb4dbfbb2394dc55a094481e2179571974aaf5a6faf14889d"
+}

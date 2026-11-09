@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT count(*) AS \"count!\"\n           FROM (\n              SELECT household_id FROM properties\n              UNION ALL\n              SELECT household_id FROM projects\n           ) asset_projects\n           WHERE household_id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "count!",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "5a48bf56af6d77e3b6f87973376a6144a3ea226a8e3862cc6667338cdf89ab79"
+}

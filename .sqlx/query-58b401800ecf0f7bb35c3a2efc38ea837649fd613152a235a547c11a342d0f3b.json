@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT NOT c.is_retired AND c.kind = 'expense'\n                AND (g.id IS NULL OR NOT g.is_retired) AS \"active!\"\n         FROM categories c LEFT JOIN expense_groups g\n           ON g.household_id = c.household_id AND g.id = c.expense_group_id\n         WHERE c.household_id = $1 AND c.id = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "active!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "58b401800ecf0f7bb35c3a2efc38ea837649fd613152a235a547c11a342d0f3b"
+}

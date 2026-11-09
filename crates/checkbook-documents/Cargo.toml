@@ -1,0 +1,22 @@
+[package]
+name = "checkbook-documents"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+checkbook-domain = { path = "../checkbook-domain", version = "=1.0.0" }
+rust_decimal.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+typst.workspace = true
+typst-as-lib.workspace = true
+typst-layout.workspace = true
+typst-pdf.workspace = true
+
+[dev-dependencies]
+rust_decimal_macros.workspace = true
+
+[lints]
+workspace = true

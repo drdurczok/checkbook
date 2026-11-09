@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO account_holdings\n                (household_id, property_id, name, quantity, unit_price, value,\n                 purchased_on, sold_on, sell_value, notes, sort_order, ticker)\n             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Date",
+        "Date",
+        "Numeric",
+        "Text",
+        "Int4",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2b58e58321b1da7e7f5bc966ab6ce600f3a15544906b8ef343f45f6e8e211114"
+}

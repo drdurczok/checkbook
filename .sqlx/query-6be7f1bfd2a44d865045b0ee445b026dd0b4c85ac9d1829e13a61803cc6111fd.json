@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO categories\n            (household_id, kind, name, normalized_name, is_system)\n         VALUES ($1, 'planning', $2, $3, true)\n         ON CONFLICT (household_id, kind, normalized_name)\n             WHERE parent_id IS NULL\n         DO UPDATE SET name = EXCLUDED.name\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "6be7f1bfd2a44d865045b0ee445b026dd0b4c85ac9d1829e13a61803cc6111fd"
+}

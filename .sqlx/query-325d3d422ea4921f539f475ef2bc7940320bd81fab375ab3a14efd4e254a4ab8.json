@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT archive_path AS \"archive_path!\"\n         FROM data_load_runs\n         WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "archive_path!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "325d3d422ea4921f539f475ef2bc7940320bd81fab375ab3a14efd4e254a4ab8"
+}

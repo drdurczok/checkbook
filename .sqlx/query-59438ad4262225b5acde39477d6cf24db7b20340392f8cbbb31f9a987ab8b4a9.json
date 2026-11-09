@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT format(\n            'GRANT CONNECT ON DATABASE %I TO checkbook_app',\n            current_database()\n         ) AS \"grant_database!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "grant_database!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "59438ad4262225b5acde39477d6cf24db7b20340392f8cbbb31f9a987ab8b4a9"
+}

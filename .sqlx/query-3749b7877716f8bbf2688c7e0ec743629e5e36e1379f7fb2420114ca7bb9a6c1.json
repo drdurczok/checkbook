@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE categories SET expense_group_id = $3, updated_at = now()\n             WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3749b7877716f8bbf2688c7e0ec743629e5e36e1379f7fb2420114ca7bb9a6c1"
+}

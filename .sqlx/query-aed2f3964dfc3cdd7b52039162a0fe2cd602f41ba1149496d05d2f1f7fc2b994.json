@@ -1,0 +1,40 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT table_name AS \"table_name!\", column_name AS \"column_name!\",\n                CASE\n                    WHEN data_type = 'USER-DEFINED' THEN udt_name\n                    ELSE data_type\n                END AS \"data_type!\",\n                is_nullable AS \"is_nullable!\"\n         FROM information_schema.columns\n         WHERE table_schema = 'public' AND table_name = ANY($1)\n         ORDER BY table_name, ordinal_position",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "table_name!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 1,
+        "name": "column_name!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 2,
+        "name": "data_type!",
+        "type_info": "Name"
+      },
+      {
+        "ordinal": 3,
+        "name": "is_nullable!",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "NameArray"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      null,
+      true
+    ]
+  },
+  "hash": "aed2f3964dfc3cdd7b52039162a0fe2cd602f41ba1149496d05d2f1f7fc2b994"
+}

@@ -1,0 +1,51 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "WITH limits AS (\n            SELECT\n                COALESCE(\n                    date_trunc('month', min(snapshot.effective_date))::date,\n                    date_trunc('month', $5::date)::date\n                ) AS first_period,\n                date_trunc('month', $5::date)::date AS last_period\n            FROM account_balance_snapshots snapshot\n            WHERE snapshot.household_id = $1\n              AND snapshot.source_key NOT LIKE $6\n         ),\n         periods AS (\n            SELECT generate_series(\n                GREATEST(first_period, COALESCE(date_trunc('month', $3::date)::date, first_period)),\n                LEAST(last_period, COALESCE(date_trunc('month', $4::date)::date, last_period)),\n                interval '1 month'\n            )::date AS period\n            FROM limits\n         )\n         SELECT period.period AS \"period!\", account.account_kind AS \"account_kind!\",\n                account.account_type AS \"account_type!\", account.name AS \"name!\",\n                COALESCE(latest.balance, 0)::numeric AS \"balance!: Decimal\"\n         FROM periods period\n         JOIN financial_accounts account\n           ON account.household_id = $1\n          AND account.owner_scope = ANY($2)\n          AND NOT EXISTS (SELECT 1 FROM properties p WHERE p.household_id = account.household_id AND p.account_id = account.id)\n          AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.household_id = account.household_id AND l.account_id = account.id)\n          AND NOT (COALESCE(account.source_key, '') = 'wealth:debt' AND EXISTS (\n              SELECT 1 FROM loans l WHERE l.household_id = account.household_id\n                AND l.owner_scope = ANY($2) AND l.source_key NOT LIKE 'app_manual:%'\n          ))\n          AND (account.opened_on IS NULL OR account.opened_on < period.period + interval '1 month')\n          AND (account.closed_on IS NULL OR account.closed_on >= period.period)\n         LEFT JOIN LATERAL (\n             SELECT snapshot.balance\n             FROM account_balance_snapshots snapshot\n             WHERE snapshot.household_id = account.household_id\n               AND snapshot.account_id = account.id\n               AND snapshot.effective_date < period.period + interval '1 month'\n               AND snapshot.source_key NOT LIKE $6\n             ORDER BY snapshot.effective_date DESC, snapshot.created_at DESC\n            LIMIT 1\n         ) latest ON true\n         ORDER BY period.period, account.account_kind, account.name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 1,
+        "name": "account_kind!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "account_type!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "balance!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date",
+        "Date",
+        "Text"
+      ]
+    },
+    "nullable": [
+      null,
+      false,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "6266d67dd79625644b1e6812411b01bb14ebc182d7c7d676d0cbdfb0f4cdd70f"
+}

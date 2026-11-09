@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT DISTINCT ticker AS \"ticker!\" FROM account_holdings WHERE household_id = $1 AND property_id = $2 AND ticker IS NOT NULL AND sold_on IS NULL AND sell_value IS NULL ORDER BY ticker LIMIT 51",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "ticker!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      true
+    ]
+  },
+  "hash": "180ef37c683bceaaada3258b60c7d014531ece01b996d2c73c890c27baa0e023"
+}

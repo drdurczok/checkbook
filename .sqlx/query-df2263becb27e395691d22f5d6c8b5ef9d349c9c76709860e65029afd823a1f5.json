@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM income_source_milestones\n         WHERE household_id = $1 AND income_source_id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "df2263becb27e395691d22f5d6c8b5ef9d349c9c76709860e65029afd823a1f5"
+}

@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE utility_services SET retired=$3,hidden=$4,updated_at=now()\n        WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Bool",
+        "Bool"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6c62d583db8b44d22166a0b6b81b5b393dd7730b8e2199f35a8fb75e7c674980"
+}

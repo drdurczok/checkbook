@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT property_id, utility_contract_id FROM utility_bills\n         WHERE household_id=$1 AND source_key = ANY($2)",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "property_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "utility_contract_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      true,
+      true
+    ]
+  },
+  "hash": "90f4bf4544d5c462b3f2ca1faa1aa9a67f7e1c2a3b86f70278505dc429c8a9d8"
+}

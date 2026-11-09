@@ -1,0 +1,205 @@
+/* Money map explainer */
+.money-map-modal {
+	width: min(52rem, calc(100vw - 2rem));
+}
+
+.money-map {
+	display: flex;
+	align-items: stretch;
+	gap: 0.6rem;
+}
+
+.money-map__flow {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+}
+
+.money-map__flow-arrow {
+	width: 1.6rem;
+	height: 1.6rem;
+}
+
+.money-map__flow--in .money-map__flow-arrow {
+	color: rgb(var(--emerald));
+}
+
+.money-map__flow--out .money-map__flow-arrow {
+	color: rgb(var(--danger));
+}
+
+.money-map__flow-label {
+	border-radius: 999px;
+	padding: 0.25rem 0.6rem;
+	font-size: 0.72rem;
+	font-weight: 850;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+}
+
+.money-map__flow-label.is-income {
+	background: rgb(var(--emerald) / 0.14);
+	color: rgb(var(--emerald));
+}
+
+.money-map__flow-label.is-expenses {
+	background: rgb(var(--danger) / 0.14);
+	color: rgb(var(--danger));
+}
+
+.money-map__household {
+	position: relative;
+	flex: 1 1 auto;
+	min-width: 0;
+	border: 1.5px solid rgb(var(--accent) / 0.3);
+	border-radius: 1rem;
+	padding: 1.6rem 1rem 1rem;
+	background: rgb(var(--accent) / 0.04);
+}
+
+.money-map__person {
+	position: absolute;
+	top: -0.9rem;
+	left: 1rem;
+	display: inline-grid;
+	width: 2.2rem;
+	height: 2.2rem;
+	place-items: center;
+	border: 1.5px solid rgb(var(--accent) / 0.3);
+	border-radius: 999px;
+	background: rgb(var(--surface));
+	color: rgb(var(--accent));
+}
+
+.money-map__household-label {
+	position: absolute;
+	top: -0.7rem;
+	left: 3.5rem;
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 850;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.money-map__grid {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	grid-template-rows: auto auto;
+	gap: 0.6rem;
+}
+
+.mm-box {
+	display: grid;
+	gap: 0.25rem;
+	align-content: start;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.7rem;
+	padding: 0.7rem 0.8rem;
+	background: rgb(var(--surface));
+}
+
+.mm-box__head {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	font-weight: 800;
+}
+
+.mm-box small {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+}
+
+.mm-box--properties {
+	grid-row: 1 / span 2;
+	border-color: rgb(var(--accent) / 0.4);
+	background: rgb(var(--accent) / 0.07);
+}
+
+.mm-subgrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.5rem;
+	margin-top: 0.4rem;
+}
+
+.mm-box--utilities {
+	border-color: rgba(217, 144, 28, 0.4);
+	background: rgba(217, 144, 28, 0.08);
+}
+
+.mm-box--utilities .mm-box__head {
+	color: #8a5b07;
+}
+
+.mm-box--contents {
+	border-color: rgb(var(--mist) / 0.4);
+	background: rgb(var(--mist) / 0.08);
+}
+
+.mm-box--loans {
+	border-color: rgb(var(--danger) / 0.35);
+	background: rgb(var(--danger) / 0.06);
+}
+
+.mm-box--savings {
+	border-color: rgb(var(--emerald) / 0.35);
+	background: rgb(var(--emerald) / 0.06);
+}
+
+.mm-box--investments {
+	border-color: rgba(126, 87, 194, 0.4);
+	background: rgba(126, 87, 194, 0.08);
+}
+
+.mm-box--investments .mm-box__head {
+	color: rgb(93, 63, 163);
+}
+
+.money-map__caption {
+	margin: 1rem 0 0;
+	color: rgb(var(--mist));
+	font-size: 0.82rem;
+	line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+	.money-map {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.money-map__flow {
+		flex-direction: row;
+	}
+
+	.money-map__flow-label {
+		writing-mode: horizontal-tb;
+		transform: none;
+	}
+
+	.money-map__flow--in .money-map__flow-arrow {
+		transform: rotate(90deg);
+	}
+
+	.money-map__flow--out .money-map__flow-arrow {
+		transform: rotate(90deg);
+	}
+
+	.money-map__grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: none;
+	}
+
+	.mm-box--properties {
+		grid-row: auto;
+	}
+}

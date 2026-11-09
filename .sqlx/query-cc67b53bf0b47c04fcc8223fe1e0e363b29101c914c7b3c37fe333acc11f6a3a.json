@@ -1,0 +1,47 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO invoice_revisions\n            (household_id, invoice_id, revision, title, template_id, template_name,\n             income_source_id, seller_name, seller_details, buyer_name, buyer_details,\n             buyer_nip, buyer_address, issue_date, sale_date, due_date, currency,\n             status, conversion_enabled, conversion_currency, conversion_rate,\n             subtotal, tax_amount, total_amount, payment_terms, notes)\n         VALUES\n            ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,\n             $18,$19,$20,$21,$22,$23,$24,$25,$26)\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Int4",
+        "Text",
+        "Uuid",
+        "Text",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Date",
+        "Date",
+        "Date",
+        "Text",
+        "Text",
+        "Bool",
+        "Text",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "cc67b53bf0b47c04fcc8223fe1e0e363b29101c914c7b3c37fe333acc11f6a3a"
+}

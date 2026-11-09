@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT EXISTS(\n            SELECT 1\n            FROM household_memberships membership\n            JOIN users user_record ON user_record.id = membership.user_id\n            WHERE membership.household_id = $1 AND membership.is_active\n              AND user_record.email = $2\n            UNION ALL\n            SELECT 1\n            FROM household_invitations invitation\n            WHERE invitation.household_id = $1 AND invitation.email = $2\n              AND invitation.accepted_at IS NULL AND invitation.expires_at > now()\n         ) AS \"duplicate_email!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "duplicate_email!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "87154b366f6f977a8eb5e028a60656be3591cb75567538914dffe69c8e0b45db"
+}

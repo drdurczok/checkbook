@@ -1,0 +1,14 @@
+.git
+.gitlab
+.venv
+backend
+database
+data
+data-import
+frontend
+target
+tests
+*.xlsx
+*.pdf
+*.py
+__pycache__

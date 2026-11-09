@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO categories\n            (household_id, kind, name, normalized_name, parent_id, creation_origin)\n         VALUES ($1, $2, $3, $4, $5, 'manual')\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "6956cacd47806eda6841ca59243445eff1e766242c0a4085a0eb9135c71d6364"
+}

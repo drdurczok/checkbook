@@ -1,0 +1,93 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE loans\n         SET name = $3, current_balance = $4, monthly_payment = $5,\n             interest_rate = $6, original_balance = $7, start_date = $8,\n             end_date = $9, notes = $10, linked_property_id = $11, updated_at = now(),\n             terms_payload = terms_payload - 'payment_schedule', schedule_opening_balance = $12\n         WHERE household_id = $1 AND id = $2\n         RETURNING id, name, current_balance, monthly_payment, interest_rate,\n             original_balance, start_date, end_date, notes, linked_property_id,\n             app.loan_terms_with_schedule(household_id, id, terms_payload) AS \"terms_payload!: Value\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "current_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "monthly_payment",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "interest_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "original_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "start_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "end_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "linked_property_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 10,
+        "name": "terms_payload!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Date",
+        "Date",
+        "Text",
+        "Uuid",
+        "Numeric"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      null
+    ]
+  },
+  "hash": "cb4951b21f26c353399e61e467edb63b96691db99db3eea034d8257bf98ff17c"
+}

@@ -1,0 +1,77 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id AS \"id!\", name AS \"name!\", ticker, quantity, unit_price,\n                    value AS \"value!: Decimal\", purchased_on, sold_on, sell_value,\n                    notes AS \"notes!\"\n             FROM account_holdings\n             WHERE household_id = $1 AND property_id = $2\n             ORDER BY sort_order, created_at, id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "ticker",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "unit_price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "value!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "purchased_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "sold_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "sell_value",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 9,
+        "name": "notes!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "b561c0cac997577931af3cb40dbb79ba18ad47d1f6ccc3d47f5acf82a874016f"
+}

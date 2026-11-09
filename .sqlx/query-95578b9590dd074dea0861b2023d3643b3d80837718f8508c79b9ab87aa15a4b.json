@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO holding_price_cache (household_id, ticker, last_attempt_at) VALUES ($1, 'MSFT', $2)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Timestamptz"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "95578b9590dd074dea0861b2023d3643b3d80837718f8508c79b9ab87aa15a4b"
+}

@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO categories\n            (household_id, kind, name, normalized_name, is_system, sort_order)\n         VALUES\n            ($1, 'expense', 'Other', 'other', true, 100),\n            ($1, 'income', 'Household income', 'household income', true, 0),\n            ($1, 'utility', 'Utilities', 'utilities', true, 0),\n            ($1, 'planning', 'Debt Repayment', 'debt repayment', true, 0)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "630c462528fbf65b268913fb590143e56105d86a355ca913121d2d1a4ff0bda0"
+}

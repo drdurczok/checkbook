@@ -1,0 +1,59 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, group_type, started_on, ended_on, notes,\n                tracked_fields AS \"tracked_fields: Value\"\n         FROM entry_groups\n         WHERE household_id = $1 AND id = $2 AND kind = 'contract'",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "group_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "tracked_fields: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "95d4585832f0ce0ecc37b24a5911ca1ea97ece7b942f292bab1cf1ddced7d84b"
+}

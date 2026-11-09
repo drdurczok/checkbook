@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM payday_allocations a USING payday_months m, payday_templates t WHERE a.household_id=$1 AND m.household_id=a.household_id AND m.id=a.month_id AND t.household_id=a.household_id AND t.id=a.template_id AND t.recurrence_id=$2 AND m.month > $3 AND a.deleted_at IS NULL",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "869b181955b4d894ea40c127fcd3aa6c0befdafa8215779b4fd9e84cd3783824"
+}

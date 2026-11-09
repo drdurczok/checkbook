@@ -1,0 +1,2987 @@
+/* Checkbook app-specific styles */
+
+.shell--centered {
+	display: grid;
+	width: 100%;
+	max-width: 100vw;
+	min-height: 100vh;
+	place-items: center;
+	padding: 1.25rem;
+	overflow-x: hidden;
+	background:
+		linear-gradient(
+			180deg,
+			rgb(var(--surface) / 0.72),
+			rgb(var(--surface-lowest) / 0.94)
+		),
+		rgb(var(--surface-lowest));
+	color: rgb(var(--ink));
+	font-family: Manrope, sans-serif;
+}
+
+.auth-screen {
+	position: relative;
+	isolation: isolate;
+}
+
+.auth-wave {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.auth-card {
+	width: min(100%, 31rem);
+	max-width: calc(100vw - 2rem);
+	min-width: 0;
+	justify-self: center;
+	overflow: hidden;
+	padding: 1.1rem;
+	border: 1px solid rgb(var(--outline) / 0.8);
+	border-radius: 0.9rem;
+	background: rgb(var(--surface));
+	box-shadow: 0 18px 50px rgb(var(--shadow) / 0.08);
+}
+
+.auth-screen .auth-card {
+	position: relative;
+	z-index: 1;
+	width: min(100%, 26rem);
+	padding: 1.6rem;
+	border-color: rgb(var(--outline) / 0.6);
+	background: rgb(var(--surface) / 0.82);
+	box-shadow: 0 30px 70px rgb(var(--shadow) / 0.16);
+	backdrop-filter: blur(14px);
+}
+
+.auth-card--signin {
+	display: grid;
+	gap: 1.2rem;
+}
+
+.auth-logo {
+	display: block;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 0.75rem;
+}
+
+.auth-actions button.auth-google {
+	gap: 0.65rem;
+	background: #ffffff;
+	color: #1f2430;
+	border: 1px solid rgb(var(--outline) / 0.95);
+	box-shadow: 0 1px 2px rgb(var(--shadow) / 0.12);
+	font-weight: 750;
+}
+
+.auth-actions button.auth-google:hover {
+	background: #f4f7fb;
+	color: #1f2430;
+	transform: translateY(-1px);
+}
+
+.auth-google__glyph {
+	width: 1.15rem;
+	height: 1.15rem;
+	flex: 0 0 auto;
+}
+
+.auth-actions button.auth-email-toggle {
+	gap: 0.5rem;
+	border: 1px solid rgb(var(--outline) / 1);
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+}
+
+.auth-actions button.auth-email-toggle:hover {
+	background: rgb(var(--surface-low));
+	color: rgb(var(--ink));
+	transform: none;
+}
+
+.auth-email {
+	display: grid;
+	grid-template-rows: 0fr;
+	opacity: 0;
+	transition:
+		grid-template-rows 280ms ease,
+		opacity 220ms ease;
+}
+
+.auth-email.is-open {
+	grid-template-rows: 1fr;
+	opacity: 1;
+}
+
+.auth-email__inner {
+	min-height: 0;
+	overflow: hidden;
+}
+
+.auth-email-form {
+	display: grid;
+	gap: 0.75rem;
+	padding-top: 0.3rem;
+}
+
+.auth-header {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+	padding: 0.15rem 0.15rem 0.25rem;
+}
+
+.auth-header span {
+	display: block;
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.auth-header h2 {
+	margin: 0.1rem 0 0;
+	color: rgb(var(--ink));
+	font-size: 1.6rem;
+	font-weight: 800;
+	line-height: 1.1;
+}
+
+.auth-card .lede {
+	margin: 0 0 1.25rem;
+	color: rgb(var(--mist));
+	font-size: 0.9rem;
+}
+
+.auth-actions {
+	display: grid;
+	gap: 0.8rem;
+	min-width: 0;
+}
+
+.auth-primary,
+.auth-secondary,
+.auth-actions button {
+	grid-column: 1 / -1;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+}
+
+.app-bottom-nav {
+	display: none;
+}
+
+.app-mobile-profile-menu,
+.app-mobile-profile-backdrop {
+	display: none;
+}
+
+.app-shell {
+	--quick-add-fab-bottom: 1.5rem;
+	padding-top: 4rem;
+}
+
+.app-topbar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 70;
+}
+
+.modal-backdrop {
+	z-index: 120;
+	overscroll-behavior: contain;
+}
+
+.modal-shell,
+.quick-add-modal,
+.quick-add-form,
+.drive-picker {
+	overscroll-behavior: contain;
+}
+
+.toast-host {
+	position: fixed;
+	top: 4.85rem;
+	right: 1rem;
+	z-index: 130;
+	display: grid;
+	width: min(25rem, calc(100vw - 2rem));
+	gap: 0.65rem;
+	pointer-events: none;
+}
+
+.toast-banner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.8rem;
+	min-height: 3rem;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.7rem;
+	padding: 0.8rem 0.8rem 0.8rem 1rem;
+	background: rgb(var(--surface) / 0.96);
+	box-shadow: 0 18px 48px rgb(var(--shadow) / 0.2);
+	color: rgb(var(--ink));
+	font-size: 0.88rem;
+	font-weight: 750;
+	pointer-events: auto;
+}
+
+.toast-banner span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.toast-banner button {
+	display: inline-grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: transparent;
+	color: currentColor;
+	cursor: pointer;
+}
+
+.toast-banner button:hover {
+	border-color: rgb(var(--outline) / 0.9);
+	background: rgb(var(--surface-high) / 0.7);
+}
+
+.toast-banner--error {
+	border-color: rgb(var(--danger) / 0.4);
+	background: color-mix(in srgb, rgb(var(--danger)) 15%, rgb(var(--surface)));
+	color: rgb(var(--danger));
+}
+
+.toast-banner--success {
+	border-color: rgb(var(--success) / 0.4);
+	background: color-mix(in srgb, rgb(var(--success)) 15%, rgb(var(--surface)));
+	color: rgb(var(--success));
+}
+
+.grid {
+	display: grid;
+	gap: 1rem;
+}
+
+.grid--two {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--three {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.metric-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.75rem;
+	background: rgb(var(--outline));
+}
+
+/* Two-stat rows that sit under a section label instead of a page header. */
+.metric-grid--pair {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric-card {
+	min-width: 0;
+	padding: 1rem;
+	background: rgb(var(--surface));
+}
+
+.metric-card span {
+	display: block;
+	margin-bottom: 0.35rem;
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	overflow-wrap: anywhere;
+}
+
+.metric-card strong {
+	display: block;
+	color: rgb(var(--ink));
+	font-size: clamp(1.05rem, 2vw, 1.45rem);
+	font-weight: 750;
+	line-height: 1.15;
+	overflow-wrap: anywhere;
+}
+
+.panel {
+	min-width: 0;
+	padding: 0;
+	background: transparent;
+	border-top: 1px solid rgb(var(--outline) / 0.9);
+}
+
+/* Panel top borders are section dividers between stacked panels; the first
+   row of a page (including every panel inside its first child, such as the
+   Net worth / Cash flow pair) starts flush with no divider above it. */
+.page-stack > .panel:first-child,
+.page-stack > :first-child .panel,
+.properties-page > .panel:first-of-type {
+	border-top: 0;
+}
+
+.page-stack > .panel:first-child > .panel__header,
+.page-stack > :first-child .panel > .panel__header,
+.properties-page > .panel:first-of-type > .panel__header {
+	padding-top: 0;
+}
+
+/* Keep page sections compact while summaries use the shared MetricGrid. */
+.properties-page {
+	gap: 0.9rem;
+}
+
+/* In a selected-property view, bring utilities closer to its summary cards;
+   project and loan sections don't need stacked-page divider lines. */
+.properties-page--selected {
+	row-gap: 0.5rem;
+}
+
+.properties-page--selected > .property-summary {
+	margin-bottom: 0;
+}
+
+.properties-page--selected > .property-summary + .subject-utilities-panel {
+	margin-top: -1rem;
+}
+
+.properties-page--selected > .subject-utilities-panel,
+.properties-page--selected > .panel {
+	border-top: 0;
+}
+
+.properties-page--selected > .subject-utilities-panel > .panel__header {
+	margin-bottom: 0.25rem;
+	padding-top: 1.05rem;
+}
+
+.properties-page--selected > .panel:not(.subject-utilities-panel) > .panel__header {
+	padding-top: 0;
+}
+
+/* Income history: the metrics block's own bottom margin plus the stack gap
+   stacked up to 3rem of air; keep just a tightened stack gap. */
+.income-page > .income-metrics {
+	margin-bottom: 0;
+}
+
+.income-page > .income-history-panel {
+	margin-top: -0.5rem;
+}
+
+/* Side-by-side panels share a vertical hairline divider centred in the
+   grid gutter (e.g. the Net worth / Cash flow momentum pair). */
+.grid--two > .panel + .panel {
+	border-left: 1px solid rgb(var(--outline) / 0.9);
+	padding-left: 1rem;
+}
+
+/* When the grid stacks on narrow screens the same divider becomes the
+   normal horizontal section divider between the stacked panels. */
+@media (max-width: 1100px) {
+	.grid--two > .panel + .panel {
+		border-left: 0;
+		border-top: 1px solid rgb(var(--outline) / 0.9);
+		padding-left: 0;
+	}
+
+	.grid--two > .panel + .panel > .panel__header {
+		padding-top: 1rem;
+	}
+}
+
+.panel__header {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	padding-top: 1rem;
+}
+
+.panel__eyebrow {
+	margin: 0 0 0.2rem;
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.panel h2 {
+	margin: 0;
+	color: rgb(var(--ink));
+	font-size: 1.05rem;
+	font-weight: 750;
+	letter-spacing: 0;
+}
+
+.panel__heading {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.panel__actions {
+	flex: 0 0 auto;
+}
+
+.panel__center {
+	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+	align-self: center;
+	min-width: 0;
+}
+
+.net-worth-panel-actions {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.list,
+.goal-list,
+.loan-list,
+.form-stack,
+.permission-grid {
+	display: grid;
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+}
+
+.form-stack {
+	gap: 0.75rem;
+	overflow: visible;
+	border: 0;
+	background: transparent;
+}
+
+.list-row,
+.goal-card,
+.loan-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	min-width: 0;
+	padding: 0.85rem 1rem;
+	background: rgb(var(--surface));
+}
+
+.list-row--button {
+	width: 100%;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.list-row--button:hover,
+.list-row--button:focus-visible {
+	background: rgb(var(--surface-low));
+}
+
+.list-row > div,
+.goal-card > div,
+.loan-card > div {
+	min-width: 0;
+}
+
+.list-row strong,
+.goal-card strong,
+.loan-card strong {
+	color: rgb(var(--ink));
+	font-size: 0.95rem;
+	font-weight: 700;
+	overflow-wrap: anywhere;
+}
+
+.list-row span,
+.goal-card span,
+.loan-card span {
+	display: block;
+	color: rgb(var(--mist));
+	font-size: 0.8rem;
+	overflow-wrap: anywhere;
+}
+
+.goal-card {
+	align-items: stretch;
+	flex-direction: column;
+}
+
+.goal-card__progress {
+	height: 0.45rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgb(var(--surface-low));
+}
+
+.goal-card__progress div {
+	height: 100%;
+	border-radius: 999px;
+	background: rgb(var(--accent));
+}
+
+
+.goal-card p {
+	margin: 0.15rem 0 0;
+	color: rgb(var(--mist));
+	font-size: 0.8rem;
+}
+
+.chart {
+	display: grid;
+	gap: 1rem;
+	width: 100%;
+	min-width: 0;
+}
+
+.chart--line svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.chart-stage {
+	position: relative;
+	min-width: 0;
+}
+
+/* Overview charts are width-fitting plots, so they sit in a lightly framed
+   stage: thin border, slightly rounded corners, minimal side and bottom
+   padding so the plot never touches the frame. */
+.overview-page .chart-stage {
+	border: 1px solid rgb(var(--outline));
+	border-radius: 0.5rem;
+	padding: 0.2rem 0.35rem 0.35rem;
+	background: rgb(var(--surface));
+}
+
+.chart-axis {
+	overflow: visible;
+}
+
+.chart-tick line {
+	stroke: rgb(var(--outline) / 0.9);
+	stroke-width: 1;
+}
+
+.chart-tick text,
+.chart-x-label {
+	fill: rgb(var(--mist));
+	font-family: Manrope, sans-serif;
+	font-size: 0.72rem;
+	font-weight: 650;
+}
+
+.chart__area {
+	fill: #1e6fd6;
+	opacity: 0.08;
+}
+
+.chart__future-tint {
+	fill: #64748b;
+	fill-opacity: 0.1;
+	pointer-events: none;
+}
+
+.chart__today-line {
+	/* Split color/opacity: comma-form `rgba(var(--...), X)` is invalid as an SVG
+	   presentation property in some engines and silently falls back to the
+	   SVG default (black stroke / solid fill) instead of erroring. */
+	stroke: rgb(var(--ink));
+	stroke-opacity: 0.58;
+	stroke-dasharray: 5 5;
+	stroke-linecap: round;
+	stroke-width: 1.6;
+	pointer-events: none;
+}
+
+.chart__line {
+	fill: none;
+	stroke: rgb(var(--accent));
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 4;
+}
+
+.chart__hit {
+	fill: transparent;
+	cursor: crosshair;
+}
+
+.chart-tooltip {
+	position: absolute;
+	z-index: 2;
+	min-width: 8rem;
+	transform: translate(-50%, calc(-100% - 0.65rem));
+	pointer-events: none;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.5rem;
+	padding: 0.45rem 0.55rem;
+	background: rgb(var(--surface));
+	box-shadow: 0 12px 32px rgb(var(--shadow) / 0.14);
+}
+
+.chart-tooltip span {
+	display: block;
+	color: rgb(var(--mist));
+	font-size: 0.7rem;
+	font-weight: 800;
+}
+
+.chart-tooltip strong {
+	color: rgb(var(--ink));
+	font-size: 0.88rem;
+	font-weight: 850;
+}
+
+.chart-stat-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1px;
+	overflow: hidden;
+	/* `overflow: hidden` (needed to clip the cells to the rounded corners)
+	   makes this grid's automatic minimum size 0 when it's placed as an item
+	   in an outer `grid-auto-rows: auto` container (e.g. the expense detail
+	   modal's page-stack) — the row collapses to ~0 even though the cells'
+	   own content needs real height. Force the content-based size back. */
+	min-height: max-content;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+}
+
+.chart-stat-grid--compact {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chart-stat-grid div {
+	min-width: 0;
+	padding: 0.7rem 0.8rem;
+	background: rgb(var(--surface));
+}
+
+.chart-stat-grid span {
+	display: block;
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.chart-stat-grid strong {
+	display: block;
+	margin-top: 0.15rem;
+	color: rgb(var(--ink));
+	font-size: 0.92rem;
+	font-weight: 750;
+	overflow-wrap: anywhere;
+}
+
+.chart-stat-grid .is-positive {
+	color: rgb(var(--success));
+}
+
+.chart-stat-grid .is-negative {
+	color: rgb(var(--danger));
+}
+
+.composition-chart {
+	display: grid;
+	grid-template-columns: minmax(11rem, 0.8fr) minmax(0, 1fr);
+	gap: 1rem;
+	align-items: center;
+}
+
+.composition-donut {
+	position: relative;
+	display: grid;
+	place-items: center;
+	min-width: 0;
+}
+
+.composition-donut svg {
+	display: block;
+	width: min(100%, 14rem);
+	height: auto;
+	overflow: visible;
+	transform: rotate(-90deg);
+}
+
+.composition-donut__track,
+.composition-donut__segment {
+	fill: none;
+	stroke-linecap: butt;
+	stroke-width: 24;
+}
+
+.composition-donut__track {
+	stroke: rgb(var(--surface-low));
+}
+
+.composition-donut__segment {
+	transition: opacity 160ms ease;
+}
+
+.composition-donut__total {
+	position: absolute;
+	display: grid;
+	gap: 0.1rem;
+	max-width: 7.6rem;
+	text-align: center;
+}
+
+.composition-donut__total span,
+.composition-donut__total small {
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.composition-donut__total strong {
+	color: rgb(var(--ink));
+	font-weight: 850;
+	line-height: 1.1;
+	white-space: nowrap;
+}
+
+.composition-legend {
+	display: grid;
+	gap: 0.65rem;
+	min-width: 0;
+}
+
+.composition-legend__row {
+	display: grid;
+	grid-template-columns: 0.7rem minmax(0, 1fr) auto;
+	gap: 0.6rem;
+	align-items: center;
+	min-width: 0;
+}
+
+.composition-legend__row > span {
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 999px;
+}
+
+.composition-legend__row strong {
+	min-width: 0;
+	color: rgb(var(--ink));
+	font-size: 0.88rem;
+	font-weight: 800;
+	overflow-wrap: anywhere;
+}
+
+.composition-legend__row small {
+	color: rgb(var(--mist));
+	font-size: 0.8rem;
+	font-weight: 800;
+	text-align: right;
+}
+
+.stacked-chart {
+	display: grid;
+	gap: 0.85rem;
+	min-width: 0;
+}
+
+.expense-mix-stats {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin-bottom: 0.85rem;
+}
+
+.stacked-chart__stage {
+	min-width: 0;
+}
+
+.stacked-chart svg {
+	display: block;
+	width: 100%;
+	height: 230px;
+}
+
+.stacked-chart__segment {
+	transition:
+		filter 160ms ease,
+		opacity 160ms ease;
+}
+
+.stacked-chart__segment:hover {
+	filter: brightness(0.94);
+	opacity: 0.92;
+}
+
+.stacked-chart__legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem 0.9rem;
+	min-width: 0;
+}
+
+.stacked-chart__legend button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border: 0;
+	padding: 0;
+	background: transparent;
+	color: rgb(var(--mist));
+	cursor: pointer;
+	font-size: 0.78rem;
+	font-weight: 800;
+}
+
+.stacked-chart__legend button:hover,
+.stacked-chart__legend button.is-active {
+	color: rgb(var(--ink));
+}
+
+.stacked-chart__legend button.is-active {
+	text-decoration: underline;
+	text-underline-offset: 0.18rem;
+}
+
+.stacked-chart__legend i {
+	width: 0.65rem;
+	height: 0.65rem;
+	border-radius: 999px;
+}
+
+.bar-list-chart {
+	display: grid;
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+}
+
+.bar-list-row {
+	display: grid;
+	grid-template-columns: minmax(10rem, 1fr) minmax(8rem, 2fr) auto;
+	gap: 1rem;
+	align-items: center;
+	min-width: 0;
+	padding: 0.8rem 0.9rem;
+	background: rgb(var(--surface));
+}
+
+.bar-list-row strong {
+	color: rgb(var(--ink));
+	font-size: 0.9rem;
+	font-weight: 800;
+}
+
+.bar-list-row span {
+	display: block;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+}
+
+.bar-list-track {
+	height: 0.55rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgb(var(--surface-low));
+}
+
+.bar-list-track div {
+	height: 100%;
+	border-radius: inherit;
+	background: rgb(var(--accent));
+}
+
+.asset-card-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.7rem;
+}
+
+.asset-card {
+	display: grid;
+	gap: 0.3rem;
+	min-width: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.55rem;
+	padding: 0.85rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	cursor: pointer;
+	text-align: left;
+}
+
+.asset-card:hover {
+	border-color: rgb(var(--accent) / 0.45);
+	background: rgb(var(--surface-lowest));
+}
+
+.asset-card--paid-off {
+	border-color: rgb(var(--success) / 0.35);
+	background: rgb(var(--success) / 0.08);
+}
+
+.asset-card--paid-off:hover {
+	border-color: rgb(var(--success) / 0.5);
+	background: rgb(var(--success) / 0.12);
+}
+
+.asset-card--paid-off span,
+.asset-card--paid-off small {
+	color: rgb(var(--success));
+}
+
+.asset-card span,
+.asset-card small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.asset-card span {
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 800;
+}
+
+.asset-card strong {
+	font-size: 1.05rem;
+	font-weight: 850;
+}
+
+.asset-card small {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 700;
+}
+
+.property-room-breakdown {
+	display: grid;
+	position: relative;
+	gap: 0.8rem;
+	padding: 0.85rem;
+	background: rgb(var(--surface));
+}
+
+.loan-outlook-panel {
+	/* One row for the shared month table shell; it scrolls inside the modal. */
+	display: grid;
+	grid-template-rows: minmax(0, 1fr);
+	min-height: 0;
+	overflow: visible;
+}
+
+.view-toggle {
+	display: inline-grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.2rem;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.55rem;
+	padding: 0.2rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.view-toggle button {
+	min-height: 2rem;
+	border: 0;
+	border-radius: 0.4rem;
+	padding: 0.35rem 0.65rem;
+	background: transparent;
+	color: rgb(var(--mist));
+	cursor: pointer;
+	font: inherit;
+	font-size: 0.78rem;
+	font-weight: 850;
+}
+
+.view-toggle button.is-active {
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	box-shadow: 0 8px 20px rgb(var(--shadow) / 0.1);
+}
+
+.view-toggle button:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+}
+
+.loan-payoff-chart {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
+	gap: 0.7rem;
+	height: 100%;
+	min-height: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	padding: 0.75rem;
+	background: rgb(var(--surface));
+}
+
+.loan-payoff-chart .chart-stage {
+	min-height: 0;
+}
+
+.loan-payoff-chart svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+}
+
+.loan-payoff-chart__area {
+	fill: url("#loan-payoff-balance-fill");
+}
+
+.loan-payoff-chart__future {
+	fill: rgb(var(--ink));
+	fill-opacity: 0.06;
+}
+
+.loan-payoff-chart__balance,
+.loan-payoff-chart__interest {
+	fill: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.loan-payoff-chart__balance {
+	stroke: rgb(var(--accent));
+	stroke-width: 3.5;
+}
+
+.loan-payoff-chart__interest {
+	stroke: rgb(var(--danger));
+	stroke-width: 2.5;
+}
+
+.loan-payoff-chart__legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem 1rem;
+	color: rgb(var(--mist));
+	font-size: 0.75rem;
+	font-weight: 850;
+}
+
+.loan-payoff-chart__legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.loan-payoff-chart__legend i {
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 999px;
+}
+
+.loan-payoff-chart__legend-balance {
+	background: rgb(var(--accent));
+}
+
+.loan-payoff-chart__legend-interest {
+	background: rgb(var(--danger));
+}
+
+.loan-payoff-chart__legend-future {
+	background: rgb(var(--ink) / 0.18);
+}
+
+.loan-payoff-chart__tooltip {
+	min-width: 10.5rem;
+}
+
+.loan-payoff-chart__tooltip strong {
+	display: block;
+}
+
+.utility-trend-chart {
+	display: grid;
+	gap: 0.7rem;
+	width: 100%;
+	max-width: 54rem;
+	margin-inline: auto;
+	min-height: 0;
+}
+
+.utility-trend-chart svg {
+	display: block;
+	width: 100%;
+	max-height: 20rem;
+	height: auto;
+}
+
+.utility-trend-chart__line {
+	fill: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 3;
+}
+
+.utility-trend-chart__legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem 1rem;
+	color: rgb(var(--mist));
+	font-size: 0.75rem;
+	font-weight: 850;
+}
+
+.utility-trend-chart__legend button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	border: 0;
+	padding: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+.utility-trend-chart__legend button.is-active {
+	color: rgb(var(--ink));
+}
+
+.utility-trend-chart__legend i {
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 999px;
+}
+
+.utility-trend-chart__tooltip {
+	min-width: 12rem;
+}
+
+.utility-trend-chart__tooltip strong {
+	display: block;
+}
+
+.utility-table-shell {
+	max-height: 24rem;
+}
+
+/* The cash flow and utilities modals sit their stat row above the table
+   inside .overview-details; that grid must hand the modal's constrained row
+   down to the table shell so the shell can scroll vertically instead of
+   growing past the modal edge. The table keeps its bordered box inside the
+   modal padding on every screen width. */
+.cash-flow-modal .overview-details,
+.utilities-modal .overview-details {
+	min-height: 0;
+	grid-template-rows: auto minmax(0, 1fr);
+	overflow: hidden;
+}
+
+.utilities-modal .utility-table-shell {
+	max-height: none;
+}
+
+/* The remaining overview details (expense mix, savings allocation, money
+   flow) open as pages too. The stat row, when present, stays fixed at the
+   top and the detail-table rows scroll beneath it inside the modal. */
+.overview-detail-modal .overview-details {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	margin-top: 0;
+	overflow: hidden;
+}
+
+.overview-detail-modal .overview-stat-row {
+	flex: 0 0 auto;
+}
+
+.overview-detail-modal .detail-table {
+	/* Keep the outline-colored separator background confined to the rows,
+	   rather than filling the unused height of a mobile detail page. */
+	flex: 0 1 auto;
+	min-height: 0;
+	overflow: auto;
+	align-content: start;
+}
+
+/* The loan schedule table renders bare numbers (currency lives in the modal
+   title), so its value columns drop the currency-era min-widths — the table
+   fits the width of the tab selector above it on narrow screens instead of
+   opening a horizontal scroll. */
+.net-worth-table.loan-schedule-table th:not(:first-child),
+.net-worth-table.loan-schedule-table td:not(:first-child) {
+	min-width: 0;
+}
+
+.property-room-card {
+	--room-card-pad: 0.8rem;
+	display: grid;
+	position: relative;
+	gap: 0.7rem;
+	min-width: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.6rem;
+	padding: var(--room-card-pad);
+	background: rgb(var(--surface-lowest));
+}
+
+.property-room-card__header,
+.property-room-section__header,
+.property-room-item {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.75rem;
+	align-items: baseline;
+}
+
+.property-room-card__header strong {
+	color: rgb(var(--ink) / 0.72);
+	font-size: 1rem;
+	font-weight: 850;
+}
+
+.property-room-card__header span,
+.property-room-section__header span,
+.property-room-item strong {
+	color: rgb(var(--ink));
+	font-weight: 850;
+	white-space: nowrap;
+}
+
+.property-room-sections {
+	display: grid;
+	gap: 0.65rem;
+}
+
+.property-room-section {
+	display: grid;
+	position: relative;
+	gap: 0.45rem;
+}
+
+.property-room-section__header strong {
+	color: rgb(var(--ink) / 0.68);
+	font-size: 0.78rem;
+	font-weight: 850;
+}
+
+.property-room-items {
+	display: grid;
+	gap: 1px;
+	overflow: visible;
+	border: 1px solid rgb(var(--outline) / 0.8);
+	border-radius: 0.5rem;
+	background: rgb(var(--outline));
+}
+
+.property-room-item-shell {
+	position: relative;
+}
+
+.property-room-item {
+	grid-template-columns: minmax(0, 1.2fr) minmax(7rem, 0.8fr) auto;
+	padding: 0.55rem 0.65rem;
+	background: rgb(var(--surface));
+}
+
+.property-room-item--button {
+	width: 100%;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.property-room-item--button:hover,
+.property-room-item--button.is-expanded {
+	background: rgb(var(--surface-low));
+}
+
+.property-room-card:has(> .asset-click-row:hover),
+.property-room-card:has(> .asset-click-row.asset-active-edit),
+.property-room-section:has(> .asset-click-row:hover),
+.property-room-section:has(> .asset-click-row.asset-active-edit),
+.property-room-item-shell:has(.property-room-item--button:hover),
+.property-room-item-shell:has(.asset-active-edit) {
+	outline: 2px solid rgb(var(--accent) / 0.2);
+	outline-offset: 2px;
+}
+
+.property-name-edit-row {
+	grid-template-columns: minmax(7rem, 0.45fr) minmax(0, 1fr);
+}
+
+.asset-click-row {
+	width: 100%;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.asset-click-row:hover {
+	background: rgb(var(--surface-low));
+}
+
+.asset-active-edit {
+	background: rgb(var(--accent) / 0.08) !important;
+	box-shadow: inset 0 0 0 1px rgb(var(--accent) / 0.24);
+}
+
+.asset-click-row input {
+	min-height: 2.2rem;
+}
+
+.property-inline-edit {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: minmax(12rem, 1.4fr) minmax(7rem, 0.8fr) minmax(
+			7rem,
+			0.8fr
+		) minmax(7rem, 0.8fr);
+	gap: 0.75rem;
+	width: 100%;
+}
+
+.property-computed-total {
+	display: grid;
+	gap: 0.35rem;
+	align-content: end;
+}
+
+.property-computed-total span {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.property-computed-total strong {
+	min-height: 2.75rem;
+	display: inline-flex;
+	align-items: center;
+	color: rgb(var(--ink));
+}
+
+.asset-insert-button {
+	position: absolute;
+	right: 50%;
+	bottom: -2rem;
+	z-index: 5;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 4.25rem;
+	height: 4rem;
+	min-height: 4rem;
+	border: 0;
+	border-radius: 999px;
+	padding: 0;
+	background: transparent;
+	color: rgb(var(--accent));
+	cursor: pointer;
+	font: inherit;
+	font-size: 0;
+	font-weight: 850;
+	line-height: 1;
+	opacity: 0;
+	transform: translateX(50%) scale(0.92);
+	pointer-events: auto;
+	transition:
+		opacity 140ms ease,
+		transform 140ms ease,
+		background-color 140ms ease;
+}
+
+.asset-insert-button::before {
+	content: "+";
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	border: 1px solid rgb(var(--accent) / 0.42);
+	border-radius: 999px;
+	background: rgb(var(--accent));
+	color: white;
+	box-shadow: 0 8px 18px rgb(var(--accent) / 0.24);
+	font-size: 1.1rem;
+	font-weight: 850;
+}
+
+.asset-insert-button--top {
+	top: -2rem;
+	bottom: auto;
+}
+
+.asset-insert-button:hover,
+.asset-insert-button:focus-visible {
+	opacity: 1;
+	transform: translateX(50%) scale(1);
+}
+
+.asset-insert-button:hover,
+.asset-insert-button:focus-visible {
+	background: transparent;
+}
+
+.asset-insert-button:hover::before,
+.asset-insert-button:focus-visible::before {
+	background: rgb(var(--accent-strong));
+}
+
+.property-room-item span,
+.property-room-item small {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.property-room-item span {
+	color: rgb(var(--ink));
+	font-size: 0.8rem;
+	font-weight: 750;
+}
+
+.property-room-item small {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 700;
+}
+
+.property-item-note {
+	margin: 0;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	line-height: 1.45;
+}
+
+.property-item-note {
+	grid-column: 1 / -1;
+	padding-top: 0.2rem;
+}
+
+.sankey-chart {
+	min-width: 0;
+	width: 100%;
+}
+
+.cash-flow-chart {
+	display: grid;
+	gap: 0.85rem;
+}
+
+.cash-flow-chart__stats {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cash-flow-chart__axis .chart-tick--zero line {
+	stroke: rgb(var(--ink));
+	stroke-opacity: 0.32;
+}
+
+.cash-flow-chart__zero {
+	stroke: rgb(var(--ink));
+	stroke-opacity: 0.42;
+	stroke-width: 1.4;
+}
+
+.cash-flow-chart__line {
+	fill: none;
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.cash-flow-chart__area {
+	stroke: none;
+}
+
+.cash-flow-chart__area--income,
+.cash-flow-chart__legend-income {
+	fill: #12946f;
+	fill-opacity: 0.28;
+	background: rgb(var(--success));
+}
+
+.cash-flow-chart__area--expenses,
+.cash-flow-chart__legend-expenses {
+	fill: #c43f3f;
+	fill-opacity: 0.25;
+	background: rgb(var(--danger));
+}
+
+.cash-flow-chart__line--net,
+.cash-flow-chart__legend-net {
+	stroke: rgb(var(--accent));
+	background: rgb(var(--accent));
+}
+
+.cash-flow-chart__line--net {
+	filter: drop-shadow(0 5px 10px rgb(var(--shadow) / 0.12));
+}
+
+.cash-flow-chart__legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.85rem;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 800;
+}
+
+.cash-flow-chart__legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.cash-flow-chart__legend i {
+	width: 0.75rem;
+	height: 0.75rem;
+	border-radius: 999px;
+}
+
+.cash-flow-chart__tooltip {
+	min-width: 12rem;
+}
+
+.cash-flow-chart__tooltip strong {
+	display: block;
+}
+
+.sankey-chart svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 21rem;
+}
+
+.sankey-links path {
+	fill: none;
+	opacity: 0.34;
+	stroke-linecap: butt;
+}
+
+.sankey-node rect {
+	filter: drop-shadow(0 8px 16px rgb(var(--shadow) / 0.08));
+}
+
+.sankey-node--pool rect {
+	fill: rgb(var(--ink));
+}
+
+.sankey-label,
+.sankey-value {
+	fill: rgb(var(--ink));
+	font-family: Manrope, sans-serif;
+}
+
+.sankey-label {
+	font-size: 0.82rem;
+	font-weight: 850;
+}
+
+.sankey-value {
+	fill: rgb(var(--mist));
+	font-size: 0.72rem;
+	font-weight: 750;
+}
+
+.sankey-label--pool {
+	fill: rgb(var(--mist));
+}
+
+.sankey-label--source {
+	text-anchor: start;
+}
+
+.chart-empty,
+.empty-state {
+	padding: 2rem 1rem;
+	border: 1px dashed rgb(var(--outline) / 1);
+	border-radius: 0.65rem;
+	background: rgb(var(--surface-lowest));
+	color: rgb(var(--mist));
+	text-align: center;
+}
+
+.empty-state h3 {
+	margin: 0 0 0.35rem;
+	color: rgb(var(--ink));
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+.empty-state p {
+	margin: 0;
+	font-size: 0.88rem;
+}
+
+.legend {
+	display: grid;
+	gap: 1px;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+	list-style: none;
+}
+
+.legend li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.7rem 0.85rem;
+	background: rgb(var(--surface));
+}
+
+.legend li span {
+	color: rgb(var(--mist));
+	font-size: 0.82rem;
+}
+
+.legend li strong {
+	color: rgb(var(--ink));
+	font-size: 0.86rem;
+	text-align: right;
+}
+
+.forecast-table {
+	display: grid;
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--outline));
+}
+
+.forecast-row {
+	display: grid;
+	grid-template-columns: minmax(5.5rem, 0.7fr) minmax(6rem, 0.8fr) minmax(
+			6rem,
+			0.8fr
+		) minmax(10rem, 1.2fr) 5.5rem;
+	gap: 0.85rem;
+	align-items: center;
+	min-width: 0;
+	padding: 0.75rem 0.85rem;
+	background: rgb(var(--surface));
+}
+
+.forecast-row-shell {
+	display: grid;
+	gap: 1px;
+	background: rgb(var(--outline));
+}
+
+.forecast-row--button {
+	width: 100%;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.forecast-row--button:hover,
+.forecast-row--button:focus-visible {
+	background: rgb(var(--surface-low));
+}
+
+.forecast-row--head {
+	background: rgb(var(--surface-low));
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 750;
+	text-transform: uppercase;
+}
+
+.forecast-row--risk {
+	background: rgb(var(--danger) / 0.06);
+}
+
+.forecast-row strong,
+.forecast-row span {
+	overflow-wrap: anywhere;
+}
+
+.forecast-row strong {
+	color: rgb(var(--ink));
+}
+
+.forecast-row span {
+	color: rgb(var(--mist));
+	font-size: 0.86rem;
+}
+
+.forecast-balance {
+	display: grid;
+	gap: 0.35rem;
+}
+
+.forecast-balance > div {
+	height: 0.45rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgb(var(--surface-low));
+}
+
+.forecast-balance > div span {
+	display: block;
+	height: 100%;
+	border-radius: 999px;
+	background: rgb(var(--accent));
+}
+
+.forecast-status {
+	justify-self: end;
+	padding: 0.25rem 0.5rem;
+	border-radius: 999px;
+	background: rgb(var(--success) / 0.1);
+	color: rgb(var(--success)) !important;
+	font-weight: 750;
+}
+
+.forecast-status--risk {
+	background: rgb(var(--danger) / 0.1);
+	color: rgb(var(--danger)) !important;
+}
+
+.forecast-detail {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1px;
+	background: rgb(var(--outline));
+}
+
+.forecast-detail div,
+.forecast-summary-row div {
+	display: grid;
+	gap: 0.25rem;
+	min-width: 0;
+	padding: 0.75rem 0.85rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.forecast-detail span,
+.forecast-summary-row span {
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 750;
+	text-transform: uppercase;
+}
+
+.forecast-detail strong,
+.forecast-summary-row strong {
+	color: rgb(var(--ink));
+	font-size: 0.9rem;
+	overflow-wrap: anywhere;
+}
+
+.forecast-summary-row {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1px;
+	background: rgb(var(--outline));
+}
+
+.drive-picker {
+	display: grid;
+	grid-template-rows: auto auto minmax(0, 1fr);
+	gap: 1rem;
+	width: min(46rem, calc(100vw - 2rem));
+	max-height: min(42rem, calc(100vh - 2rem));
+	overflow: hidden;
+	padding: 1rem;
+}
+
+.drive-picker__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.drive-picker__header span {
+	display: block;
+	color: rgb(var(--mist));
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.drive-picker__header h2 {
+	margin: 0.1rem 0 0;
+	color: rgb(var(--ink));
+	font-size: 1.35rem;
+	font-weight: 800;
+	line-height: 1.15;
+}
+
+/* Rows: header / scrollable detail-table / pinned "Total cost" footer. Every
+   other child (delete prompts, stats, chart) lives inside .detail-table so
+   there's only ever one scrollable region — extra top-level siblings there
+   would each grab their own implicit grid row instead of sharing the 1fr
+   scroll track, breaking scrolling entirely. */
+.asset-detail-modal {
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	width: min(92rem, calc(100vw - 2rem));
+	max-height: min(50rem, calc(100vh - 2rem));
+}
+
+.asset-detail-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.5rem;
+}
+
+/* Edit rides as a bare icon button beside the bare x, matching the detail
+   modals' header chrome elsewhere. */
+.asset-detail-modal__edit {
+	display: inline-grid;
+	place-items: center;
+	font-size: 1rem;
+}
+
+/* Pointer presses inside property details must not paint a focus ring —
+   keyboard focus (:focus-visible) keeps its outline. */
+.property-room-item--button:focus:not(:focus-visible),
+.value-pill__icon:focus:not(:focus-visible),
+.property-card:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.loan-detail-modal {
+	grid-template-rows: auto auto minmax(0, 1fr);
+	width: min(82rem, calc(100vw - 2rem));
+	max-height: min(50rem, calc(100vh - 2rem));
+}
+
+/* Table view spans down to the bottom of the viewport and only the table
+   shell scrolls — the pattern the other month-table detail modals use. */
+.loan-detail-modal--table {
+	height: calc(100dvh - 2rem);
+	max-height: none;
+}
+
+.loan-detail-tabs {
+	width: min(24rem, 100%);
+}
+
+.asset-detail-modal .detail-table {
+	overflow: auto;
+}
+
+.property-detail-footer {
+	position: sticky;
+	bottom: 0;
+}
+
+/* When the delete prompt is showing it sits as a pinned row between the header
+   and the (scrollable) detail table. */
+.asset-detail-modal.has-delete-prompt {
+	grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.property-delete-panel {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	padding: 0.75rem 0.9rem;
+	border-radius: 0.7rem;
+	border: 1px solid rgb(var(--danger) / 0.45);
+	background: rgb(var(--danger) / 0.08);
+}
+
+.property-delete-panel__icon {
+	flex: 0 0 auto;
+	color: rgb(var(--danger));
+}
+
+.property-delete-panel__text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.property-delete-panel__text strong {
+	display: block;
+	color: rgb(var(--ink));
+	font-size: 0.9rem;
+	font-weight: 800;
+}
+
+.property-delete-panel__text p {
+	margin: 0.2rem 0 0;
+	color: rgb(var(--mist));
+	font-size: 0.8rem;
+	line-height: 1.45;
+}
+
+.property-delete-panel__projects {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin-top: 0.5rem;
+}
+
+.property-delete-panel__project {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	border: 1px solid rgb(var(--accent) / 0.35);
+	border-radius: 999px;
+	padding: 0.2rem 0.6rem;
+	background: rgb(var(--accent) / 0.09);
+	color: rgb(var(--accent));
+	font-size: 0.74rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.property-delete-panel__actions {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+	.property-delete-panel {
+		flex-wrap: wrap;
+	}
+
+	.property-delete-panel__actions {
+		width: 100%;
+		justify-content: flex-end;
+	}
+}
+
+.loan-detail-modal .detail-table {
+	overflow: auto;
+}
+
+.drive-search {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.75rem;
+	align-items: center;
+	padding-bottom: 0.25rem;
+}
+
+.drive-search input {
+	width: 100%;
+	min-width: 0;
+	background: rgb(var(--surface-lowest));
+}
+
+.drive-results {
+	min-height: 0;
+	overflow: auto;
+	padding-right: 0.15rem;
+}
+
+.drive-results .list {
+	max-height: none;
+}
+
+.net-worth-modal {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: 1rem;
+	width: min(82rem, calc(100vw - 2rem));
+	max-height: min(44rem, calc(100vh - 2rem));
+	overflow: hidden;
+	padding: 1rem;
+}
+
+.net-worth-table-shell {
+	min-height: 0;
+	overflow: auto;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.65rem;
+	background: rgb(var(--surface));
+	/* The shell always scrolls vertically; a default scrollbar reads as a
+	   hard bar overlapping the framed table. Keep it slim with a
+	   transparent track and a muted thumb. */
+	scrollbar-width: thin;
+	scrollbar-color: rgb(var(--mist) / 0.45) transparent;
+}
+
+/* Every month table renders as the same padded, bordered, rounded box
+   inside its modal on every screen width: a table too wide for the shell
+   scrolls inside that box instead of breaking out edge to edge. */
+.net-worth-detail-modal,
+.cash-flow-detail-modal,
+.utilities-modal,
+.loan-detail-modal {
+	flex-shrink: 0;
+}
+
+.net-worth-modal__header {
+	align-items: flex-start;
+}
+
+/* The title block flexes so a leading slot (overflow menu) sits far left and
+   the close action stays far right in the same header row. */
+.drive-picker__header-leading {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.drive-picker__header-title {
+	min-width: 0;
+}
+
+.net-worth-modal__header .drive-picker__header-title {
+	flex: 1;
+}
+
+/* Overflow menu for the detail-table header: bare icon trigger, popover with
+   the heat toggle and the expand/collapse control. */
+.nw-options {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.nw-options__trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.15rem 0.25rem;
+	border: 0;
+	background: none;
+	color: rgb(var(--mist));
+	line-height: 1.2;
+	cursor: pointer;
+}
+
+.nw-options__trigger:hover,
+.nw-options__trigger[aria-expanded="true"] {
+	color: rgb(var(--ink));
+}
+
+.nw-options__menu {
+	position: absolute;
+	top: calc(100% + 0.45rem);
+	left: 0;
+	z-index: 20;
+	display: grid;
+	gap: 0.15rem;
+	min-width: 10.5rem;
+	padding: 0.35rem;
+	border: 1px solid rgb(var(--outline));
+	border-radius: 0.55rem;
+	background: rgb(var(--surface));
+	box-shadow: 0 12px 28px rgb(var(--shadow) / 0.18);
+}
+
+/* Menus seated at the right edge of the topbar open leftward so they stay
+   on screen. */
+.nw-options--end .nw-options__menu {
+	right: 0;
+	left: auto;
+}
+
+.nw-options__item {
+	border: 0;
+	border-radius: 0.4rem;
+	padding: 0.45rem 0.5rem;
+	background: none;
+	color: rgb(var(--ink));
+	text-align: left;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.nw-options__item:hover {
+	background: rgb(var(--surface-low));
+}
+
+/* The detail tables render bare numbers; the currency reads once, small and
+   light, after the modal title. Scoped to the header so it beats the
+   header's generic span rule (uppercase, 800 weight) in every detail modal,
+   the loan details modal included. */
+.drive-picker__header .net-worth-modal__currency {
+	display: inline;
+	margin-left: 0.35rem;
+	color: rgb(var(--mist));
+	font-size: 0.78em;
+	font-weight: 400;
+	text-transform: none;
+}
+
+/* Bare "x" close: a plain text label, no border or chrome. */
+.net-worth-modal__close {
+	padding: 0.1rem 0.2rem;
+	border: 0;
+	background: none;
+	color: rgb(var(--mist));
+	font-size: 1.1rem;
+	line-height: 1.2;
+	cursor: pointer;
+}
+
+.net-worth-modal__close:hover {
+	color: rgb(var(--ink));
+}
+
+.net-worth-table {
+	min-width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	color: rgb(var(--ink));
+	font-size: 0.78rem;
+}
+
+.net-worth-table th,
+.net-worth-table td {
+	border-right: 1px solid rgb(var(--outline) / 0.75);
+	border-bottom: 1px solid rgb(var(--outline) / 0.75);
+	padding: 0.3rem 0.42rem;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.net-worth-table th {
+	min-width: 4.5rem;
+}
+
+.net-worth-table td {
+	min-width: 5rem;
+}
+
+.net-worth-table th:nth-child(2),
+.net-worth-table td:nth-child(2) {
+	min-width: 6.75rem;
+}
+
+.net-worth-table th:nth-child(3),
+.net-worth-table td:nth-child(3) {
+	min-width: 4.5rem;
+}
+
+.net-worth-table th:first-child,
+.net-worth-table td:first-child {
+	position: sticky;
+	left: 0;
+	z-index: 2;
+	width: 2.35rem;
+	min-width: 2.35rem;
+	padding-right: 0.3rem;
+	padding-left: 0.3rem;
+	text-align: center;
+}
+
+/* The cash flow detail table renders bare numbers (currency lives in the
+   modal title), so its value columns drop the currency-era min-widths and
+   shrink to fit a phone screen — at 390px they summed 4px past the shell,
+   opening a pointless horizontal scroll whose sticky month column read as
+   white bars clipping the table sides. The month column keeps its width. */
+.net-worth-table.cash-flow-detail-table th:not(:first-child),
+.net-worth-table.cash-flow-detail-table td:not(:first-child) {
+	min-width: 0;
+}
+
+/* The Value column right-aligns its figure against a fixed-width growth
+   slot: numbers line up down the column while scrolling, and the space
+   before the percentage stays constant whatever the figures are. Rows with
+   no growth keep the empty slot so the numbers still line up. */
+.net-worth-table__value {
+	display: flex;
+	align-items: baseline;
+	justify-content: flex-end;
+	gap: 0.45rem;
+}
+
+.net-worth-table__growth {
+	flex: none;
+	min-width: 7ch;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.net-worth-table thead th {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	background: rgb(var(--surface-low));
+	color: rgb(var(--ink));
+	font-size: 0.72rem;
+	font-weight: 850;
+}
+
+.net-worth-table thead th:first-child {
+	left: 0;
+	top: 0;
+	z-index: 6;
+	background: rgb(var(--surface-low));
+}
+
+.net-worth-table thead tr th {
+	border-bottom: 3px solid rgb(var(--outline) / 1);
+}
+
+.net-worth-table tbody th {
+	background: rgb(var(--surface));
+	font-weight: 850;
+}
+
+/* Each calendar year opens with an in-flow divider row: a slightly darker
+   rule with the year label breaking the line at the left. MonthTableShell
+   pins the current year under the sticky header via the floating indicator
+   below — pure CSS sticky cannot push dividers off per year group because
+   sticky table cells and rows are constrained by the whole table box. */
+.net-worth-table tr.net-worth-table__year-row > th {
+	position: relative;
+	min-width: 0;
+	border-right: 0;
+	border-bottom: 0;
+	padding: 0;
+	background: rgb(var(--surface));
+	text-align: left;
+}
+
+.net-worth-table tr.net-worth-table__year-row > th::before {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	left: 0;
+	z-index: -1;
+	height: 1px;
+	background: rgb(var(--outline));
+	content: "";
+}
+
+.net-worth-table__year-label {
+	display: inline-block;
+	margin-left: 0.45rem;
+	padding: 0.2rem 0.55rem 0.2rem 0;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 850;
+	letter-spacing: 0.06em;
+	line-height: 1.5rem;
+}
+
+/* The floating current-year indicator sits exactly on the header's bottom
+   edge; MonthTableShell positions and shows/hides it while the shell
+   scrolls. Rows pass underneath it until the next year's divider arrives.
+   Its height shrink-wraps the label, so the pinned strip is exactly as tall
+   as the in-flow divider row whatever the ambient font metrics. */
+.net-worth-table-shell-wrap {
+	position: relative;
+	display: grid;
+	grid-template-rows: minmax(0, 1fr);
+}
+
+.net-worth-table__year-sticky {
+	position: absolute;
+	right: 0;
+	left: 0;
+	z-index: 4;
+	display: none;
+	height: auto;
+	background: rgb(var(--surface));
+	pointer-events: none;
+}
+
+.net-worth-table__year-sticky::before {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	left: 0;
+	height: 1px;
+	background: rgb(var(--outline));
+	content: "";
+}
+
+/* The pinned label paints over the indicator's rule, so the year breaks the
+   line exactly like the in-flow divider rows do. */
+.net-worth-table__year-sticky .net-worth-table__year-label {
+	position: relative;
+}
+
+.net-worth-table tbody tr:hover th,
+.net-worth-table tbody tr:hover td {
+	background: rgb(var(--surface-lowest));
+}
+
+.net-worth-table__summary-row {
+	cursor: pointer;
+}
+
+.net-worth-table__summary-row:focus-visible th,
+.net-worth-table__summary-row:focus-visible td {
+	outline: 2px solid rgb(var(--accent) / 0.55);
+	outline-offset: -2px;
+}
+
+.net-worth-table tbody tr:hover .net-worth-change-cell.is-positive {
+	background: rgb(var(--success) / var(--change-alpha, 0.16));
+}
+
+.net-worth-table tbody tr:hover .net-worth-change-cell.is-negative {
+	background: rgb(var(--danger) / var(--change-alpha, 0.16));
+}
+
+/* Expanded rows render one breakdown cell per group column: each list sits
+   under its own group header, and auto table layout widens the column to
+   fit the list it now carries. */
+.net-worth-table__detail-row td {
+	vertical-align: top;
+	background: rgb(var(--surface-low));
+}
+
+.net-worth-component-list {
+	display: grid;
+	gap: 0.35rem;
+	min-width: 0;
+}
+
+.net-worth-value-stack {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	align-items: baseline;
+}
+
+.net-worth-value-stack strong {
+	color: inherit;
+	font-weight: 850;
+}
+
+.net-worth-value-stack span {
+	font-size: 0.72rem;
+	font-weight: 850;
+}
+
+.net-worth-row-label {
+	display: inline-block;
+	font-weight: 850;
+}
+
+.net-worth-component-list div {
+	display: grid;
+	grid-template-columns: minmax(max-content, 1fr) auto;
+	gap: 0.75rem;
+	align-items: baseline;
+	border-radius: 0.35rem;
+	margin-inline: -0.25rem;
+	padding: 0.1rem 0.25rem;
+}
+
+.net-worth-component-list span {
+	color: rgb(var(--mist));
+	text-align: left;
+}
+
+.net-worth-component-list strong {
+	color: rgb(var(--ink));
+	font-weight: 850;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.net-worth-component-list .net-worth-change-cell.is-positive span,
+.net-worth-component-list .net-worth-change-cell.is-positive strong {
+	color: rgb(var(--success));
+}
+
+.net-worth-component-list .net-worth-change-cell.is-negative span,
+.net-worth-component-list .net-worth-change-cell.is-negative strong {
+	color: rgb(var(--danger));
+}
+
+.net-worth-empty {
+	color: rgb(var(--mist));
+}
+
+.net-worth-table .is-positive {
+	color: rgb(var(--success));
+	font-weight: 850;
+}
+
+.net-worth-table .is-negative {
+	color: rgb(var(--danger));
+	font-weight: 850;
+}
+
+.net-worth-change-cell.is-positive {
+	background: rgb(var(--success) / var(--change-alpha, 0.16));
+	color: rgb(var(--success));
+	font-weight: 850;
+}
+
+.net-worth-change-cell.is-negative {
+	background: rgb(var(--danger) / var(--change-alpha, 0.16));
+	color: rgb(var(--danger));
+	font-weight: 850;
+}
+
+.raw-data-view {
+	display: grid;
+	gap: 0.85rem;
+	min-width: 0;
+}
+
+.raw-tabs {
+	display: flex;
+	gap: 0.45rem;
+	min-width: 0;
+	overflow-x: auto;
+	padding-bottom: 0.2rem;
+}
+
+.raw-tabs button {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 2.35rem;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.5rem;
+	padding: 0.45rem 0.65rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.raw-tabs button.active {
+	border-color: rgb(var(--accent) / 0.7);
+	background: rgb(var(--accent) / 0.09);
+	color: rgb(var(--ink));
+}
+
+.raw-tabs strong {
+	color: rgb(var(--accent));
+	font-size: 0.75rem;
+}
+
+.raw-table-shell {
+	width: 100%;
+	max-height: min(34rem, 65vh);
+	overflow: auto;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.55rem;
+	background: rgb(var(--surface));
+}
+
+.raw-table {
+	width: max-content;
+	min-width: 100%;
+	border-collapse: collapse;
+	font-size: 0.78rem;
+}
+
+.raw-table th,
+.raw-table td {
+	max-width: 22rem;
+	border-bottom: 1px solid rgb(var(--outline) / 0.9);
+	padding: 0.55rem 0.65rem;
+	text-align: left;
+	vertical-align: top;
+}
+
+.raw-table th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: rgb(var(--surface-lowest));
+	color: rgb(var(--mist));
+	font-size: 0.7rem;
+	font-weight: 850;
+	text-transform: uppercase;
+}
+
+.raw-table td {
+	color: rgb(var(--ink));
+	white-space: nowrap;
+}
+
+.raw-table td.raw-table__payload {
+	min-width: 20rem;
+	max-width: 34rem;
+	white-space: normal;
+	line-height: 1.45;
+}
+
+.form-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.form-stack input,
+.form-grid input,
+.form-grid select,
+.form-grid textarea,
+.inline-field select {
+	width: 100%;
+}
+
+input,
+select,
+textarea {
+	min-height: 2.75rem;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.55rem;
+	padding: 0.7rem 0.85rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	font: inherit;
+	transition:
+		border-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+input::placeholder {
+	color: rgb(var(--mist) / 0.7);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+	outline: none;
+	border-color: rgb(var(--accent));
+	box-shadow: 0 0 0 3px rgb(var(--accent) / 0.16);
+}
+
+textarea {
+	min-height: 5.5rem;
+	resize: vertical;
+}
+
+.inline-field,
+.checkbox {
+	display: grid;
+	gap: 0.35rem;
+}
+
+.inline-field span,
+.checkbox span {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.checkbox {
+	grid-column: 1 / -1;
+	align-items: start;
+}
+
+.checkbox input {
+	width: 1.15rem;
+	min-height: 1.15rem;
+	padding: 0;
+}
+
+.button,
+.auth-primary,
+.auth-secondary,
+.auth-actions button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 2.75rem;
+	min-width: 0;
+	border: 0;
+	border-radius: 0.55rem;
+	padding: 0.7rem 1rem;
+	background: rgb(var(--accent));
+	color: white;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 750;
+	transition:
+		background-color 160ms ease,
+		transform 160ms ease;
+}
+
+.button:hover,
+.auth-primary:hover,
+.auth-actions button:hover {
+	background: rgb(var(--accent-strong));
+	transform: translateY(-1px);
+}
+
+.button--ghost,
+.auth-secondary {
+	border: 1px solid rgb(var(--outline) / 1);
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+}
+
+.button--ghost:hover,
+.auth-secondary:hover {
+	background: rgb(var(--surface-low));
+	color: rgb(var(--ink));
+	transform: none;
+}
+
+/* Size only: compact keeps the semantic variant (primary default, ghost,
+   danger) and shrinks the box. */
+.button--compact {
+	min-height: 2.25rem;
+	padding: 0.45rem 0.75rem;
+	font-size: 0.82rem;
+}
+
+.button--danger {
+	background: rgb(var(--danger));
+}
+
+.button--danger:hover {
+	background: rgb(var(--danger));
+}
+
+.chart__forecast-band {
+	fill: #1e6fd6;
+	fill-opacity: 0.16;
+	stroke: none;
+}
+
+.chart__line--forecast {
+	stroke: #1e6fd6;
+	stroke-dasharray: 7 6;
+	opacity: 0.9;
+}
+
+.chart-tooltip small {
+	display: block;
+	margin-top: 0.2rem;
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+	white-space: nowrap;
+}
+
+.quick-add-fab {
+	position: fixed;
+	right: 1.5rem;
+	bottom: var(--quick-add-fab-bottom);
+	z-index: 45;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border: 0;
+	border-radius: 999px;
+	background: rgb(var(--accent));
+	color: white;
+	box-shadow: 0 16px 32px rgb(var(--accent) / 0.28);
+	cursor: pointer;
+	transition:
+		background-color 160ms ease,
+		transform 160ms ease;
+}
+
+.quick-add-fab:hover {
+	background: rgb(var(--accent-strong));
+	transform: translateY(-1px);
+}
+
+.quick-add-modal {
+	display: grid;
+	grid-template-rows: auto auto auto;
+	gap: 1rem;
+	width: min(44rem, calc(100vw - 2rem));
+	max-height: calc(100vh - 2rem);
+	overflow: auto;
+	padding: 1rem;
+}
+
+.quick-add-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.quick-add-tabs button {
+	min-height: 2.35rem;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 0.55rem;
+	padding: 0.45rem 0.8rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	cursor: pointer;
+	font-weight: 750;
+}
+
+.quick-add-tabs button.is-active {
+	border-color: rgb(var(--accent) / 0.35);
+	background: rgb(var(--accent) / 0.12);
+	color: rgb(var(--accent));
+}
+
+.quick-add-form {
+	min-height: 0;
+	padding-right: 0.1rem;
+}
+
+.quick-add-notes,
+.quick-add-actions {
+	grid-column: 1 / -1;
+}
+
+.quick-add-actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.6rem;
+	margin: 0.75rem -1rem -1rem;
+	padding: 0.7rem 1rem;
+}
+
+/* Keep the submit action visually anchored without inventing a second
+   shaded footer surface inside the dialog. */
+.quick-add-actions .button[type="submit"] {
+	min-height: 2.75rem;
+}
+
+/* Circle owner toggle beside the submit button: one person = Self, two
+   people = Joint; tapping flips between them. Matches the submit button's
+   height so the footer row stays even. */
+.quick-add-owner-toggle {
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 999px;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	cursor: pointer;
+}
+
+.quick-add-owner-toggle:hover {
+	background: rgb(var(--surface-low));
+}
+
+.quick-add-owner-toggle[aria-pressed="true"] {
+	border-color: rgb(var(--accent) / 0.55);
+	color: rgb(var(--accent));
+}
+
+.quick-add-actions > .button--ghost:first-child,
+.quick-add-actions > .button--danger-ghost:first-child {
+	margin-right: auto;
+}
+
+.quick-add-actions .button {
+	max-width: 100%;
+	min-width: 0;
+	white-space: normal;
+}
+
+.record-add-modal {
+	width: min(54rem, calc(100vw - 2rem));
+	gap: 0;
+	padding: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	background: rgb(var(--surface));
+	box-shadow: 0 26px 70px rgb(var(--shadow) / 0.16);
+}
+
+.record-add-header {
+	align-items: center;
+	padding: 1.1rem 1.15rem 1rem;
+}
+
+.record-add-title {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: 0.85rem;
+}
+
+.record-add-icon {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	color: rgb(var(--accent));
+}
+
+.record-add-close {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 2.35rem;
+	height: 2.35rem;
+	place-items: center;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 999px;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	cursor: pointer;
+	transition:
+		background-color 160ms ease,
+		border-color 160ms ease,
+		color 160ms ease;
+}
+
+.record-add-close:hover {
+	border-color: rgb(var(--accent) / 0.35);
+	background: rgb(var(--accent) / 0.08);
+	color: rgb(var(--accent));
+}
+
+.segmented-controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.utility-move-hint {
+	margin: 0;
+	color: rgb(var(--mist));
+	font-size: 0.82rem;
+}
+
+.segmented-controls button,
+.icon-button {
+	min-height: 2.25rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.55rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 800;
+}
+
+.segmented-controls button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.38rem;
+	padding: 0.4rem 0.72rem;
+	cursor: pointer;
+	text-transform: capitalize;
+}
+
+.segmented-controls button.is-active {
+	border-color: rgb(var(--accent) / 0.35);
+	background: rgb(var(--accent) / 0.12);
+	color: rgb(var(--accent));
+}
+
+.icon-button {
+	display: inline-grid;
+	width: 2.25rem;
+	place-items: center;
+	padding: 0;
+	cursor: pointer;
+}
+
+.icon-button:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+}
+
+/* Bare variant for header seats: just the glyph, no box — matches the plain
+   title-like controls around it in the topbar. */
+.icon-button--bare {
+	border: 0;
+	background: none;
+	color: rgb(var(--mist));
+}
+
+.icon-button--bare:hover,
+.icon-button--bare:focus-visible {
+	color: rgb(var(--ink));
+}
+
+.utility-edit-button {
+	width: 1.85rem;
+	min-height: 1.85rem;
+	border-radius: 0.45rem;
+}
+
+.utility-field-checklist {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.6rem;
+	max-height: 16rem;
+	overflow: auto;
+}
+
+.utility-entry-grid {
+	display: grid;
+	gap: 1px;
+	overflow: hidden;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.7rem;
+	background: rgb(var(--outline));
+}
+
+.utility-entry-row {
+	display: grid;
+	grid-template-columns: minmax(10rem, 1fr) minmax(7rem, 0.45fr) minmax(
+			7rem,
+			0.45fr
+		);
+	gap: 0.7rem;
+	align-items: center;
+	padding: 0.75rem;
+	background: rgb(var(--surface));
+}
+
+.utility-entry-row strong,
+.utility-entry-row span {
+	display: block;
+}
+
+.utility-entry-row span {
+	color: rgb(var(--mist));
+	font-size: 0.75rem;
+}
+
+.asset-holding-row {
+	display: grid;
+	grid-template-columns: minmax(12rem, 1fr) auto minmax(10rem, 0.35fr);
+}

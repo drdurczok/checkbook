@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE recurring_expenses SET is_active = false, updated_at = now()\n        WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3b4e26ac37ef6d2ead6ca603e7074e6ba8a8ef6e90808fdd4f392b955da75d57"
+}

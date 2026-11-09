@@ -1,0 +1,78 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, description, amount, charge_date AS \"entry_date?\", owner_scope, notes,\n                  'utility_bill'::text AS \"data_source!\", property_id AS category_id,\n                  NULL::uuid AS subcategory_id,\n                  jsonb_build_object('linked_property_id', property_id, 'read_only', true)\n                      AS \"extra_payload!: Value\"\n           FROM utility_bills\n           WHERE household_id = $1 AND property_id = $2 AND owner_scope = ANY($3)\n           ORDER BY charge_date DESC, id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "entry_date?",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "data_source!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "category_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 8,
+        "name": "subcategory_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 9,
+        "name": "extra_payload!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      true,
+      null,
+      null
+    ]
+  },
+  "hash": "ca92090a6ac052c3dc88adcba049655163e8b95bb5a8c6de01daf71729ec01c6"
+}

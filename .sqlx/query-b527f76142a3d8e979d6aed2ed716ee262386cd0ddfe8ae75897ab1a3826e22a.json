@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT backup_path, backup_retention\n         FROM household_settings\n         WHERE household_id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "backup_path",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "backup_retention",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "b527f76142a3d8e979d6aed2ed716ee262386cd0ddfe8ae75897ab1a3826e22a"
+}

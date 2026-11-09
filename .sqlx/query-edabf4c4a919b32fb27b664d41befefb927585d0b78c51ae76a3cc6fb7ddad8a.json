@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM ledger_entries\n         WHERE household_id = $1 AND id = $2\n           AND direction = 'expense' AND status = 'actual'",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "edabf4c4a919b32fb27b664d41befefb927585d0b78c51ae76a3cc6fb7ddad8a"
+}

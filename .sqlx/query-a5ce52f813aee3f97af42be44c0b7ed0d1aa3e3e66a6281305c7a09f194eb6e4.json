@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT o.calculated_amount AS amount FROM planning_occurrences o JOIN planning_rules r ON r.household_id = o.household_id AND r.id = o.planning_rule_id WHERE o.household_id = $1 AND r.stable_key = $2 AND o.period = $3",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "amount",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "a5ce52f813aee3f97af42be44c0b7ed0d1aa3e3e66a6281305c7a09f194eb6e4"
+}

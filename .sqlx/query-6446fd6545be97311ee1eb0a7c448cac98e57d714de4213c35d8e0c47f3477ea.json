@@ -1,0 +1,100 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT r.id, r.description, r.amount, r.start_date, r.end_date,\n                r.cadence, r.owner_scope, r.category_id,\n                COALESCE(c.name, '') AS \"category_name!\", r.notes, r.is_active,\n                r.price_history, r.next_index, r.revision\n         FROM recurring_expenses r\n         LEFT JOIN categories c ON c.household_id = r.household_id AND c.id = r.category_id\n         WHERE r.household_id = $1 ORDER BY r.created_at, r.id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "start_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "end_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "cadence",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "category_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 8,
+        "name": "category_name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "is_active",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 11,
+        "name": "price_history",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 12,
+        "name": "next_index",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 13,
+        "name": "revision",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      null,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "6446fd6545be97311ee1eb0a7c448cac98e57d714de4213c35d8e0c47f3477ea"
+}

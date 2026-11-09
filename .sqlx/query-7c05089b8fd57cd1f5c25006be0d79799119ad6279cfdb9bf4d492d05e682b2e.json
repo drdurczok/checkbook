@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT (CURRENT_TIMESTAMP AT TIME ZONE timezone)::date AS \"today!\" FROM households WHERE id=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "today!",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "7c05089b8fd57cd1f5c25006be0d79799119ad6279cfdb9bf4d492d05e682b2e"
+}

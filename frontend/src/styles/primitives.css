@@ -1,0 +1,476 @@
+/* Shared header close controls use the same bare icon treatment. */
+.modal-shell .record-add-close {
+	border: 0;
+	background: transparent;
+}
+
+/* Detail scroll tracks should not paint a grey gutter beside the content. */
+.modal-shell,
+.modal-shell :is(.quick-add-form, .detail-table, .property-create-body, .utility-values-form__body, .income-source-body) {
+	scrollbar-width: thin;
+	scrollbar-color: rgb(var(--outline) / 0.4) transparent;
+}
+
+.modal-shell::-webkit-scrollbar-track,
+.modal-shell ::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.detail-actions-menu .nw-options__menu {
+	max-width: calc(100vw - 2rem);
+}
+
+/* Icon-led record fields — the shared field primitive used by every
+   record-entry modal (quick add, planning, expenses, income, assets,
+   utilities). The control box owns the border, padding, and focus ring; the
+   bare input/select/textarea sits inside it. Selectors carry
+   `.record-add-field` so they outrank the older `.inline-field span` label
+   styling, and they are deliberately not scoped to any one modal. Utility
+   entry rows reuse the control box without the label wrapper, so they are
+   listed alongside `.record-add-field` in the control selectors.
+   `align-items: center` matters: with the label grid's default stretch the
+   control row is sized from an inflated hypothetical input box, so the field
+   renders ~10px taller than its contents. */
+.record-add-field {
+  display: grid;
+  gap: 0.42rem;
+  align-items: center;
+}
+
+:is(.record-add-field, .utility-entry-row) .record-add-field-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  border: 1px solid rgb(var(--outline) / 0.95);
+  border-radius: 0.55rem;
+  padding: 0 0.8rem;
+  background: rgb(var(--surface-lowest));
+  color: rgb(var(--ink));
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+:is(.record-add-field, .utility-entry-row) .record-add-field-control:focus-within {
+  border-color: rgb(var(--accent));
+  background: rgb(var(--surface));
+  box-shadow: 0 0 0 3px rgb(var(--accent) / 0.16);
+}
+
+.record-add-field-icon {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  color: rgb(var(--mist));
+}
+
+:is(.record-add-field, .utility-entry-row) .record-add-field-control input,
+:is(.record-add-field, .utility-entry-row) .record-add-field-control select,
+:is(.record-add-field, .utility-entry-row) .record-add-field-control textarea {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.55rem;
+  border: 0;
+  padding: 0.6rem 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:is(.record-add-field, .utility-entry-row) .record-add-field-control textarea {
+  min-height: 6rem;
+  resize: none;
+}
+
+:is(.record-add-field, .utility-entry-row) .record-add-field-currency {
+  flex: 0 0 auto;
+  color: rgb(var(--mist));
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+:is(.record-add-field, .utility-entry-row) .record-add-field-currency.is-empty {
+  opacity: 0.55;
+}
+
+/* Category and Subcategory share one row at every width. */
+.record-add-pair {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* Start/end date pairs share one row at every width — desktop and mobile —
+   inside any form grid. Spanning the full row keeps the pair from sharing a
+   row with an unrelated field when the surrounding grid reflows. */
+.field-pair {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* Notes are opt-in: a compact toggle reveals the notes field on demand. */
+.record-add-notes-toggle-row {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.record-add-notes-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.3rem;
+  border: 1px dashed rgb(var(--outline));
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.85rem;
+  background: transparent;
+  color: rgb(var(--mist));
+  font-size: 0.82rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
+}
+
+.record-add-notes-toggle:hover,
+.record-add-notes-toggle:focus-visible {
+  border-color: rgb(var(--accent));
+  background: rgb(var(--accent) / 0.08);
+  color: rgb(var(--accent));
+}
+
+.record-add-notes-toggle[aria-expanded="true"] {
+  border-style: solid;
+  border-color: rgb(var(--accent) / 0.45);
+  color: rgb(var(--accent));
+}
+
+@media (max-width: 767px) {
+  /* On phones the field titles live inside the boxes as placeholder help
+     text; the visible label collapses to a screen-reader-only stub so the
+     inputs keep their accessible names. Dates keep their labels: the
+     calendar icon alone cannot say which date is which. */
+  .record-add-field .record-add-field-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .record-add-field.record-add-field--dated .record-add-field-label {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  :is(.record-add-field, .utility-entry-row) .record-add-field-control {
+    gap: 0.45rem;
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
+  }
+
+  :is(.record-add-field, .utility-entry-row) .record-add-field-control input,
+  :is(.record-add-field, .utility-entry-row) .record-add-field-control select {
+    min-height: 2.75rem;
+  }
+}
+
+.async-state {
+  display: grid;
+  min-height: 10rem;
+  place-items: center;
+  padding: 2rem;
+  color: rgb(var(--mist));
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.async-state--error {
+  color: rgb(var(--danger));
+}
+
+/* Press-and-hold confirmation button (HoldConfirmButton): the icon sits
+   bare until the press starts — no outline in either state — and exactly
+   one circle (the filling ring) appears while the pointer is held. The
+   action fires only once the ring completes. */
+.hold-confirm-button {
+	position: relative;
+	display: inline-grid;
+	flex: 0 0 2.35rem;
+	width: 2.35rem;
+	height: 2.35rem;
+	place-items: center;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+	color: rgb(var(--danger));
+	cursor: pointer;
+	-webkit-user-select: none;
+	user-select: none;
+	touch-action: none;
+	transition: background-color 160ms ease;
+}
+
+.hold-confirm-button:hover {
+	background: rgb(var(--danger) / 0.1);
+}
+
+.hold-confirm-button:focus-visible {
+	outline: 2px solid rgb(var(--accent) / 0.65);
+	outline-offset: 2px;
+}
+
+.hold-confirm-button.is-holding {
+	background: rgb(var(--danger) / 0.14);
+}
+
+.hold-confirm-button__ring {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	transform: rotate(-90deg);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 120ms ease;
+}
+
+.hold-confirm-button.is-holding .hold-confirm-button__ring {
+	opacity: 1;
+}
+
+.hold-confirm-button__track {
+	fill: none;
+	stroke: rgb(var(--danger) / 0.16);
+	stroke-width: 2.5;
+}
+
+.hold-confirm-button__progress {
+	fill: none;
+	stroke: rgb(var(--danger));
+	stroke-width: 2.5;
+	stroke-linecap: round;
+}
+
+/* ==== Form sheet ============================================================
+   The shared chrome for every add/edit window (components/ui/FormSheet).
+   Phones: a sheet only as tall as its content rises from the bottom of the
+   screen over the undimmed page behind. Desktop keeps the centered floating
+   card over the same transparent backdrop.
+
+   Selectors carry the .modal-backdrop scope so they win over the per-window
+   mobile rules in the feature stylesheets, which load after this file. */
+
+.modal-backdrop.modal-backdrop--sheet {
+	background: transparent;
+	/* Keep the standard declaration last: production CSS optimization can
+	   otherwise retain only the prefix, leaving Chrome's base blur active. */
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+}
+
+@media (max-width: 767px) {
+	.modal-backdrop.modal-backdrop--sheet {
+		align-items: flex-end;
+	}
+
+	.modal-backdrop > .modal-shell.modal-sheet {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		height: auto;
+		max-height: calc(100dvh - 2.75rem);
+		padding: 0;
+		border: 0;
+		border-radius: 0.9rem 0.9rem 0 0;
+		box-shadow: 0 -8px 30px rgb(var(--shadow) / 0.18);
+		animation: modal-sheet-in 180ms ease-out;
+	}
+
+	/* Header, body, and footer each own their padding so nothing sits flush
+	   against the screen edge. The body is whatever follows the header (a
+	   form, or a wrapper around one) and is the only scroller. */
+	.modal-backdrop > .modal-shell.modal-sheet .drive-picker__header {
+		padding: 0.9rem 1rem 0.4rem;
+	}
+
+	.modal-backdrop > .modal-shell.modal-sheet > :nth-child(2) {
+		min-height: 0;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		:is(.record-add-form, .quick-add-form, .income-create-form, .utility-values-form, .project-modal-form) {
+		/* min-height 0: the sheet is sized by its content, not by the
+		   full-screen layouts' viewport-crutch minimums. */
+		min-height: 0;
+		padding: 0.75rem 1rem 0;
+	}
+
+	/* Nested bodies bring their own side padding for the full-screen layouts;
+	   the sheet body already provides it. They also stop flex-shrinking: at
+	   natural content height the sticky footer's resting place is the true
+	   end of the content, so it stays pinned while long forms scroll. */
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		:is(.form-grid, .property-create-body, .utility-values-form__body) {
+		padding: 0;
+		overflow: visible;
+		flex: 0 0 auto;
+	}
+
+	/* No boxed field groups inside the sheet: the utility entry rows and the
+	   tracked-fields checklist flow flat like every other add window's
+	   fields, instead of a bordered container with hairline separators. */
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		:is(.utility-entry-grid, .utility-field-checklist) {
+		gap: 0.75rem;
+		margin: 0.75rem 0 0;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		max-height: none;
+		overflow: visible;
+	}
+
+	/* Compact centered footer hugging the sheet bottom, whatever the
+	   per-window full-bleed margins and borders say. Sticky so long forms
+	   scroll under it while the save action stays reachable. */
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		:is(.quick-add-actions, .utility-values-form__footer) {
+		position: sticky;
+		bottom: 0;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: center;
+		gap: 0.5rem;
+		margin: 0.75rem 0 0;
+		padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+		border-top: 0;
+	}
+
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		:is(.quick-add-actions, .utility-values-form__footer)
+		.button {
+		flex: 0 1 auto;
+		min-width: 5.5rem;
+		/* Compact, but never below a thumb-sized touch target. */
+		min-height: 2.25rem;
+		padding: 0.45rem 0.95rem;
+		font-size: 0.78rem;
+	}
+
+	.modal-backdrop
+		> .modal-shell.modal-sheet
+		:is(.quick-add-actions, .utility-values-form__footer)
+		.button--mobile-icon {
+		flex: 0 0 2.4rem;
+		width: 2.4rem;
+		min-width: 0;
+		padding: 0;
+	}
+}
+
+@keyframes modal-sheet-in {
+	from {
+		transform: translateY(100%);
+	}
+}
+
+/* Two-to-three option toggle shared by feature panels and modals (income
+   ledger list/table switch, utilities details money/meters switch). Feature
+   stylesheets may add context-scoped overrides but must not redefine these
+   base rules. */
+.segmented-control {
+	display: inline-flex;
+	gap: 0.2rem;
+	padding: 0.25rem;
+	border: 1px solid rgb(var(--outline) / 0.76);
+	border-radius: 0.68rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.segmented-control button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	border: 0;
+	border-radius: 0.5rem;
+	padding: 0.4rem 0.6rem;
+	background: transparent;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	font-weight: 850;
+	cursor: pointer;
+}
+
+.segmented-control button.is-active {
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	box-shadow: 0 1px 4px rgb(var(--shadow) / 0.08);
+}
+
+/* Shared month-table modal header (net worth, loans, utilities): overflow
+   menu far left, title with its currency in the middle, bare x close far
+   right — one row at every width. The title first steps down a size on
+   narrow containers and only then truncates, so long names never wrap. */
+.modal-shell .detail-table-header {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.55rem;
+	container-type: inline-size;
+}
+
+.modal-shell .detail-table-header .drive-picker__header-title {
+	min-width: 0;
+}
+
+.modal-shell .detail-table-header .nw-options__trigger {
+	padding-right: 0;
+}
+
+.modal-shell .detail-table-header h2 {
+	display: block;
+	overflow: hidden;
+	min-width: 0;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@container (max-width: 26rem) {
+	.modal-shell .detail-table-header h2 {
+		font-size: 1.15rem;
+	}
+}
+
+@container (max-width: 17rem) {
+	.modal-shell .detail-table-header h2 {
+		font-size: 1rem;
+	}
+}

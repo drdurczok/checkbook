@@ -1,0 +1,80 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "WITH activity AS (\n            SELECT e.id, e.direction AS item_type, e.description AS title,\n                   e.amount, e.entry_date, e.owner_scope, e.data_source AS source,\n                   category.name AS category, subcategory.name AS subcategory, e.notes\n            FROM ledger_entries e\n            LEFT JOIN categories category\n              ON category.household_id = e.household_id AND category.id = e.category_id\n            LEFT JOIN categories subcategory\n              ON subcategory.household_id = e.household_id AND subcategory.id = e.subcategory_id\n            WHERE e.household_id = $1 AND e.entry_date IS NOT NULL\n              AND e.owner_scope = ANY($2)\n              AND (e.status = 'actual' OR ($5 AND e.status = 'planned'))\n              AND ($3::date IS NULL OR e.entry_date >= $3)\n              AND ($4::date IS NULL OR e.entry_date <= $4)\n            UNION ALL\n            SELECT bill.id, 'utility', bill.provider, bill.amount, bill.charge_date,\n                   bill.owner_scope, bill.data_source,\n                   'Utilities', service.label, bill.notes\n            FROM utility_bills bill\n            LEFT JOIN utility_services service\n              ON service.household_id = bill.household_id AND service.id = bill.service_id\n            WHERE bill.household_id = $1 AND bill.owner_scope = ANY($2)\n              AND ($3::date IS NULL OR bill.charge_date >= $3)\n              AND ($4::date IS NULL OR bill.charge_date <= $4)\n         )\n         SELECT id AS \"id!\", item_type AS \"item_type!\", title AS \"title!\",\n                amount AS \"amount!: Decimal\", entry_date AS \"entry_date!\",\n                owner_scope AS \"owner_scope!\", source AS \"source!\",\n                category, subcategory, notes AS \"notes!\"\n         FROM activity ORDER BY entry_date DESC LIMIT 12",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "item_type!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "title!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "entry_date!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "owner_scope!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "source!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "category",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "subcategory",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "notes!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "c9080b0b7f4ba11e9f4bc4db29ddc277f75b3d61c556363de61c6eb52220d942"
+}

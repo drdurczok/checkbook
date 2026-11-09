@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_bills (household_id, property_id, service_id, provider,\n                 description, amount, charge_date, owner_scope, data_source, source_key)\n             VALUES ($1, $2, $3, 'Provider', 'Bill', $4, $5, $6, 'app_manual', $7)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        "Date",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "676a7b4d096f03137c8d4b37ed8bc64d82441b87a3253d40ad2397a468154047"
+}

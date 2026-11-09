@@ -1,0 +1,64 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, color, notes, sort_order, is_retired,\n                 app.expense_group_can_delete(household_id, id) AS \"can_delete!\",\n                 EXISTS(SELECT 1 FROM properties p\n                        WHERE p.household_id = expense_groups.household_id\n                          AND p.id = expense_groups.linked_property_id\n                          AND p.category IN ('property', 'vehicle')) AS \"is_source_linked!\"\n         FROM expense_groups\n         WHERE household_id = $1\n         ORDER BY sort_order, name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "color",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "sort_order",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "is_retired",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 6,
+        "name": "can_delete!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 7,
+        "name": "is_source_linked!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "b448fc5b2ed5e87ced2a3e495d20f4b31004aebfa41a3f7c746e7b75d2647c07"
+}

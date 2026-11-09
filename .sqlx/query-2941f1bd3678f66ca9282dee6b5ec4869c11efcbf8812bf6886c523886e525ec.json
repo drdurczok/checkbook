@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE payday_templates SET title=$3,section=$4,kind=$5,category_id=$6,subcategory_id=$7,category_name=$8,subcategory_name=$9,amount=$10,notes=$11,expense_group_id=$12,expense_group_name=$13,position=COALESCE($14,position) WHERE household_id=$1 AND id=$2 RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Numeric",
+        "Text",
+        "Uuid",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "2941f1bd3678f66ca9282dee6b5ec4869c11efcbf8812bf6886c523886e525ec"
+}

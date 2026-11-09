@@ -1,0 +1,71 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, label, amount, frequency, owner_scope, category,\n                started_on, ended_on, notes\n         FROM income_source_lines\n         WHERE household_id = $1 AND income_source_id = $2\n         ORDER BY sort_order, created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "frequency",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "category",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "notes",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "f66be5819a13c04c27955f53b0923a4c7238af754c1348eb325d3112f739e433"
+}

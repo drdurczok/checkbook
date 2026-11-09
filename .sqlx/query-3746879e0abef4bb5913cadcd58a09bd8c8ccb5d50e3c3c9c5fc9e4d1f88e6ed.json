@@ -1,0 +1,119 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, template_id, title, section, position, kind, expense_group_id, expense_group_name, category_id, subcategory_id, category_name, subcategory_name, amount, notes, source, completed_at, source_key FROM payday_allocations WHERE household_id=$1 AND month_id=$2 AND deleted_at IS NULL ORDER BY section,position,title,id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "template_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "section",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "position",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "kind",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "expense_group_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 7,
+        "name": "expense_group_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "category_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 9,
+        "name": "subcategory_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 10,
+        "name": "category_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "subcategory_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 13,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 14,
+        "name": "source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 15,
+        "name": "completed_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 16,
+        "name": "source_key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "3746879e0abef4bb5913cadcd58a09bd8c8ccb5d50e3c3c9c5fc9e4d1f88e6ed"
+}

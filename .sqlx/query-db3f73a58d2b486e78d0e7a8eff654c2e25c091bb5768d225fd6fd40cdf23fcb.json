@@ -1,0 +1,58 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, owner_scope, current_balance, monthly_payment,\n                start_date, end_date\n         FROM loans\n         WHERE household_id = $1 AND current_balance > 0 AND monthly_payment > 0\n         ORDER BY liability_type DESC, name",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "current_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "monthly_payment",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "start_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 6,
+        "name": "end_date",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "db3f73a58d2b486e78d0e7a8eff654c2e25c091bb5768d225fd6fd40cdf23fcb"
+}

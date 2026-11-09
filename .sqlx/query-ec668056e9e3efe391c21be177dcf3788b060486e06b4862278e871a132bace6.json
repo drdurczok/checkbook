@@ -1,0 +1,46 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT s.id AS \"session_id!\", s.user_id AS \"user_id!\",\n                s.household_id AS \"household_id!\", s.expires_at AS \"expires_at!\",\n                CASE ei.provider\n                    WHEN 'development' THEN 'dev'\n                    ELSE ei.provider\n                END || ':' || ei.subject AS \"external_subject!\"\n         FROM sessions s\n         JOIN LATERAL (\n             SELECT provider, subject\n             FROM external_identities\n             WHERE user_id = s.user_id\n             ORDER BY CASE provider\n                 WHEN 'cloudflare' THEN 0\n                 WHEN 'google' THEN 1\n                 WHEN 'local' THEN 2\n                 ELSE 3\n             END, created_at\n             LIMIT 1\n         ) ei ON true\n         WHERE s.token_hash = $1\n           AND s.revoked_at IS NULL\n           AND s.expires_at > now()",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "session_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "household_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "expires_at!",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "external_subject!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Bytea"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "ec668056e9e3efe391c21be177dcf3788b060486e06b4862278e871a132bace6"
+}

@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "WITH repriced AS (\n           SELECT b.id,c.tracking_mode,p.price,b.usage_amount\n           FROM utility_bills b JOIN utility_contracts c ON c.household_id=b.household_id AND c.id=b.utility_contract_id\n           JOIN LATERAL (SELECT price FROM utility_contract_prices\n             WHERE household_id=b.household_id AND utility_contract_id=c.id\n             AND effective_on<=date_trunc('month',b.charge_date)::date ORDER BY effective_on DESC LIMIT 1) p ON true\n           WHERE b.household_id=$1 AND c.id=$2 AND b.amount_source='auto'\n             AND ($3::date IS NULL OR b.charge_date >= $3) AND ($4::date IS NULL OR b.charge_date < $4)\n             AND c.tracking_mode<>'actual'\n         ) UPDATE utility_bills b SET amount=round(CASE WHEN r.tracking_mode='fixed' THEN r.price\n           ELSE r.price*r.usage_amount END,2),unit_rate=r.price,updated_at=now()\n           FROM repriced r WHERE b.household_id=$1 AND b.id=r.id AND (r.tracking_mode='fixed' OR r.usage_amount IS NOT NULL)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "0ed2b1dbb39b5fc60dd184ae29bad91ff9871bfe3f5ed741c6bc5743cecd53e9"
+}

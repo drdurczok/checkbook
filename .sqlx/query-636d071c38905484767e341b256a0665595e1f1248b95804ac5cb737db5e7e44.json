@@ -1,0 +1,82 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, service_key, label, service_kind, unit, entry_mode, unit_rate, color, retired, hidden,\n                EXISTS(SELECT 1 FROM utility_bills b WHERE b.household_id=utility_services.household_id AND b.service_id=utility_services.id) AS \"has_data!\"\n         FROM utility_services\n         WHERE household_id = $1\n         ORDER BY retired, sort_order, label, service_key",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "service_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "service_kind",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "unit",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "entry_mode",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "unit_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "color",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "retired",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 9,
+        "name": "hidden",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 10,
+        "name": "has_data!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "636d071c38905484767e341b256a0665595e1f1248b95804ac5cb737db5e7e44"
+}

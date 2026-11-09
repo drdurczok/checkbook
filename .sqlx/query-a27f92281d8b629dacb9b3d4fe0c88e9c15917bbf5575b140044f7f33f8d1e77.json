@@ -1,0 +1,40 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT account_id AS \"account_id!\", valuation, valuation_date, depreciation_rate\n         FROM properties\n         WHERE household_id = $1 AND account_id IS NOT NULL\n           AND depreciation_rate <> 0 AND depreciation_enabled",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "account_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "valuation",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "valuation_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 3,
+        "name": "depreciation_rate",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "a27f92281d8b629dacb9b3d4fe0c88e9c15917bbf5575b140044f7f33f8d1e77"
+}

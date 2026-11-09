@@ -1,0 +1,41 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_bills\n                (household_id, property_id, service_id, provider, description, amount, currency,\n                 charge_date, owner_scope, data_source, is_recurring, notes, source_key, utility_contract_id, amount_source)\n             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,'actual')\n             ON CONFLICT (household_id, source_key) DO UPDATE SET\n                utility_contract_id = EXCLUDED.utility_contract_id, amount_source = 'actual',\n                provider = EXCLUDED.provider, description = EXCLUDED.description,\n                amount = EXCLUDED.amount, currency = EXCLUDED.currency,\n                charge_date = EXCLUDED.charge_date, owner_scope = EXCLUDED.owner_scope,\n                is_recurring = EXCLUDED.is_recurring, notes = EXCLUDED.notes, updated_at = now()\n             RETURNING id, (xmax = 0) AS \"inserted!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "inserted!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Numeric",
+        "Text",
+        "Date",
+        "Text",
+        "Text",
+        "Bool",
+        "Text",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      null
+    ]
+  },
+  "hash": "d52115e32607bcb495a3d8cb66d7685a671bba8c240078d78ed8726886771c9b"
+}

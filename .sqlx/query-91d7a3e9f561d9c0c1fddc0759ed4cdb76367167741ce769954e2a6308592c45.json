@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT label, milestone_date\n         FROM income_source_milestones\n         WHERE household_id = $1 AND income_source_id = $2\n         ORDER BY sort_order, created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "milestone_date",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "91d7a3e9f561d9c0c1fddc0759ed4cdb76367167741ce769954e2a6308592c45"
+}

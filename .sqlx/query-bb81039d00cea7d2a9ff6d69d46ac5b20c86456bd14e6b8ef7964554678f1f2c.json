@@ -1,0 +1,59 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT source_key AS \"source_key!\", total_payment AS \"total_payment!\",\n                principal_amount AS \"principal_amount!\", interest_amount AS \"interest_amount!\",\n                extra_payment AS \"extra_payment!\", remaining_balance AS \"remaining_balance!\",\n                interest_balance AS \"interest_balance!\"\n         FROM loan_payments WHERE household_id = $1 AND loan_id = $2 AND NOT completed\n         ORDER BY payment_date, schedule_order, id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "source_key!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "total_payment!",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "principal_amount!",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "interest_amount!",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "extra_payment!",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "remaining_balance!",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "interest_balance!",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "bb81039d00cea7d2a9ff6d69d46ac5b20c86456bd14e6b8ef7964554678f1f2c"
+}

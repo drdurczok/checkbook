@@ -1,0 +1,86 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE entry_groups\n         SET kind = $3, name = $4, group_type = $5, started_on = $6,\n             ended_on = $7, notes = $8, metadata_payload = $9,\n             tracked_fields = $10, sort_order = $11, updated_at = now()\n         WHERE household_id = $1 AND id = $2\n         RETURNING id, kind, name, group_type, started_on, ended_on, notes,\n                   metadata_payload, tracked_fields, sort_order",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "kind",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "group_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 6,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "metadata_payload",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 8,
+        "name": "tracked_fields",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 9,
+        "name": "sort_order",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Date",
+        "Date",
+        "Text",
+        "Jsonb",
+        "Jsonb",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "61154ea99898e28e053ba61dfb98c324a4ed77faa195cfb7c30dd6f1ef0fc735"
+}

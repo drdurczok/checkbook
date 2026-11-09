@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM utility_subject_services WHERE household_id=$1 AND service_id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1bec6ddb59985b33c6e5ca9d96082cb138d021ee7f93e3fd5633a8fdddb41322"
+}

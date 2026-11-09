@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM categories\n         WHERE household_id = $1 AND id = $2\n           AND kind = 'expense' AND parent_id IS NULL",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "258eae3b668a4a32d4a1fc653f13afe8cde3264718e1b861fc7d7cec82fe3fa2"
+}

@@ -1,0 +1,131 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id AS \"id!\", name AS \"name!\", valuation AS \"total_cost!: Decimal\",\n                valuation_date AS \"valuation_date!\", status AS \"status!\",\n                started_on, ended_on, notes AS \"notes!\", 'asset' AS \"kind!\",\n                category AS \"category!\", account_type, account_registration,\n                depreciation_rate AS \"depreciation_rate!: Decimal\",\n                depreciation_enabled AS \"depreciation_enabled!\",\n                utilities_enabled AS \"utilities_enabled!\", projects_enabled AS \"projects_enabled!\",\n                expenses_enabled AS \"expenses_enabled!\",\n                account_id, NULL::uuid AS linked_asset_id\n         FROM properties WHERE household_id = $1 AND id = $2\n         UNION ALL\n         SELECT id AS \"id!\", name AS \"name!\", budget AS \"total_cost!: Decimal\",\n                valuation_date AS \"valuation_date!\", stored_status AS \"status!\",\n                started_on, ended_on, notes AS \"notes!\",\n                'project' AS \"kind!\", 'other' AS \"category!\",\n                NULL::text AS account_type, NULL::text AS account_registration,\n                0::numeric AS \"depreciation_rate!: Decimal\",\n                true AS \"depreciation_enabled!\",\n                true AS \"utilities_enabled!\", true AS \"projects_enabled!\", true AS \"expenses_enabled!\",\n                NULL::uuid AS account_id,\n                linked_property_id AS linked_asset_id\n         FROM projects WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "total_cost!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "valuation_date!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "status!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 6,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "notes!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "kind!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "category!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "account_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "account_registration",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "depreciation_rate!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 13,
+        "name": "depreciation_enabled!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 14,
+        "name": "utilities_enabled!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 15,
+        "name": "projects_enabled!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 16,
+        "name": "expenses_enabled!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 17,
+        "name": "account_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 18,
+        "name": "linked_asset_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "b6cb87fce43d41f291c7135fe8c9369ba9bdf40eff6912be20e03362d1fc4c52"
+}

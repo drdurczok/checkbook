@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT count(*) AS \"count!\"\n           FROM account_balance_snapshots snapshot\n           JOIN financial_accounts account\n             ON account.household_id = snapshot.household_id\n            AND account.id = snapshot.account_id\n           WHERE snapshot.household_id = $1 AND account.account_kind = 'liability'",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "count!",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "93a6549427fa49601fd4964830f19b8e90314b93960859b826b5b68b1c29cb64"
+}

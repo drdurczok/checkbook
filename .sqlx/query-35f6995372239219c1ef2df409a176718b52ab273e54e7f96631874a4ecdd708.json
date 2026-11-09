@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT jsonb_build_object(\n                'name', name,\n                'liability_type', liability_type,\n                'current_balance', current_balance::text,\n                'original_balance', original_balance::text,\n                'monthly_payment', monthly_payment::text,\n                'interest_rate', interest_rate::text,\n                'start_date', start_date,\n                'end_date', end_date,\n                'data_source', data_source,\n                'created_at', created_at,\n                'updated_at', updated_at) AS \"row!: Value\"\n           FROM loans\n           WHERE household_id = $1\n           ORDER BY created_at DESC\n           LIMIT $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "row!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "35f6995372239219c1ef2df409a176718b52ab273e54e7f96631874a4ecdd708"
+}

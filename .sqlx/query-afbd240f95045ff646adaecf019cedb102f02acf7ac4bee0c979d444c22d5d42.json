@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT sum(o.calculated_amount)::numeric AS amount FROM planning_occurrences o JOIN planning_rules r ON r.household_id = o.household_id AND r.id = o.planning_rule_id WHERE o.household_id = $1 AND o.period = $2 AND r.direction = 'expense'",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "amount",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "afbd240f95045ff646adaecf019cedb102f02acf7ac4bee0c979d444c22d5d42"
+}

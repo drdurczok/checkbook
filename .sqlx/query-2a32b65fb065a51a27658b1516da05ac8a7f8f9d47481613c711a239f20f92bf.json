@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO role_permissions\n            (household_id, module, role, can_read, can_write, can_delete)\n         VALUES\n            ($1, 'planning', 'owner', true, true, true),\n            ($1, 'planning', 'contributor', true, true, false),\n            ($1, 'settings', 'owner', true, true, true),\n            ($1, 'settings', 'contributor', true, false, false),\n            ($1, 'imports', 'owner', true, true, false),\n            ($1, 'imports', 'contributor', true, false, false),\n            ($1, 'records', 'owner', true, true, true),\n            ($1, 'records', 'contributor', true, true, false)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2a32b65fb065a51a27658b1516da05ac8a7f8f9d47481613c711a239f20f92bf"
+}

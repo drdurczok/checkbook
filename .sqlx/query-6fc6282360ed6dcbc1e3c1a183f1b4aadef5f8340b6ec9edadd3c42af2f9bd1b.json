@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT row_to_json(payment)::text AS \"snapshot!\" FROM loan_payments payment\n         WHERE household_id = $1 AND loan_id = $2 AND completed\n         ORDER BY payment_date, id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "snapshot!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "6fc6282360ed6dcbc1e3c1a183f1b4aadef5f8340b6ec9edadd3c42af2f9bd1b"
+}

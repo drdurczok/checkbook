@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_subject_services (household_id, property_id, service_id)\n         VALUES ($1, $2, $3)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "94eed8b00c7c92bf6ad90955e1508f88b5850b77f2a6052e9349e66e00e6405e"
+}

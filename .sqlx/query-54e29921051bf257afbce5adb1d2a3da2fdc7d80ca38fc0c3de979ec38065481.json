@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT EXISTS(\n                    SELECT 1 FROM household_memberships\n                    WHERE household_id = $1 AND is_active AND relationship_kind = $2\n                 ) AS \"occupied!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "occupied!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "54e29921051bf257afbce5adb1d2a3da2fdc7d80ca38fc0c3de979ec38065481"
+}

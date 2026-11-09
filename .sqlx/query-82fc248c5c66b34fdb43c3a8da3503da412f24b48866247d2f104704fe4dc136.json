@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT jsonb_build_object(\n                'provider', provider,\n                'description', description,\n                'amount', amount::text,\n                'charge_date', charge_date,\n                'is_recurring', is_recurring,\n                'data_source', data_source,\n                'created_at', created_at,\n                'updated_at', updated_at) AS \"row!: Value\"\n           FROM utility_bills\n           WHERE household_id = $1\n           ORDER BY created_at DESC\n           LIMIT $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "row!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "82fc248c5c66b34fdb43c3a8da3503da412f24b48866247d2f104704fe4dc136"
+}

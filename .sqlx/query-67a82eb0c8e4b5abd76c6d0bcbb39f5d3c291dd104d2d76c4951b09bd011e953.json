@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO financial_accounts\n            (household_id, name, account_kind, account_type, currency,\n             owner_scope, notes, source_key)\n         VALUES ($1, $2, 'asset', $3, $4, 'joint', '', $5)\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "67a82eb0c8e4b5abd76c6d0bcbb39f5d3c291dd104d2d76c4951b09bd011e953"
+}

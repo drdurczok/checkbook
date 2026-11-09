@@ -1,0 +1,64 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, amount, cadence, next_due_date, owner_scope,\n                category_id, is_active\n         FROM recurring_commitments\n         WHERE household_id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "cadence",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "next_due_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "category_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 7,
+        "name": "is_active",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "615d949b93eaa11ede82f2fe2f74f9f56756fdadd6fa29748f6e272e8c9a8435"
+}

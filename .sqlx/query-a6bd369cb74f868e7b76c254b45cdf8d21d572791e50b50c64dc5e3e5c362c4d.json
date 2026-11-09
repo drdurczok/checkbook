@@ -1,0 +1,46 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT amount, entry_date, status, data_source, source_key FROM ledger_entries\n        WHERE household_id = $1 AND data_source = 'app_recurring' ORDER BY entry_date, source_key",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 1,
+        "name": "entry_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 2,
+        "name": "status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "data_source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "source_key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "a6bd369cb74f868e7b76c254b45cdf8d21d572791e50b50c64dc5e3e5c362c4d"
+}

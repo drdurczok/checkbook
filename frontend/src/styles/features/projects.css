@@ -1,0 +1,1389 @@
+/* Projects: popup and asset views */
+.property-list-panel > .panel__header {
+	align-items: baseline;
+}
+
+.property-list-panel__total {
+	color: rgb(var(--ink));
+	font-size: 1.05rem;
+	font-weight: 750;
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.project-status-pill {
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	border-radius: 999px;
+	padding: 0.2rem 0.6rem;
+	font-size: 0.68rem;
+	font-weight: 850;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.project-modal-header-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.4rem;
+}
+
+.project-modal-header-actions .button {
+	min-width: 0;
+}
+
+.project-status-pill.is-planned {
+	background: rgba(91, 107, 128, 0.14);
+	color: rgb(var(--mist));
+}
+
+.project-status-pill.is-active {
+	background: rgba(217, 144, 28, 0.18);
+	color: #8a5b07;
+}
+
+.project-status-pill.is-completed {
+	background: rgb(var(--emerald) / 0.14);
+	color: rgb(var(--emerald));
+}
+
+.project-modal-hero {
+	display: grid;
+	gap: 0.6rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.85rem;
+	padding: 0.85rem 1rem;
+}
+
+/* Flat status tints (no gradient) so the hero reads as a plain colored band. */
+.project-modal-hero.is-planned {
+	border-color: #c3cede;
+	background: #f4f7fb;
+}
+
+.project-modal-hero.is-active {
+	border-color: #eccb8e;
+	background: #fdf6e8;
+}
+
+.project-modal-hero.is-completed {
+	border-color: #9ed9bd;
+	background: #ecfaf3;
+}
+
+.project-modal-hero__top {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.85rem;
+}
+
+.project-modal-hero__icon {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 2.6rem;
+	height: 2.6rem;
+	place-items: center;
+	border: 1px solid rgb(var(--outline) / 0.6);
+	border-radius: 0.7rem;
+	background: rgba(255, 255, 255, 0.72);
+	color: rgb(var(--ink));
+}
+
+.project-modal-hero__stats {
+	display: flex;
+	flex: 1 1 auto;
+	min-width: 0;
+	gap: 1.25rem;
+}
+
+.project-modal-hero__stats div {
+	display: grid;
+	gap: 0.1rem;
+}
+
+.project-modal-hero__stats span {
+	color: rgb(var(--mist));
+	font-size: 0.64rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.project-modal-hero__stats strong {
+	color: rgb(var(--ink));
+	font-size: 0.95rem;
+	font-weight: 850;
+	white-space: nowrap;
+}
+
+.project-modal-hero__bar {
+	height: 0.55rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.65);
+}
+
+.project-modal-hero__bar span {
+	display: block;
+	height: 100%;
+	border-radius: 999px;
+	background: rgb(var(--mist) / 0.55);
+	transition: width 220ms ease;
+}
+
+.project-modal-hero.is-active .project-modal-hero__bar span {
+	background: #e3a23a;
+}
+
+.project-modal-hero.is-completed .project-modal-hero__bar span {
+	background: rgb(var(--emerald));
+}
+
+.project-modal-hero small {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 650;
+}
+
+/* Bottom row of the hero: progress count on the left, link control on the right. */
+.project-modal-hero__footer {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.4rem 0.75rem;
+}
+
+.project-hero-link-slot {
+	display: inline-flex;
+	align-items: center;
+	margin-left: auto;
+}
+
+.project-hero-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	color: rgb(var(--accent));
+	font-size: 0.78rem;
+	font-weight: 750;
+}
+
+.project-hero-link svg {
+	flex: 0 0 auto;
+}
+
+.project-hero-link__draft {
+	color: rgb(var(--ink));
+	font-weight: 750;
+}
+
+.project-modal .project-hero-link__select {
+	width: min(13rem, 100%);
+}
+
+.project-hero-link--add {
+	cursor: pointer;
+}
+
+.project-hero-link__cancel {
+	border: 0;
+	background: transparent;
+	color: rgb(var(--mist));
+	font: inherit;
+	font-size: 0.74rem;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.project-hero-link__empty {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	text-align: right;
+}
+
+/* Category + optional from/to dates row in edit mode. */
+.project-meta-grid {
+	grid-template-columns: minmax(7rem, 0.7fr) minmax(0, 1.5fr) minmax(0, 1fr) minmax(
+			0,
+			1fr
+		);
+}
+
+@media (max-width: 768px) {
+	.project-meta-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 480px) {
+	.project-meta-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.project-color-control {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.project-color-control select {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.project-color-dot {
+	flex: 0 0 auto;
+	width: 1.05rem;
+	height: 1.05rem;
+	border-radius: 999px;
+	border: 1px solid rgb(var(--outline) / 1);
+	background: rgb(var(--mist) / 0.4);
+}
+
+.project-room {
+	min-width: 0;
+	border: 1px solid rgb(var(--outline));
+	border-radius: 0.75rem;
+	background: rgb(var(--surface));
+}
+
+.project-room__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	font-size: 0.85rem;
+	color: rgb(var(--ink));
+}
+
+.project-room__header strong {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.project-room__header > span {
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+
+.project-room__sections {
+	display: grid;
+	gap: 0.6rem;
+	padding: 0 0.6rem 0.6rem;
+}
+
+.project-item__pricing {
+	display: flex;
+	align-items: baseline;
+	justify-content: flex-end;
+	gap: 0.6rem;
+	min-width: 0;
+}
+
+.project-item__pricing .project-item__total {
+	margin-left: auto;
+}
+
+.project-item__calculation {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+	white-space: nowrap;
+}
+
+@media (max-width: 540px) {
+	.project-item__row.project-item__row--view {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+
+	.project-item__row--view .project-item__pricing {
+		grid-column: 2;
+		justify-content: space-between;
+	}
+}
+
+.project-groups {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.project-group {
+	display: grid;
+	gap: 0.55rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.75rem;
+	padding: 0.65rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.project-group__header {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.project-group__header > .outlined-field {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.project-group__room {
+	color: rgb(var(--mist));
+	font-size: 0.68rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.project-group__meta {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 750;
+	white-space: nowrap;
+}
+
+.project-group__remove {
+	flex: 0 0 auto;
+}
+
+.project-group__items {
+	display: grid;
+	gap: 0.4rem;
+}
+
+.project-item {
+	display: grid;
+	gap: 0.5rem;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.6rem;
+	padding: 0.45rem 0.55rem;
+	background: rgb(var(--surface));
+}
+
+.project-item.is-complete {
+	border-color: rgb(var(--emerald) / 0.4);
+	background: rgb(var(--emerald) / 0.06);
+}
+
+.project-item.is-complete .project-item__name {
+	color: rgb(var(--mist));
+}
+
+.project-item__row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) minmax(0, auto) auto auto;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.project-item__check {
+	position: relative;
+	display: inline-grid;
+	cursor: pointer;
+}
+
+.project-item__check input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.project-item__check span {
+	display: inline-grid;
+	width: 1.4rem;
+	height: 1.4rem;
+	place-items: center;
+	border: 1.5px solid rgb(var(--mist) / 0.55);
+	border-radius: 0.45rem;
+	background: rgb(var(--surface));
+	color: transparent;
+	transition:
+		background-color 140ms ease,
+		border-color 140ms ease,
+		color 140ms ease;
+}
+
+.project-item__check input:checked + span {
+	border-color: rgb(var(--emerald));
+	background: rgb(var(--emerald));
+	color: white;
+}
+
+.project-item__check input:focus-visible + span {
+	box-shadow: 0 0 0 3px rgb(var(--accent) / 0.2);
+}
+
+.project-item__name {
+	min-width: 0;
+}
+
+.project-item__total-input {
+	width: 7rem;
+}
+
+.project-item__total-input .outlined-field__input {
+	text-align: right;
+}
+
+.project-item__total {
+	padding-right: 0.25rem;
+	font-size: 0.86rem;
+	font-weight: 850;
+	white-space: nowrap;
+}
+
+.project-item__expand,
+.project-item__remove {
+	display: inline-grid;
+	width: 2rem;
+	height: 2rem;
+	min-height: 2rem;
+	place-items: center;
+	padding: 0;
+}
+
+.project-item__details {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.6rem;
+	padding: 0 0.1rem 0.2rem;
+}
+
+.project-item__details .project-item__notes {
+	grid-column: 1 / -1;
+}
+
+.project-add-item,
+.project-add-group {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.3rem;
+	min-height: 2.25rem;
+	border: 1px dashed rgb(var(--outline) / 1);
+	border-radius: 0.5rem;
+	background: transparent;
+	color: rgb(var(--mist));
+	cursor: pointer;
+	font-size: 0.8rem;
+	font-weight: 750;
+	transition:
+		border-color 140ms ease,
+		color 140ms ease,
+		background-color 140ms ease;
+}
+
+.project-add-item:hover,
+.project-add-group:hover {
+	border-color: rgb(var(--accent) / 0.4);
+	background: rgb(var(--accent) / 0.06);
+	color: rgb(var(--accent));
+}
+
+.project-add-group {
+	min-height: 2.5rem;
+}
+
+.property-room-item--status {
+	grid-template-columns: auto minmax(0, 1.2fr) minmax(7rem, 0.8fr) auto;
+	align-items: center;
+}
+
+.property-room-item--status .property-item-note {
+	grid-column: 2 / -1;
+}
+
+.property-item-status {
+	display: inline-grid;
+	width: 1.2rem;
+	height: 1.2rem;
+	flex: 0 0 auto;
+	place-items: center;
+	align-self: center;
+	border: 1.5px solid rgb(var(--mist) / 0.5);
+	border-radius: 999px;
+	color: transparent;
+}
+
+.property-item-status.is-complete {
+	border-color: rgb(var(--emerald));
+	background: rgb(var(--emerald) / 0.12);
+	color: rgb(var(--emerald));
+}
+
+.property-room-item--button.is-complete > span:not(.property-item-status),
+.property-room-item--button.is-complete small {
+	opacity: 0.72;
+}
+
+.property-inline-edit__title-row {
+	display: flex;
+	align-items: end;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+.property-inline-edit__name {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.property-inline-edit__check {
+	margin-bottom: 0.7rem;
+}
+
+.property-card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(22.5rem, 1fr));
+	gap: 0.75rem;
+}
+
+.property-card {
+	display: grid;
+	align-content: start;
+	gap: 0.55rem;
+	min-width: 0;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.85rem;
+	padding: 1rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	cursor: pointer;
+	text-align: left;
+	transition:
+		border-color 140ms ease,
+		transform 140ms ease,
+		box-shadow 140ms ease;
+}
+
+.property-card:hover {
+	border-color: rgb(var(--accent) / 0.45);
+	transform: translateY(-2px);
+	box-shadow: 0 14px 30px rgb(var(--shadow) / 0.1);
+}
+
+.property-card:focus-visible {
+	outline: 2px solid rgb(var(--accent));
+	outline-offset: 2px;
+}
+
+.property-card__head {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	min-width: 0;
+}
+
+.property-card__icon {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 2.1rem;
+	height: 2.1rem;
+	place-items: center;
+	border-radius: 0.6rem;
+	background: rgb(var(--accent) / 0.12);
+	color: rgb(var(--accent));
+}
+
+.property-card__name {
+	overflow: hidden;
+	color: rgb(var(--ink));
+	font-size: 0.98rem;
+	font-weight: 850;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.property-card__value {
+	color: rgb(var(--ink));
+	font-size: 1.35rem;
+	font-weight: 850;
+	letter-spacing: -0.01em;
+}
+
+.property-card__stats {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.4rem 0.85rem;
+	padding-top: 0.1rem;
+}
+
+.property-detail-summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.1rem;
+	background: rgb(var(--surface));
+	padding: 0.85rem 0.85rem 0;
+}
+
+.property-value-trend {
+	display: grid;
+	justify-items: center;
+	gap: 0.65rem;
+	background: rgb(var(--surface));
+	padding: 1rem;
+}
+
+.property-value-trend .property-edit-section__title {
+	justify-self: start;
+}
+
+.property-value-trend .loan-payoff-chart {
+	width: 100%;
+	max-width: 42rem;
+	margin: 0 auto;
+}
+
+.property-stat {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	border: none;
+	padding: 0;
+	background: none;
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-family: inherit;
+}
+
+.property-stat svg {
+	color: rgb(var(--accent));
+}
+
+.property-stat strong {
+	color: rgb(var(--ink));
+	font-weight: 850;
+}
+
+.property-stat--link:not(:disabled) {
+	cursor: pointer;
+}
+
+.property-stat--link:not(:disabled):hover {
+	color: rgb(var(--accent));
+}
+
+.property-stat--link:disabled {
+	cursor: default;
+}
+
+/* Property modal: details editor block. Cards are added/removed by their
+   feature toggles, so the grid auto-fits (capped at 2 columns) rather than
+   assuming a fixed layout — it reflows cleanly as cards come and go. */
+.property-details-edit {
+	display: grid;
+	grid-template-columns: repeat(
+			auto-fit,
+			minmax(max(21rem, (100% - 1.1rem) / 2), 1fr)
+		);
+	/* Stretch (not start) so cards sharing a row match height and line up
+	   at the same bottom edge instead of trailing off at different lengths. */
+	align-items: stretch;
+	gap: 1.1rem;
+	margin-bottom: 0.85rem;
+	background: rgb(var(--surface));
+}
+
+/* .detail-table normally paints its hairline-divider gaps with --outline,
+   which shows through whenever its content (here, the edit form) is shorter
+   than the modal's flexible row — e.g. after a card is removed. The edit
+   form only ever has one full-bleed child, so there's no hairline to
+   preserve here; keep the whole track white instead of chasing exact
+   content height. */
+.detail-table:has(.property-details-edit) {
+	background: rgb(var(--surface));
+}
+
+.property-edit-span {
+	grid-column: 1 / -1;
+}
+
+.property-edit-section {
+	display: grid;
+	/* Cards can be taller than their own content when stretched to match a
+	   taller row-mate (see .property-details-edit's align-items: stretch) —
+	   without this, grid's default row-stretch spaces the card's own rows
+	   apart to fill that height instead of leaving it as trailing space,
+	   which visibly pushes the title away from the top. */
+	align-content: start;
+	gap: 0.85rem;
+	padding: 1.1rem 1.15rem;
+	border: 1px solid rgb(var(--outline) / 0.7);
+	border-left: 3px solid rgb(var(--accent) / 0.6);
+	border-radius: 0.9rem;
+	background: rgb(var(--surface-lowest));
+	box-shadow: 0 1px 2px rgb(var(--shadow) / 0.04);
+}
+
+.property-edit-section--projects {
+	min-height: min-content;
+	height: auto;
+	grid-auto-rows: max-content;
+	overflow: visible;
+}
+
+.property-edit-section--valuation {
+	border-left-color: #2563eb;
+}
+
+.property-edit-section__title {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin: 0;
+	color: rgb(var(--accent));
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+.property-edit-section__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+
+.property-edit-section__hint {
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.property-details-edit__name,
+.property-details-edit__notes {
+	grid-column: 1 / -1;
+}
+
+@media (max-width: 767px) {
+	.project-modal.project-modal {
+		width: 100vw;
+		max-width: none;
+		height: 100vh;
+		height: 100dvh;
+		max-height: none;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.project-modal .drive-picker__header {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		gap: 0.6rem;
+	}
+
+	.project-modal .drive-picker__header > div:first-child {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.project-modal .drive-picker__header h2,
+	.project-modal .project-title-input {
+		min-width: 0;
+		width: 100%;
+	}
+
+	.project-modal-header-actions {
+		flex: 0 0 auto;
+	}
+
+	.project-modal-header-actions .button {
+		flex: 0 0 2.25rem;
+		width: 2.25rem;
+		height: 2.25rem;
+		padding: 0;
+	}
+
+	.project-modal-header-actions .mobile-action-label {
+		display: none;
+	}
+}
+
+.form-grid--3col {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Live preview chart embedded directly in the Valuation card, updating on
+   every keystroke against the value/date/rate currently being edited. */
+.property-edit-live-chart {
+	border-radius: 0.75rem;
+	overflow: hidden;
+}
+
+.property-edit-live-chart .loan-payoff-chart {
+	border-radius: 0.75rem;
+}
+
+.property-edit-live-chart__empty {
+	padding: 1.5rem 1rem;
+	border: 1px dashed rgb(var(--outline) / 0.9);
+	border-radius: 0.75rem;
+	color: rgb(var(--mist));
+	font-size: 0.78rem;
+	text-align: center;
+}
+
+/* Feature toggles: fixed, semantically-themed colors (one per feature). */
+.chip-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	gap: 0.55rem;
+}
+
+/* Toggle-driven feature cards (Depreciation/Projects/Utilities/Expenses):
+   each card carries a "-" to disable + hide itself; disabled features show
+   as a "+ Label" add-button in the row at the bottom of the edit form,
+   mirroring the Planning page's "+ Income" add-card pattern. */
+.feature-card-remove {
+	display: inline-grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 1.9rem;
+	height: 1.9rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 0.5rem;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist));
+	cursor: pointer;
+}
+
+.feature-card-remove:hover {
+	border-color: rgb(var(--danger, 220 38 38) / 0.6);
+	color: rgb(var(--danger, 220 38 38));
+	background: rgb(var(--danger, 220 38 38) / 0.08);
+}
+
+.feature-add-row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.6rem;
+	padding-top: 0.2rem;
+}
+
+.feature-add-card {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.55rem 1rem;
+	border: none;
+	border-radius: 0.7rem;
+	background: transparent;
+	color: var(--chip-color, rgb(var(--mist)));
+	font-size: 0.8rem;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.feature-add-card span {
+	display: inline-block;
+	transition: transform 0.15s ease;
+}
+
+.feature-add-card:hover span {
+	transform: scale(1.12);
+}
+
+.feature-add-card--valuation {
+	--chip-color: #2563eb;
+}
+
+.feature-add-card--projects {
+	--chip-color: #d97706;
+}
+
+.feature-add-card--utilities {
+	--chip-color: #0891b2;
+}
+
+.feature-add-card--expenses {
+	--chip-color: #7c3aed;
+}
+
+.feature-add-card--notes {
+	--chip-color: rgb(var(--mist));
+}
+
+.category-chip--static {
+	cursor: pointer;
+}
+
+/* Value-history pills: unlike .category-chip (one big clickable pill), each
+   of these needs two independent click targets (edit + remove), so it's a
+   plain container with small icon-buttons inside rather than one button. */
+.value-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.3rem 0.35rem 0.3rem 0.75rem;
+	border: 1.5px solid var(--chip-color);
+	border-radius: 999px;
+	background: var(--chip-color);
+	color: #fff;
+	font-size: 0.78rem;
+	font-weight: 700;
+}
+
+.value-pill__icon {
+	display: inline-grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 1.3rem;
+	height: 1.3rem;
+	border: none;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.18);
+	color: #fff;
+	cursor: pointer;
+}
+
+.value-pill__icon:hover {
+	background: rgba(255, 255, 255, 0.34);
+}
+
+.value-pill__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	border: none;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+/* Utility field picker: two expandable groups (Metered / Recurring costs),
+   each revealing its available (not-yet-linked) fields as add-pills. */
+.utility-picker {
+	display: grid;
+	gap: 0.55rem;
+	padding: 0.7rem;
+	border: 1px solid rgb(var(--outline) / 0.8);
+	border-radius: 0.75rem;
+	background: rgb(var(--surface));
+}
+
+.utility-picker__group {
+	display: grid;
+	gap: 0.45rem;
+}
+
+.utility-picker__group-header {
+	display: inline-flex;
+	align-items: center;
+	justify-self: start;
+	border: none;
+	background: transparent;
+	padding: 0;
+	color: rgb(var(--ink));
+	font-size: 0.78rem;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+/* Expense-category chips: currently-linked categories render as small
+   filled, removable pills; the picker itself is a plain <select> revealed
+   by "+ Add expense category" (see .feature-add-card). */
+.category-chip {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.35rem 0.7rem;
+	border: 1.5px solid var(--chip-color);
+	border-radius: 999px;
+	background: var(--chip-color);
+	color: #fff;
+	font-size: 0.78rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition:
+		box-shadow 0.15s ease,
+		opacity 0.15s ease;
+}
+
+.category-chip:hover {
+	box-shadow: 0 2px 8px color-mix(in srgb, var(--chip-color) 40%, transparent);
+	opacity: 0.9;
+}
+
+.category-chip--static {
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+}
+
+/* Shared project and property styles retained from the retired planning board. */
+/* Project popup view mode and checkmark affordance */
+.project-item__check span {
+	color: rgb(var(--mist) / 0.5);
+}
+
+.project-item__check:hover span {
+	border-color: rgb(var(--accent) / 0.6);
+	background: rgb(var(--accent) / 0.06);
+	color: rgb(var(--accent) / 0.8);
+}
+
+.project-item--view {
+	padding: 0.5rem 0.6rem;
+}
+
+.project-item__row--view {
+	grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.project-item__label {
+	display: grid;
+	min-width: 0;
+	gap: 0.1rem;
+}
+
+.project-item__title {
+	overflow-wrap: anywhere;
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	font-weight: 750;
+}
+
+.project-item--view.is-complete .project-item__title {
+	color: rgb(var(--mist));
+}
+
+.project-item__label small {
+	color: rgb(var(--mist));
+	font-size: 0.72rem;
+}
+
+.project-item__note {
+	margin: 0;
+	padding-left: 1.9rem;
+	color: rgb(var(--mist));
+	font-size: 0.74rem;
+	line-height: 1.4;
+}
+
+.project-group__header--view {
+	min-height: 2.25rem;
+}
+
+.project-group__name {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow-wrap: anywhere;
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	font-weight: 850;
+}
+
+.project-modal-notes {
+	display: grid;
+	gap: 0.25rem;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.7rem;
+	padding: 0.7rem 0.85rem;
+	background: rgb(var(--surface));
+}
+
+.project-modal-notes span {
+	color: rgb(var(--mist));
+	font-size: 0.66rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.project-modal-notes p {
+	margin: 0;
+	color: rgb(var(--ink));
+	font-size: 0.85rem;
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+.project-category-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.project-category-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	border: 1px solid rgb(var(--outline) / 1);
+	border-radius: 999px;
+	padding: 0.28rem 0.7rem;
+	background: rgb(var(--surface-lowest));
+	color: rgb(var(--mist));
+	font-size: 0.76rem;
+	font-weight: 750;
+}
+
+.quick-add-modal:not(.record-add-modal) input:not([type="checkbox"]):not(.outlined-field__input),
+.quick-add-modal:not(.record-add-modal) select:not(.outlined-field__input),
+.quick-add-modal:not(.record-add-modal) textarea:not(.outlined-field__input) {
+	border-color: rgb(var(--outline) / 0.95);
+	background: rgb(var(--surface-lowest));
+}
+
+.quick-add-modal:not(.record-add-modal) input:not([type="checkbox"]):not(.outlined-field__input):focus,
+.quick-add-modal:not(.record-add-modal) select:not(.outlined-field__input):focus,
+.quick-add-modal:not(.record-add-modal) textarea:not(.outlined-field__input):focus {
+	background: rgb(var(--surface));
+}
+
+.quick-add-modal:not(.record-add-modal) .project-group__header input:not(.outlined-field__input) {
+	background: rgb(var(--surface));
+}
+
+.project-status-icon {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 1.05rem;
+	height: 1.05rem;
+	place-items: center;
+	border: 1.5px solid rgb(var(--mist) / 0.55);
+	border-radius: 999px;
+	color: transparent;
+}
+
+.project-status-icon.is-active {
+	border-color: #cf922f;
+	background: conic-gradient(#eebd6b 0 50%, transparent 50% 100%);
+}
+
+.project-status-icon.is-completed {
+	border-color: rgb(var(--emerald));
+	background: rgb(var(--emerald));
+	color: white;
+}
+
+.project-group__header {
+	border-radius: 0.5rem;
+	padding: 0.3rem 0.45rem;
+	background: rgb(var(--outline) / 0.45);
+}
+
+.project-group__header--view {
+	width: 100%;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.project-group__header--view:hover {
+	background: rgb(var(--outline) / 0.65);
+}
+
+.project-group__header--view > svg {
+	flex: 0 0 auto;
+	color: rgb(var(--mist));
+}
+
+.project-group__toggle {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 1.9rem;
+	height: 1.9rem;
+	min-height: 1.9rem;
+	place-items: center;
+	border: 0;
+	padding: 0;
+	background: transparent;
+	color: rgb(var(--mist));
+}
+
+.project-group__meta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.project-link-asset {
+	display: grid;
+	gap: 0.45rem;
+	border: 1px solid rgb(var(--outline) / 0.85);
+	border-radius: 0.75rem;
+	padding: 0.65rem 0.8rem;
+	background: rgb(var(--surface-lowest));
+}
+
+.project-link-asset__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	color: rgb(var(--mist));
+	font-size: 0.66rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.project-link-asset__row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+}
+
+.project-link-asset__row small {
+	color: rgb(var(--mist));
+	font-size: 0.76rem;
+}
+
+.project-link-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	border: 1px solid rgb(var(--accent) / 0.35);
+	border-radius: 999px;
+	padding: 0.25rem 0.4rem 0.25rem 0.7rem;
+	background: rgb(var(--accent) / 0.09);
+	color: rgb(var(--accent));
+	font-size: 0.78rem;
+	font-weight: 750;
+}
+
+.project-link-chip button {
+	display: inline-grid;
+	width: 1.3rem;
+	height: 1.3rem;
+	min-height: 1.3rem;
+	place-items: center;
+	border: 0;
+	border-radius: 999px;
+	padding: 0;
+	background: rgb(var(--accent) / 0.14);
+	color: rgb(var(--accent));
+	cursor: pointer;
+}
+
+.project-link-chip button:hover {
+	background: rgb(var(--danger) / 0.16);
+	color: rgb(var(--danger));
+}
+
+.project-modal .project-link-asset__select,
+.quick-add-modal .project-link-asset__select {
+	width: min(16rem, 100%);
+}
+
+.project-title-input {
+	width: min(24rem, 100%);
+}
+
+.property-section-meta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.property-room-section__header {
+	border-radius: 0.45rem;
+	padding: 0.4rem 0.55rem;
+	background: rgb(var(--surface-high));
+}
+
+.property-room-section__header.asset-click-row:hover {
+	background: rgb(var(--surface-highest));
+}
+
+/* Category (section) headers sit at the top of the hierarchy, so they get the
+   darkest grey — they read as header rows against the white child item rows.
+   They break out of the card padding to sit full-bleed against both card edges;
+   an explicit width + start alignment makes the right edge land deterministically
+   (a stretched grid item with negative margins can fall short on the end side). */
+.property-room-card__header {
+	margin: calc(-1 * var(--room-card-pad)) 0 0 calc(-1 * var(--room-card-pad));
+	width: calc(100% + 2 * var(--room-card-pad));
+	justify-self: start;
+	padding: 0.6rem 0.8rem;
+	border-radius: 0.55rem 0.55rem 0 0;
+	background: rgb(var(--surface-highest));
+}
+
+.property-room-card__header.asset-click-row:hover {
+	background:
+		linear-gradient(rgb(var(--ink) / 0.06), rgb(var(--ink) / 0.06)),
+		rgb(var(--surface-highest));
+}
+
+.property-room-card:not(.is-expanded) {
+	gap: 0;
+}
+
+.property-room-card:not(.is-expanded) .property-room-card__header {
+	margin-bottom: calc(-1 * var(--room-card-pad));
+	border-radius: 0.55rem;
+}
+
+/* Project groups, items, and dates need a wider popup. */
+.project-modal.project-modal {
+	width: min(56rem, calc(100vw - 2rem));
+}
+.quick-add-actions .button--danger-ghost,
+.asset-detail-actions .button--danger-ghost {
+	border-color: rgb(var(--danger) / 0.35);
+	background: rgb(var(--surface));
+	color: rgb(var(--danger));
+}
+
+.quick-add-actions .button--danger-ghost:hover,
+.asset-detail-actions .button--danger-ghost:hover {
+	border-color: rgb(var(--danger) / 0.55);
+	background: rgb(var(--danger) / 0.08);
+	color: rgb(var(--danger));
+}
+
+.quick-add-actions .button:disabled {
+	cursor: not-allowed;
+	opacity: 0.55;
+	transform: none;
+}
+.project-modal {
+	display: flex;
+	flex-direction: column;
+}
+
+.project-modal .drive-picker__header {
+	flex: 0 0 auto;
+}
+
+.project-modal .quick-add-form {
+	flex: 1 1 auto;
+}
+
+.project-modal-form {
+	display: grid;
+	gap: 1rem;
+}
+
+.project-modal .project-modal-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.project-modal .project-modal-form .quick-add-actions {
+	margin-top: auto;
+}

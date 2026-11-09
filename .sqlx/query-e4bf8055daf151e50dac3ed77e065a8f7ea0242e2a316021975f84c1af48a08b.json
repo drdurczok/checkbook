@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE utility_services s SET label=$3,unit=$4,service_kind=$5,entry_mode=$6,color=$7,updated_at=now()\n         FROM utility_contracts c WHERE c.household_id=$1 AND c.id=$2 AND s.household_id=c.household_id AND s.id=c.service_id",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e4bf8055daf151e50dac3ed77e065a8f7ea0242e2a316021975f84c1af48a08b"
+}

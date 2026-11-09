@@ -1,0 +1,34 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO planning_rules\n                (household_id, rule_kind, stable_key, title, amount, direction,\n                 owner_scope, category_id, income_source_id, linked_loan_id,\n                 active_from, active_until, enabled, rule_payload)\n             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,true,$13)\n             ON CONFLICT (household_id, stable_key) DO UPDATE\n             SET rule_kind = EXCLUDED.rule_kind,\n                 title = EXCLUDED.title,\n                 amount = EXCLUDED.amount,\n                 direction = EXCLUDED.direction,\n                 owner_scope = EXCLUDED.owner_scope,\n                 category_id = EXCLUDED.category_id,\n                 income_source_id = EXCLUDED.income_source_id,\n                 linked_loan_id = EXCLUDED.linked_loan_id,\n                 active_from = EXCLUDED.active_from,\n                 active_until = EXCLUDED.active_until,\n                 enabled = true,\n                 rule_payload = EXCLUDED.rule_payload,\n                 updated_at = now()\n             WHERE (planning_rules.rule_kind, planning_rules.title, planning_rules.amount,\n                    planning_rules.direction, planning_rules.owner_scope,\n                    planning_rules.category_id, planning_rules.income_source_id,\n                    planning_rules.linked_loan_id, planning_rules.active_from,\n                    planning_rules.active_until, planning_rules.enabled,\n                    planning_rules.rule_payload)\n                   IS DISTINCT FROM\n                   (EXCLUDED.rule_kind, EXCLUDED.title, EXCLUDED.amount,\n                    EXCLUDED.direction, EXCLUDED.owner_scope,\n                    EXCLUDED.category_id, EXCLUDED.income_source_id,\n                    EXCLUDED.linked_loan_id, EXCLUDED.active_from,\n                    EXCLUDED.active_until, true, EXCLUDED.rule_payload)\n             RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Numeric",
+        "Text",
+        "Text",
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Date",
+        "Jsonb"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "fdb7891af8d45f1b4350ccda11067f1e34171a59c6c2ff081b060d81d7b1e576"
+}

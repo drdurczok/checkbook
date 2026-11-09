@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO holding_price_cache (household_id, ticker, last_attempt_at, error) VALUES ($1, $2, $3, 'Price refresh pending.') ON CONFLICT (household_id, ticker) DO UPDATE SET last_attempt_at = EXCLUDED.last_attempt_at, error = EXCLUDED.error",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Timestamptz"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1bafa621d93e8e1aafbe9d1192d355db54d7a81ee0cdba5ae6a753006d80f115"
+}

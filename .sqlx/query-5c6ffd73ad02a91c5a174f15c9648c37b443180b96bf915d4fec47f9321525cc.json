@@ -1,0 +1,108 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT r.id AS \"room_id!\", r.name AS \"room_name!\", r.notes AS \"room_notes!\",\n                r.sort_order AS \"room_sort!\", s.id AS \"section_id!\",\n                s.name AS \"section_name!\", s.notes AS \"section_notes!\",\n                s.sort_order AS \"section_sort!\", i.name AS \"item_name!\",\n                i.unit_price, i.quantity, i.total_cost AS \"total_cost!: Decimal\",\n                i.completed AS \"completed!\", i.notes AS \"item_notes!\",\n                i.sort_order AS \"item_sort!\"\n         FROM project_rooms r\n         JOIN project_sections s\n           ON s.household_id = r.household_id AND s.room_id = r.id\n         JOIN project_items i\n           ON i.household_id = s.household_id AND i.section_id = s.id\n         WHERE r.household_id = $1\n           AND (($2 = 'asset' AND r.property_id = $3)\n             OR ($2 = 'project' AND r.project_id = $3))\n         ORDER BY r.sort_order, r.created_at, s.sort_order, s.created_at,\n                  i.sort_order, i.created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "room_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "room_name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "room_notes!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "room_sort!",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "section_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 5,
+        "name": "section_name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "section_notes!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "section_sort!",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 8,
+        "name": "item_name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "unit_price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 10,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 11,
+        "name": "total_cost!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 12,
+        "name": "completed!",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 13,
+        "name": "item_notes!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 14,
+        "name": "item_sort!",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "5c6ffd73ad02a91c5a174f15c9648c37b443180b96bf915d4fec47f9321525cc"
+}

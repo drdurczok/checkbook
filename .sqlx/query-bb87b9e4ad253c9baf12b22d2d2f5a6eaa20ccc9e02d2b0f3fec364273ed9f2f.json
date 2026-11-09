@@ -1,0 +1,65 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, current_balance, schedule_opening_balance, original_balance,\n                interest_rate, monthly_payment, start_date\n         FROM loans WHERE household_id = $1 AND owner_scope = ANY($2) ORDER BY id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "current_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "schedule_opening_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "original_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "interest_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "monthly_payment",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "start_date",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "bb87b9e4ad253c9baf12b22d2d2f5a6eaa20ccc9e02d2b0f3fec364273ed9f2f"
+}

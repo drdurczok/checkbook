@@ -1,0 +1,84 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT s.id, s.service_key, s.label, s.service_kind, s.unit, s.entry_mode, s.unit_rate, s.color, s.retired, s.hidden,\n                EXISTS(SELECT 1 FROM utility_bills b WHERE b.household_id=s.household_id AND b.service_id=s.id) AS \"has_data!\"\n         FROM utility_services s\n         LEFT JOIN utility_subject_services ss\n           ON ss.household_id=s.household_id AND ss.service_id=s.id\n             AND ss.property_id IS NOT DISTINCT FROM $2\n             AND ss.contract_id IS NOT DISTINCT FROM $3\n         WHERE s.household_id = $1 AND (\n           ss.service_id IS NOT NULL\n           OR EXISTS(SELECT 1 FROM utility_bills b\n             WHERE b.household_id=s.household_id AND b.service_id=s.id\n               AND b.property_id IS NOT DISTINCT FROM $2\n               AND b.contract_id IS NOT DISTINCT FROM $3))\n         ORDER BY s.retired, s.sort_order, s.label, s.service_key",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "service_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "label",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "service_kind",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "unit",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "entry_mode",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "unit_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "color",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "retired",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 9,
+        "name": "hidden",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 10,
+        "name": "has_data!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "ab05ed480e58a84ec8c358d4e56966e3489b9748424b0b100c7462e0caa8d5fc"
+}

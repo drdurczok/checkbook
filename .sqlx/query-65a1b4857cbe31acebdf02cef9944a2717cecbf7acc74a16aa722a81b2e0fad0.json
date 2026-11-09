@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO recurring_expenses (household_id, description, amount, start_date, cadence, owner_scope, category_id)\n        VALUES ($1, 'Cross tenant', 1, $2, 'monthly', 'joint', $3)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "65a1b4857cbe31acebdf02cef9944a2717cecbf7acc74a16aa722a81b2e0fad0"
+}

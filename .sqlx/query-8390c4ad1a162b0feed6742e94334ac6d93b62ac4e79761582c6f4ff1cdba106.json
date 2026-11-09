@@ -1,0 +1,36 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id AS \"id!\", balance AS \"value!: Decimal\", effective_date AS \"effective_date!\"\n         FROM account_balance_snapshots\n         WHERE household_id = $1 AND account_id = $2 AND source_key LIKE $3\n         ORDER BY effective_date, created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "value!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "effective_date!",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "8390c4ad1a162b0feed6742e94334ac6d93b62ac4e79761582c6f4ff1cdba106"
+}

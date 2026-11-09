@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE ledger_entries\n         SET amount = $3, entry_date = $4, description = $5, notes = $6,\n             owner_scope = $7, category_id = $8, subcategory_id = $9,\n             updated_at = now()\n         WHERE household_id = $1 AND id = $2\n           AND direction = 'expense' AND status = 'actual'",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        "Date",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "4e04e56f01461be8ab1737f74cbd208346badaa519556e7e3d7308e06f969132"
+}

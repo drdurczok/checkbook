@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT archive_path AS \"archive_path!\"\n         FROM data_load_runs\n         WHERE household_id = $1 AND id = $2 AND status IN ('staged','validated','failed')",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "archive_path!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "a59504417f40c159f8372c635a83a303d61eb99d92427917e75bd15204a63b11"
+}

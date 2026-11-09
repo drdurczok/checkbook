@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE properties\n             SET name = $3, valuation = $4, valuation_date = $5, status = $6,\n                 started_on = $7, ended_on = $8, notes = $9, category = $10,\n                 account_type = $11, account_registration = $12,\n                 depreciation_rate = $13, depreciation_enabled = $14, utilities_enabled = $15,\n                 projects_enabled = $16, expenses_enabled = $17, updated_at = now()\n             WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Date",
+        "Text",
+        "Date",
+        "Date",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Numeric",
+        "Bool",
+        "Bool",
+        "Bool",
+        "Bool"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "9164dff0be2daecc9863557a76e002c3a4842cc8eae847bafb30ed99e2a08abf"
+}

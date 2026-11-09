@@ -1,0 +1,166 @@
+.loan-schedule-table__row {
+  cursor: pointer;
+}
+
+.loan-schedule-table__row:hover {
+  background: rgb(var(--accent) / 0.06);
+}
+
+.net-worth-table .loan-schedule-table__row--completed > th,
+.net-worth-table .loan-schedule-table__row--completed > td {
+  background: rgb(var(--surface-low));
+}
+
+.net-worth-table .loan-schedule-table__row--completed:hover > th,
+.net-worth-table .loan-schedule-table__row--completed:hover > td {
+  background: rgb(var(--surface-high));
+}
+
+.loan-schedule-table__row:focus-visible,
+.loan-table__label:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: -2px;
+}
+
+.loan-table__label {
+  padding: 0.65rem 0.5rem;
+  border: 0;
+  background: transparent;
+  color: rgb(var(--accent));
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.loan-table__label:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.loan-table__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* The add-row affordance closes the schedule as the table's own last row. */
+.loan-schedule-table__add-row > td {
+  border-right: 0;
+  padding: 0.5rem 0.55rem;
+  text-align: right;
+}
+
+.loan-payment-sheet {
+  width: min(100%, 36rem);
+}
+
+/* Completed/pending state as a switch pill seated beside the date field, with
+   the same visual weight as the outlined inputs. The native checkbox overlays
+   the pill, keeping native semantics, labeling, and keyboard toggling. */
+.loan-payment-sheet__status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  height: 3.5rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgb(var(--outline));
+  border-radius: 0.55rem;
+  background: rgb(var(--surface-lowest));
+  color: rgb(var(--mist));
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  user-select: none;
+  cursor: pointer;
+}
+
+.loan-payment-sheet__status input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.loan-payment-sheet__status:has(input:focus-visible) {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 2px;
+}
+
+.loan-payment-sheet__status:has(input:checked) {
+  border-color: rgb(var(--accent) / 0.5);
+  background: rgb(var(--accent) / 0.08);
+  color: rgb(var(--ink));
+}
+
+.loan-payment-sheet__status-track {
+  flex-shrink: 0;
+  display: block;
+  width: 1.9rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+  background: rgb(var(--mist) / 0.25);
+  transition: background-color 160ms ease;
+}
+
+.loan-payment-sheet__status-track i {
+  display: block;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: rgb(var(--ink));
+  transition: margin-left 160ms ease;
+}
+
+.loan-payment-sheet__status:has(input:checked) .loan-payment-sheet__status-track {
+  background: rgb(var(--accent) / 0.5);
+}
+
+.loan-payment-sheet__status:has(input:checked) .loan-payment-sheet__status-track i {
+  margin-left: auto;
+}
+
+/* Derived amounts (base payment, balance) are computed, not typed: they read
+   as informational values next to the editable principal and interest. */
+.loan-payment-sheet__derived .outlined-field__label,
+.loan-payment-sheet__derived .outlined-field__input {
+  color: rgb(var(--mist));
+}
+
+.loan-payment-sheet .form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.loan-payment-sheet__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.loan-payment-sheet__error {
+  color: rgb(var(--danger));
+}
+
+.loan-payment-sheet :disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (min-width: 768px) {
+  .loan-payment-sheet {
+    display: grid;
+    gap: 1rem;
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop > .modal-shell.loan-payment-sheet {
+    animation: none;
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT version, success, checksum\n         FROM _sqlx_migrations\n         ORDER BY version",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "version",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 1,
+        "name": "success",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 2,
+        "name": "checksum",
+        "type_info": "Bytea"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "9ace3bfe7c379c827a859f4f6dbee0226e922521dd67e90f8ccce2134a249717"
+}

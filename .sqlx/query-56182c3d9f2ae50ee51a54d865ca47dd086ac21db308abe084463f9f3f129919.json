@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO account_balance_snapshots\n                (household_id, account_id, balance, effective_date, data_source, source_key)\n             VALUES ($1, $2, $3, $4, 'app_manual', $5)\n             ON CONFLICT (household_id, account_id, effective_date, source_key)\n             DO UPDATE SET balance = EXCLUDED.balance, updated_at = now()",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        "Date",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "56182c3d9f2ae50ee51a54d865ca47dd086ac21db308abe084463f9f3f129919"
+}

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM net_worth_month_components WHERE household_id = $1 AND month_id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "154faef4e0b861c9d7ea46416afdc6a022dc6d9cf90dda0ab9606b2a3f06eb8f"
+}

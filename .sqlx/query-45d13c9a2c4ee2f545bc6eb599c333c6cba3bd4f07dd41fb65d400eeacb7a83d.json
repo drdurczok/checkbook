@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT p.price FROM utility_contract_prices p JOIN utility_contracts c\n         ON c.household_id=p.household_id AND c.id=p.utility_contract_id\n         WHERE c.household_id=$1 AND c.id=$2 AND p.effective_on<=$3 ORDER BY p.effective_on DESC LIMIT 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "price",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "45d13c9a2c4ee2f545bc6eb599c333c6cba3bd4f07dd41fb65d400eeacb7a83d"
+}

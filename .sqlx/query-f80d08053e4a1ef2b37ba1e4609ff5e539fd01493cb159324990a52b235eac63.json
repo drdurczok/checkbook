@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT jsonb_build_object(\n                'name', account.name,\n                'asset_type', account.account_type,\n                'balance', snapshot.balance::text,\n                'valuation_date', snapshot.effective_date,\n                'data_source', snapshot.data_source,\n                'created_at', snapshot.created_at,\n                'updated_at', snapshot.updated_at) AS \"row!: Value\"\n           FROM account_balance_snapshots snapshot\n           JOIN financial_accounts account\n             ON account.household_id = snapshot.household_id\n            AND account.id = snapshot.account_id\n           WHERE snapshot.household_id = $1 AND account.account_kind = 'asset'\n           ORDER BY snapshot.created_at DESC\n           LIMIT $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "row!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "f80d08053e4a1ef2b37ba1e4609ff5e539fd01493cb159324990a52b235eac63"
+}

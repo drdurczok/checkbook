@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COALESCE(sum(amount), 0)::numeric AS \"total!: Decimal\"\n             FROM ledger_entries\n             WHERE household_id = $1 AND direction = 'expense'\n               AND (category_id = ANY($2) OR subcategory_id = ANY($2))",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "total!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "UuidArray"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "9301b8b2f42b5653a51db845915de0ffde12a68648ed17ef321e573bb11ef1a8"
+}

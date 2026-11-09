@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_subject_services (household_id,property_id,service_id,sort_order)\n         SELECT household_id,property_id,service_id,sort_order FROM utility_contracts WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c7b54e60007f7de981cd1fd3e2837dad814d5002ed35fcaeef36af20e9598f9d"
+}

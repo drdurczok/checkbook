@@ -1,0 +1,80 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "WITH schedule AS (\n            SELECT p.id, p.payment_date AS entry_date,\n                   (COALESCE(p.total_payment, 0) + COALESCE(p.extra_payment, 0))::numeric AS amount,\n                   l.owner_scope, c.id AS category_id, l.name AS description,\n                   l.id AS loan_id\n            FROM loan_payments p\n            JOIN loans l ON l.household_id = p.household_id AND l.id = p.loan_id\n            JOIN categories c ON c.household_id = l.household_id AND c.linked_loan_id = l.id\n                AND c.kind = 'expense' AND c.parent_id IS NULL\n            WHERE p.household_id = $1\n            UNION ALL\n            SELECT o.id, o.period, (COALESCE(o.override_amount, o.calculated_amount)\n                   + COALESCE(op.amount, 0))::numeric,\n                   l.owner_scope, c.id, l.name, l.id\n            FROM planning_occurrences o\n            JOIN planning_rules r ON r.household_id = o.household_id AND r.id = o.planning_rule_id\n            JOIN loans l ON l.household_id = r.household_id AND l.id = r.linked_loan_id\n            JOIN categories c ON c.household_id = l.household_id AND c.linked_loan_id = l.id\n                AND c.kind = 'expense' AND c.parent_id IS NULL\n            LEFT JOIN loan_overpayment_plans op ON op.household_id = l.household_id\n                AND op.loan_id = l.id AND op.period = o.period\n            WHERE o.household_id = $1 AND r.rule_kind = 'loan' AND r.enabled\n              AND l.current_balance > 0\n              AND (l.end_date IS NULL OR o.period <= date_trunc('month', l.end_date)::date)\n              AND NOT EXISTS (\n                  SELECT 1 FROM loan_payments p WHERE p.household_id = $1 AND p.loan_id = l.id\n                    AND date_trunc('month', p.payment_date)::date = o.period\n              )\n        )\n        SELECT s.id AS \"id!\", s.description AS \"description!\", s.amount AS \"amount!: Decimal\",\n               s.entry_date AS \"entry_date?\", s.owner_scope AS \"owner_scope!\",\n               ''::text AS \"notes!\", 'loan_schedule'::text AS \"data_source!\",\n               s.category_id AS \"category_id?\", NULL::uuid AS subcategory_id,\n               jsonb_build_object('linked_loan_id', s.loan_id, 'read_only', true) AS \"extra_payload!: Value\"\n        FROM schedule s\n        WHERE s.owner_scope = ANY($2) AND ($3::uuid IS NULL OR s.category_id = $3)\n          AND ($4::date IS NULL OR s.entry_date >= $4)\n          AND ($5::date IS NULL OR s.entry_date <= $5)\n          AND NOT EXISTS (\n              SELECT 1 FROM ledger_entries e\n              WHERE e.household_id = $1 AND e.direction = 'expense' AND e.status = 'actual'\n                AND (e.category_id = s.category_id OR e.subcategory_id = s.category_id)\n                AND e.owner_scope = s.owner_scope\n                AND date_trunc('month', e.entry_date) = date_trunc('month', s.entry_date)\n          )\n        ORDER BY s.entry_date DESC, s.id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "description!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "entry_date?",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "owner_scope!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "notes!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "data_source!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "category_id?",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 8,
+        "name": "subcategory_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 9,
+        "name": "extra_payload!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Uuid",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "4fc5bb81a91c6dc15f779ce2f915738275e3fc61b56cc9f98a400d621d527b43"
+}

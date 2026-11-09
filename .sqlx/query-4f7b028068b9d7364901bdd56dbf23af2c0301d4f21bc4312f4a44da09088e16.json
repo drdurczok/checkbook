@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT EXISTS(\n            SELECT 1 FROM categories\n            WHERE household_id = $1 AND kind = 'expense' AND parent_id IS NULL\n              AND normalized_name = $2 AND id <> $3\n         ) AS \"exists!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "exists!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "4f7b028068b9d7364901bdd56dbf23af2c0301d4f21bc4312f4a44da09088e16"
+}

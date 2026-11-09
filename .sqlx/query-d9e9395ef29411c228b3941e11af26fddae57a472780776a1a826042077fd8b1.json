@@ -1,0 +1,71 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT\n            CASE\n                WHEN e.income_source_id IS NOT NULL THEN 'source:' || e.income_source_id::text\n                ELSE 'description:' || lower(trim(e.description))\n            END AS \"identity!\",\n            COALESCE(s.name, e.description) AS \"title!\",\n            e.income_source_id,\n            e.owner_scope,\n            date_trunc('month', e.entry_date)::date AS \"period!\",\n            sum(e.amount)::numeric AS \"amount!\",\n            s.started_on,\n            s.ended_on,\n            COALESCE(s.sort_order, 0) AS \"sort_order!\"\n         FROM ledger_entries e\n         LEFT JOIN income_sources s\n           ON s.household_id = e.household_id AND s.id = e.income_source_id\n         WHERE e.household_id = $1\n           AND e.direction = 'income'\n           AND e.status = 'actual'\n           AND e.entry_date >= $2\n         GROUP BY\n            CASE\n                WHEN e.income_source_id IS NOT NULL THEN 'source:' || e.income_source_id::text\n                ELSE 'description:' || lower(trim(e.description))\n            END,\n            COALESCE(s.name, e.description), e.income_source_id,\n            e.owner_scope, date_trunc('month', e.entry_date)::date,\n            s.started_on, s.ended_on, s.sort_order\n         ORDER BY 1, 5",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "identity!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "title!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "income_source_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "amount!",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "sort_order!",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      true,
+      false,
+      null,
+      null,
+      true,
+      true,
+      null
+    ]
+  },
+  "hash": "d9e9395ef29411c228b3941e11af26fddae57a472780776a1a826042077fd8b1"
+}

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE entry_groups SET tracked_fields=(\n        SELECT COALESCE(jsonb_agg(field ORDER BY ordinal), '[]'::jsonb)\n        FROM jsonb_array_elements(tracked_fields) WITH ORDINALITY AS fields(field,ordinal)\n        WHERE field->>'key' IS DISTINCT FROM $2)\n        WHERE household_id=$1 AND tracked_fields @> jsonb_build_array(jsonb_build_object('key',$2::text))",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e908b4fbad95fa793812952abd4046cbcbd066a27b8717f92ac561cf8d5c6edd"
+}

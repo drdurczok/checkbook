@@ -1,0 +1,47 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT e.description, category.name AS \"category_name?\",\n                subcategory.name AS \"subcategory_name?\",\n                date_trunc('month', e.entry_date)::date AS \"period!\",\n                e.amount\n         FROM ledger_entries e\n         LEFT JOIN categories category\n           ON category.household_id = e.household_id AND category.id = e.category_id\n         LEFT JOIN categories subcategory\n           ON subcategory.household_id = e.household_id AND subcategory.id = e.subcategory_id\n         WHERE e.household_id = $1\n           AND e.direction = 'expense'\n           AND e.status = 'actual'\n           AND e.data_source <> 'app_recurring'\n           AND e.entry_date >= $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "category_name?",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "subcategory_name?",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "amount",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      null,
+      false
+    ]
+  },
+  "hash": "727642d74a425495ba41fc804697b9e8a63e4b64f71dc6ba012edc022ae2ef7d"
+}

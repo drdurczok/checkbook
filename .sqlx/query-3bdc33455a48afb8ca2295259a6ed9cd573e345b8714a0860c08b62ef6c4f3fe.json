@@ -1,0 +1,33 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO ledger_entries\n            (household_id, direction, status, amount, currency, entry_date,\n             description, notes, owner_scope, data_source, category_id,\n             subcategory_id, income_source_id, source_key)\n         VALUES ($1, $2, 'actual', $3, $4, $5, $6, $7, $8,\n                 'app_manual', $9, $10, $11, $12)\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Numeric",
+        "Text",
+        "Date",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "3bdc33455a48afb8ca2295259a6ed9cd573e345b8714a0860c08b62ef6c4f3fe"
+}

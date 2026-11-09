@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT quote_literal($1) AS \"quoted_password!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "quoted_password!",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "86837a98a706083fa5687288d537dbd7f7116a8e8d598e59435b9c5ccf7d0abd"
+}

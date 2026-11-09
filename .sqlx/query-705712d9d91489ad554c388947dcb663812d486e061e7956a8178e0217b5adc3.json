@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO entry_groups (household_id, kind, name, group_type, started_on, notes, metadata_payload, tracked_fields, sort_order)\n           VALUES ($1, 'contract', 'Internet contract', 'telecom', '2026-01-01', 'Fiber', '{\"account\":\"ABC\"}',\n                   '[{\"key\":\"internet\",\"label\":\"Internet\",\"kind\":\"cost\",\"unit\":\"\"}]'::jsonb, 2)\n           RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "705712d9d91489ad554c388947dcb663812d486e061e7956a8178e0217b5adc3"
+}

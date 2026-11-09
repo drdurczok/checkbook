@@ -1,0 +1,45 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "WITH matches AS (\n            SELECT e.id, e.description, e.entry_date, root.id AS category_id,\n                   root.name AS category_name, root.expense_group_id,\n                   lower(btrim(regexp_replace(e.description, '\\s+', ' ', 'g'))) AS normalized\n            FROM ledger_entries e\n            JOIN categories c ON c.household_id = e.household_id\n                AND c.id = coalesce(e.subcategory_id, e.category_id)\n            JOIN categories root ON root.household_id = c.household_id\n                AND root.id = coalesce(c.parent_id, c.id)\n            LEFT JOIN expense_groups g ON g.household_id = root.household_id\n                AND g.id = root.expense_group_id\n            WHERE e.household_id = $1 AND e.owner_scope = ANY($2)\n                AND e.direction = 'expense' AND e.status = 'actual' AND e.entry_date <= $6\n                AND c.kind = 'expense' AND NOT c.is_retired\n                AND root.kind = 'expense' AND root.parent_id IS NULL AND NOT root.is_retired\n                AND (root.expense_group_id IS NULL OR NOT g.is_retired)\n                AND lower(btrim(regexp_replace(e.description, '\\s+', ' ', 'g'))) LIKE lower($4)\n        ), ranked AS (\n            SELECT *, count(*) OVER (PARTITION BY normalized, category_id) AS frequency,\n                   row_number() OVER (PARTITION BY normalized, category_id\n                       ORDER BY entry_date DESC, id) AS classification_row\n            FROM matches\n        ), descriptions AS (\n            SELECT *, row_number() OVER (PARTITION BY normalized\n                ORDER BY entry_date DESC, frequency DESC, category_id, id) AS description_row\n            FROM ranked WHERE classification_row = 1\n        )\n        SELECT description AS \"description!\", category_id AS \"category_id!\",\n               category_name AS \"category_name!\", expense_group_id\n        FROM descriptions WHERE description_row = 1\n        ORDER BY CASE WHEN normalized = lower($3) THEN 0\n                      WHEN normalized LIKE lower($5) THEN 1 ELSE 2 END,\n                 entry_date DESC, frequency DESC, normalized, category_id\n        LIMIT 8",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "description!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "category_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "category_name!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "expense_group_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Text",
+        "Text",
+        "Text",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "6642b6fb0e14ff11c9266ddf33b2eddab7ac363a097d27bd7b96f5f2b0186ce7"
+}

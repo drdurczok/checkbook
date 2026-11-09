@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_meter_readings\n                        (household_id, utility_bill_id, previous_reading_id,\n                         reading, usage_amount, unit)\n                     VALUES ($1, $2, $3, $4, $5, $6)\n                     ON CONFLICT (household_id, utility_bill_id)\n                     DO UPDATE SET previous_reading_id = EXCLUDED.previous_reading_id,\n                                   reading = EXCLUDED.reading,\n                                   usage_amount = EXCLUDED.usage_amount,\n                                   unit = EXCLUDED.unit,\n                                   updated_at = now()",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        "Numeric",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "172908be6c219b14a380c4d6a2799b3b212c52afb9c6105cbe559c305513e1e0"
+}

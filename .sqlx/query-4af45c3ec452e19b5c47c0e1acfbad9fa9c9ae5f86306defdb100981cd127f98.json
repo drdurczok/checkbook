@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE payday_allocations SET title=$3,section=$4,kind=$5,category_id=$6,subcategory_id=$7,category_name=$8,subcategory_name=$9,amount=$10,notes=$11,completed_at=CASE WHEN $12::timestamptz IS NULL THEN NULL ELSE COALESCE(completed_at,$12) END,template_id=$13,expense_group_id=$14,expense_group_name=$15,position=$16 WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Numeric",
+        "Text",
+        "Timestamptz",
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "4af45c3ec452e19b5c47c0e1acfbad9fa9c9ae5f86306defdb100981cd127f98"
+}

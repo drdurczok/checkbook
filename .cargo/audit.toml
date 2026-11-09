@@ -1,0 +1,67 @@
+[advisories]
+# Keep this list in sync with the `[advisories].ignore` block in `deny.toml`;
+# CI runs both `cargo audit` and `cargo deny check advisories`.
+#
+# SQLx's umbrella crate records optional MySQL dependencies in Cargo.lock even
+# though this workspace enables PostgreSQL only. `cargo tree -i rsa` is empty;
+# the vulnerable RSA crate is therefore not compiled or reachable.
+#
+# The Typst transitive advisories below mirror deny.toml: bincode
+# (RUSTSEC-2025-0141) is never used to deserialize untrusted input; paste
+# (RUSTSEC-2024-0436) and yaml-rust (RUSTSEC-2024-0320) are unmaintained
+# compile-time/bundled-data deps pulled in by the pinned Typst stack with no
+# maintained replacement selectable by this workspace. quick-xml
+# (RUSTSEC-2026-0194 and RUSTSEC-2026-0195) is pulled in transitively by citationberg (via
+# hayagriva, Typst's bibliography engine) and by plist/syntect (via
+# two-face, Typst's bundled syntax-highlighting definitions) — this
+# workspace's Typst usage (crates/checkbook-documents) only renders a plain
+# invoice template with no citation or code-highlighting features, so these
+# XML-parsing paths are compiled in but never invoked with any input this
+# app processes. Confirmed (2026-07-02) that bumping typst/typst-as-lib to
+# their latest releases still only resolves citationberg/plist to versions
+# that pin the same vulnerable quick-xml range — no fix is available
+# upstream yet; revisit when citationberg/plist bump their own quick-xml
+# dependency past 0.41.0.
+# rkyv 0.7 (RUSTSEC-2026-0235) exists in Cargo.lock only because
+# rust_decimal's `std` feature references `rkyv?/std`, which makes cargo
+# resolve and lock the optional rkyv dependency even though no feature in
+# this workspace (or any transitive dependent) enables `rust_decimal/rkyv`.
+# `cargo tree -i rkyv` is empty, so rkyv is never compiled into any target
+# and there is no exposure. Upstream deliberately keeps the optional `rkyv`
+# feature on 0.7 (rust-decimal #766 rejected the breaking 0.8 migration;
+# rkyv 0.8 appears only as a rust_decimal dev-dependency), so no
+# workspace-selectable fix exists. cargo-deny needs no matching ignore: it
+# analyzes the resolved graph, where rkyv never appears, and flagging it
+# there would alert us if rkyv ever became reachable. Revisit when
+# rust_decimal ships a maintained rkyv integration; reviewed 2026-08-23.
+#
+# RUSTSEC-2024-0449: Typst 0.15 pulls unsafe-libyaml 0.2.11 through
+# serde_yaml in typst-library and hayagriva. YAML decoding/encoding and
+# bibliography paths are compiled but not invoked: Checkbook renders only
+# bundled invoice.typ with typed Dict inputs, never user-supplied Typst/eval/YAML.
+# This is an unmaintained advisory, not a reported vulnerability; upstream is
+# archived with no patched version. Latest Typst 0.15.1 still requires
+# non-optional serde_yaml ^0.9; serde_yaml_ng also uses unsafe-libyaml. A safe
+# parser requires upstream migration rather than a compatible dependency pin.
+# Reviewed 2026-10-12; review by 2027-01-12 or before changing templates,
+# input handling, or the Typst stack.
+# RUSTSEC-2026-0459: SQLx 0.8.6 locks optional sqlx-sqlite and
+# libsqlite3-sys 0.30.1 even with default features disabled and PostgreSQL only.
+# `cargo tree --locked --target all -i libsqlite3-sys` is empty: SQLite is
+# neither compiled nor reachable, so no database/WAL file can reach this code.
+# SQLx 0.8.6 requires libsqlite3-sys ^0.30.1; the patched >=0.39.0 is outside
+# that range and no SQLx 0.8.7 exists. Moving to SQLx 0.9 is a separate migration,
+# not a compatible security pin. Leave cargo-deny unsuppressed so it reports
+# this advisory if SQLite becomes reachable. Reviewed 2026-11-09; review by
+# 2027-02-09 or before changing SQLx versions/features or database input handling.
+ignore = [
+  "RUSTSEC-2026-0459",
+  "RUSTSEC-2024-0449",
+  "RUSTSEC-2023-0071",
+  "RUSTSEC-2025-0141",
+  "RUSTSEC-2024-0436",
+  "RUSTSEC-2024-0320",
+  "RUSTSEC-2026-0195",
+  "RUSTSEC-2026-0194",
+  "RUSTSEC-2026-0235",
+]

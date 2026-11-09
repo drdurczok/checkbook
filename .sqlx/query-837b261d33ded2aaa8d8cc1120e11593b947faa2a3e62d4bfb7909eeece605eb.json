@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT payload FROM audit_events WHERE household_id=$1 AND resource_id=$2 AND event_type='utility_contract_updated' ORDER BY created_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "payload",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "837b261d33ded2aaa8d8cc1120e11593b947faa2a3e62d4bfb7909eeece605eb"
+}

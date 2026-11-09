@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_services (household_id, service_key, label, service_kind, unit)\n         VALUES ($1, 'util:Czynsz', 'Czynsz', 'cost', '') RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "45217baca062d43d96cecd7dd4bbbfc729dd2e8f35c5b0a8239ad8e16a72995e"
+}

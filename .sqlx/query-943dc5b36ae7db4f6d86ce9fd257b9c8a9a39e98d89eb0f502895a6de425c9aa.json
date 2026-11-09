@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO audit_events\n            (household_id, actor_user_id, event_type, resource_type, resource_id)\n         VALUES ($1,$2,'invoice_deleted','invoice',$3)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "943dc5b36ae7db4f6d86ce9fd257b9c8a9a39e98d89eb0f502895a6de425c9aa"
+}

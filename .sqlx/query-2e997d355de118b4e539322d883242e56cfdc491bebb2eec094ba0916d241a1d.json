@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT jsonb_build_object(\n                'description', description,\n                'amount', amount::text,\n                'entry_date', entry_date,\n                'data_source', data_source,\n                'created_at', created_at,\n                'updated_at', updated_at) AS \"row!: Value\"\n           FROM ledger_entries\n           WHERE household_id = $1 AND direction = 'expense'\n           ORDER BY created_at DESC\n           LIMIT $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "row!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "2e997d355de118b4e539322d883242e56cfdc491bebb2eec094ba0916d241a1d"
+}

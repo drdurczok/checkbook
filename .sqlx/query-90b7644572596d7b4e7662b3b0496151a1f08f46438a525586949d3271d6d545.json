@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COALESCE($3::date, p.started_on, (p.created_at AT TIME ZONE h.timezone)::date) AS \"start_date!\"\n           FROM properties p JOIN households h ON h.id=p.household_id\n           WHERE p.household_id=$1 AND p.id=$2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "start_date!",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "90b7644572596d7b4e7662b3b0496151a1f08f46438a525586949d3271d6d545"
+}

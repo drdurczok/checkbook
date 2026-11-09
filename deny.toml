@@ -1,0 +1,91 @@
+[advisories]
+version = 2
+yanked = "deny"
+ignore = [
+  { id = "RUSTSEC-2024-0449", reason = "Typst 0.15 pulls unsafe-libyaml 0.2.11 through serde_yaml in typst-library and hayagriva. Compiled YAML decoding/encoding and bibliography paths are not invoked: Checkbook renders only its bundled invoice.typ with typed Dict inputs, never user-supplied Typst/eval/YAML. This is an unmaintained advisory, not a reported vulnerability; upstream is archived with no patched version. Latest Typst 0.15.1 still requires non-optional serde_yaml ^0.9; serde_yaml_ng also uses unsafe-libyaml, and a safe parser needs an upstream migration, not a compatible pin. Reviewed 2026-10-12; review by 2027-01-12 or before changing templates, input handling, or the Typst stack." },
+  { id = "RUSTSEC-2025-0141", reason = "Pinned Typst transitively uses bincode for bundled syntax data; Checkbook does not deserialize untrusted bincode input." },
+  { id = "RUSTSEC-2024-0436", reason = "Pinned Typst transitively uses paste at compile time; no maintained compatible replacement is selectable by this workspace." },
+  { id = "RUSTSEC-2024-0320", reason = "Pinned Typst transitively uses yaml-rust for bundled syntax definitions; Checkbook does not parse untrusted YAML." },
+  { id = "RUSTSEC-2026-0192", reason = "Pinned Typst/krilla transitively use ttf-parser for PDF/SVG font handling; no maintained compatible replacement is selectable by this workspace. Font parsing only happens on bundled fonts, not untrusted input." },
+  { id = "RUSTSEC-2026-0206", reason = "Pinned Typst/krilla/usvg transitively use rustybuzz for invoice text shaping. This is an unmaintained advisory, not a known vulnerability, and no compatible safe upgrade or workspace-selectable replacement exists. Revisit when the Typst rendering stack migrates to harfrust or another maintained shaper; reviewed 2026-07-12." },
+  { id = "RUSTSEC-2026-0194", reason = "Pinned Typst transitively uses quick-xml via citationberg (bibliography) and plist/syntect (bundled syntax-highlighting definitions); Checkbook's invoice template uses neither citations nor code highlighting, so these XML-parsing paths are never invoked with any input this app processes. Confirmed 2026-07-02 that bumping typst/typst-as-lib to their latest releases still only resolves citationberg/plist to versions pinning the same vulnerable quick-xml range; no fix is available upstream yet." },
+  { id = "RUSTSEC-2026-0195", reason = "Pinned Typst transitively uses quick-xml via citationberg (bibliography) and plist/syntect (bundled syntax-highlighting definitions); Checkbook's invoice template uses neither citations nor code highlighting, so these XML-parsing paths are never invoked with any input this app processes. Confirmed 2026-07-02 that bumping typst/typst-as-lib to their latest releases still only resolves citationberg/plist to versions pinning the same vulnerable quick-xml range; no fix is available upstream yet." }
+]
+# RUSTSEC-2026-0235 (rkyv 0.7) is deliberately NOT ignored here: cargo-deny
+# analyzes the resolved dependency graph, where rkyv never appears (no
+# feature enables rust_decimal/rkyv), so deny flags it if that ever changes.
+# cargo-audit scans Cargo.lock itself, where rust_decimal's std -> rkyv?/std
+# feature edge keeps the unused optional dependency locked; that lock-only
+# ignore lives in .cargo/audit.toml.
+# RUSTSEC-2026-0459 (libsqlite3-sys) is likewise lockfile-only through SQLx's
+# disabled SQLite backend. Do not suppress it here: report future reachability.
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# These are older transitive-only versions that cannot be unified from this
+# workspace. Skipping only the older versions leaves the newest version visible
+# and keeps the duplicate check active for new dependency drift. Reconcile this
+# list with `cargo metadata` whenever Cargo.lock changes; cargo-deny reports stale
+# entries as unmatched or unnecessary skips.
+skip = [
+  # Crypto generations used by the Typst, auth, and SQLx trees.
+  { name = "block-buffer",   version = "=0.10.4" },
+  { name = "cpufeatures",    version = "=0.2.17" },
+  { name = "crypto-common",  version = "=0.1.7" },
+  { name = "digest",         version = "=0.10.7" },
+  { name = "hmac",           version = "=0.12.1" },
+  { name = "md-5",           version = "=0.10.6" },
+  { name = "sha2",           version = "=0.10.9" },
+  { name = "untrusted",      version = "=0.7.1" },
+
+  # Hashing and random ecosystems split across several major generations.
+  { name = "foldhash",       version = "=0.1.5" },
+  { name = "getrandom",      version = "=0.2.17" },
+  { name = "getrandom",      version = "=0.3.4" },
+  { name = "hashbrown",      version = "=0.15.5" },
+  { name = "rand",           version = "=0.8.7" },
+  { name = "rand_core",      version = "=0.6.4" },
+
+  # Typst parsing, serialization, and rendering generations.
+  { name = "phf",           version = "=0.12.1" },
+  { name = "phf_shared",    version = "=0.12.1" },
+  { name = "quick-xml",     version = "=0.38.4" },
+  { name = "roxmltree",     version = "=0.20.0" },
+
+  # Platform and TLS support crates.
+  { name = "r-efi",         version = "=5.3.0" },
+  { name = "webpki-roots", version = "=0.26.11" },
+  { name = "windows-sys",            version = "=0.48.0" },
+  { name = "windows-sys",            version = "=0.52.0" },
+  { name = "windows-targets",        version = "=0.48.5" },
+  { name = "windows_aarch64_gnullvm", version = "=0.48.5" },
+  { name = "windows_aarch64_msvc",    version = "=0.48.5" },
+  { name = "windows_i686_gnu",        version = "=0.48.5" },
+  { name = "windows_i686_msvc",       version = "=0.48.5" },
+  { name = "windows_x86_64_gnu",      version = "=0.48.5" },
+  { name = "windows_x86_64_gnullvm",  version = "=0.48.5" },
+  { name = "windows_x86_64_msvc",     version = "=0.48.5" },
+]
+
+[licenses]
+version = 2
+allow = [
+  "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "BSL-1.0",
+  "CC0-1.0",
+  "CDLA-Permissive-2.0",
+  "ISC",
+  "MIT",
+  "MPL-2.0",
+  "Unicode-3.0",
+  "Zlib"
+]
+
+[sources]
+unknown-git = "deny"
+unknown-registry = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

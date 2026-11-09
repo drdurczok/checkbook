@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE recurring_expenses SET next_index = $3, updated_at = now()\n         WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "dadb9546ba25e00a4e10ba69905bc9b72566e6e8de49d0939f13ce773614a5e8"
+}

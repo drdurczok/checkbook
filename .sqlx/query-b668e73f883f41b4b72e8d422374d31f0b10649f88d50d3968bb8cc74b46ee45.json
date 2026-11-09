@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_contracts (household_id,property_id,service_id,start_date,tracking_mode,sort_order)\n         VALUES ($1,$2,$3,$4,'actual',COALESCE((SELECT max(sort_order)+1 FROM utility_contracts WHERE household_id=$1 AND property_id=$2),0))\n         ON CONFLICT (household_id,service_id) DO UPDATE SET start_date=LEAST(utility_contracts.start_date,EXCLUDED.start_date)\n         RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "b668e73f883f41b4b72e8d422374d31f0b10649f88d50d3968bb8cc74b46ee45"
+}

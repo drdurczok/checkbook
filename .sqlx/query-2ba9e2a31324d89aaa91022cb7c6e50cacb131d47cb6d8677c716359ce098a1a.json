@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO ledger_entries\n            (household_id, direction, status, amount, currency, entry_date,\n             description, notes, owner_scope, data_source, income_source_id,\n             source_key, extra_payload)\n         VALUES ($1, 'income', 'actual', $2,\n                 (SELECT base_currency FROM households WHERE id = $1),\n                 $3, $4, $5, $6, 'app_manual', $7, $8, $9)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Numeric",
+        "Date",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid",
+        "Text",
+        "Jsonb"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2ba9e2a31324d89aaa91022cb7c6e50cacb131d47cb6d8677c716359ce098a1a"
+}

@@ -1,0 +1,62 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO households\n            (id, name, base_currency, timezone, created_by_user_id)\n         VALUES ($1, $2, $3, $4, $5)\n         RETURNING id, name, base_currency, timezone, created_by_user_id,\n                   created_at, updated_at",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "base_currency",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "timezone",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "created_by_user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 5,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 6,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "738c04e2fa8c97064a1cf6ce803fbcb74e0f2bd0de08f6536120a993e40ab689"
+}

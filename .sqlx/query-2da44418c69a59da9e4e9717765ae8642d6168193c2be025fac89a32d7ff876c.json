@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT utility_contract_id FROM utility_contract_import_sources\n         WHERE household_id=$1 AND property_id=$2 AND source_service_key=$3",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "utility_contract_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "2da44418c69a59da9e4e9717765ae8642d6168193c2be025fac89a32d7ff876c"
+}

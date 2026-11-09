@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT amount,unit_rate,amount_source FROM utility_bills WHERE household_id=$1 AND utility_contract_id=$2 ORDER BY charge_date",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 1,
+        "name": "unit_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount_source",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "315ac25780335f82167c5fa5bae8cce26838cab95dbabbe92081840a60e30571"
+}

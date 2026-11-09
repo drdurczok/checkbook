@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO payday_allocations (household_id,month_id,template_id,title,section,position,kind,expense_group_id,expense_group_name,category_id,subcategory_id,category_name,subcategory_name,amount,notes,source,source_key) SELECT t.household_id,m.id,t.id,t.title,t.section,t.position,t.kind,t.expense_group_id,t.expense_group_name,t.category_id,t.subcategory_id,t.category_name,t.subcategory_name,t.amount,t.notes,'template','template:' || t.recurrence_id::text FROM payday_templates t JOIN payday_months m ON m.household_id=t.household_id WHERE t.household_id=$1 AND t.id=$2 AND m.month > $3 AND NOT EXISTS (SELECT 1 FROM payday_allocations a JOIN payday_templates old ON old.household_id=a.household_id AND old.id=a.template_id WHERE a.household_id=t.household_id AND a.month_id=m.id AND old.recurrence_id=t.recurrence_id) ON CONFLICT (household_id,month_id,source_key) DO NOTHING",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c4e1445c2a524ed53240d229a991464d2dae5ad3d66a7a57a7d8e1c97ea77f30"
+}

@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id FROM categories\n         WHERE household_id = $1 AND kind = 'expense' AND parent_id IS NULL\n           AND normalized_name = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "9d0b032c44bf65fdef2bb154e04bec6c1bf1bcc75d7eb4f247172f297d070584"
+}

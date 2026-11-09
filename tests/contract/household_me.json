@@ -1,0 +1,80 @@
+{
+  "household": {
+    "base_currency": "PLN",
+    "created_at": "<datetime>",
+    "created_by_user_id": "<uuid>",
+    "id": "<uuid>",
+    "name": "Demo Household",
+    "timezone": "Europe/Warsaw",
+    "updated_at": "<datetime>"
+  },
+  "membership": {
+    "created_at": "<datetime>",
+    "household_id": "<uuid>",
+    "id": "<uuid>",
+    "is_active": true,
+    "relationship_kind": "owner",
+    "role": "owner",
+    "updated_at": "<datetime>",
+    "user_id": "<uuid>"
+  },
+  "settings": {
+    "allow_cross_member_visibility": false,
+    "backup_config": {},
+    "created_at": "<datetime>",
+    "household_id": "<uuid>",
+    "id": "<uuid>",
+    "privacy_mode": "private_joint",
+    "projection_baseline_window_months": 6,
+    "projection_horizon_months": 18,
+    "role_permissions": {
+      "imports": {
+        "contributor": {
+          "delete": false,
+          "read": true,
+          "write": false
+        },
+        "owner": {
+          "delete": false,
+          "read": true,
+          "write": true
+        }
+      },
+      "planning": {
+        "contributor": {
+          "delete": false,
+          "read": true,
+          "write": true
+        },
+        "owner": {
+          "delete": true,
+          "read": true,
+          "write": true
+        }
+      },
+      "settings": {
+        "contributor": {
+          "delete": false,
+          "read": true,
+          "write": false
+        },
+        "owner": {
+          "delete": true,
+          "read": true,
+          "write": true
+        }
+      }
+    },
+    "savings_allocation_strategy": "keep_cash_positive",
+    "updated_at": "<datetime>"
+  },
+  "user": {
+    "created_at": "<datetime>",
+    "email": "contract@example.com",
+    "full_name": "Contract Owner",
+    "google_sub": "dev:contract@example.com",
+    "id": "<uuid>",
+    "picture_url": "",
+    "updated_at": "<datetime>"
+  }
+}

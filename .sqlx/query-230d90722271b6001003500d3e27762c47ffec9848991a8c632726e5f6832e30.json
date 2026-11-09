@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO net_worth_months (household_id, period, completed)\n           VALUES ($1, $2, $3)\n           ON CONFLICT (household_id, period)\n           DO UPDATE SET completed = EXCLUDED.completed, updated_at = now()\n           RETURNING id AS \"id!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Date",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "230d90722271b6001003500d3e27762c47ffec9848991a8c632726e5f6832e30"
+}

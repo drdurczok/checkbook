@@ -1,0 +1,142 @@
+.property-subject-actions .nw-options__menu {
+	max-width: calc(100vw - 2rem);
+	min-width: min(12rem, calc(100vw - 2rem));
+}
+
+.property-information-panel .detail-table {
+	max-height: none;
+	overflow: visible;
+}
+
+/* Property details occupy the viewport, including the editing state. */
+.modal-backdrop > .modal-shell.asset-detail-modal.property-detail-page:not(.loan-detail-modal) {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	height: 100dvh;
+	max-height: none;
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	overflow-y: auto;
+}
+
+/* Household grouping in the desktop sidebar (no label — visual box only) */
+.app-sidebar-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-top: 0.35rem;
+	border: 1px solid rgba(148, 163, 184, 0.18);
+	border-radius: 0.85rem;
+	padding: 0.4rem 0.3rem;
+	background: rgba(148, 163, 184, 0.06);
+}
+
+/* Linked-project group inside a property section */
+.property-room-section__header--linked {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	width: 100%;
+	border-left: 2px solid rgb(var(--accent) / 0.55);
+	background: rgb(var(--accent) / 0.08);
+}
+
+.property-linked-toggle {
+	flex: 1 1 auto;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+.property-linked-toggle strong {
+	display: block;
+	min-width: 0;
+	overflow: hidden;
+	color: rgb(var(--ink));
+	font-size: 0.82rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.property-linked-open {
+	display: inline-grid;
+	flex: 0 0 auto;
+	width: 1.7rem;
+	height: 1.7rem;
+	place-items: center;
+	border: 0;
+	border-radius: 0.4rem;
+	background: transparent;
+	color: rgb(var(--accent));
+	cursor: pointer;
+}
+
+button.property-linked-open:hover {
+	background: rgb(var(--accent) / 0.15);
+}
+
+.property-room-section__header--linked .property-section-meta {
+	flex: 0 0 auto;
+}
+
+.property-linked-empty {
+	padding: 0.4rem 0.65rem;
+}
+
+/* Read-only fallback: a property with no breakdown of its own shows its
+   linked project's rooms instead, grouped under the project's name. */
+.property-linked-project-group {
+	display: grid;
+	gap: 0.5rem;
+	margin-bottom: 0.6rem;
+}
+
+.property-linked-project-group__head {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	border-left: 2px solid rgb(var(--accent) / 0.55);
+	border-radius: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	background: rgb(var(--accent) / 0.08);
+}
+
+.property-linked-project-group__head strong {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	color: rgb(var(--ink));
+	font-size: 0.88rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.project-link-asset__draft {
+	color: rgb(var(--ink));
+	font-size: 0.8rem;
+	font-weight: 750;
+	white-space: nowrap;
+}
+
+.project-link-asset__cancel {
+	border: 0;
+	background: transparent;
+	color: rgb(var(--mist));
+	cursor: pointer;
+	font-size: 0.76rem;
+	font-weight: 700;
+	text-decoration: underline;
+}
+
+.project-link-asset__cancel:hover {
+	color: rgb(var(--ink));
+}

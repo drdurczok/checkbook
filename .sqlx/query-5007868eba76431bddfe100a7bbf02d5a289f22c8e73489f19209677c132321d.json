@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT last_attempt_at, last_success_at FROM holding_price_cache WHERE household_id = $1 AND ticker = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "last_attempt_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 1,
+        "name": "last_success_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      true
+    ]
+  },
+  "hash": "5007868eba76431bddfe100a7bbf02d5a289f22c8e73489f19209677c132321d"
+}

@@ -1,0 +1,34 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT c.id, g.id AS expense_group_id, g.name FROM categories c JOIN expense_groups g ON g.household_id=c.household_id AND g.id=c.expense_group_id WHERE c.household_id=$1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "expense_group_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "8fe6e8b40b8073a8e55a7b82ad642a996bf59d2b71d77d6a46a7f45f39427fac"
+}

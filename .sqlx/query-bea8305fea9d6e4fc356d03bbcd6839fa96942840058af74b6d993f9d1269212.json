@@ -1,0 +1,33 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT COALESCE(grp.name, category.name,\n                    CASE WHEN e.direction = 'income' THEN 'Income' ELSE 'Uncategorized' END\n                ) AS \"label!\",\n                sum(e.amount)::numeric AS \"amount!: Decimal\"\n         FROM ledger_entries e\n         LEFT JOIN categories category\n           ON category.household_id = e.household_id AND category.id = e.category_id\n         LEFT JOIN expense_groups grp\n           ON grp.household_id = category.household_id\n          AND grp.id = category.expense_group_id\n         WHERE e.household_id = $1 AND e.direction = $2\n           AND e.owner_scope = ANY($3)\n           AND e.entry_date IS NOT NULL\n           AND (e.status = 'actual' OR ($6 AND e.status = 'planned'))\n           AND ($4::date IS NULL OR e.entry_date >= $4)\n           AND ($5::date IS NULL OR e.entry_date <= $5)\n         GROUP BY 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "label!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "TextArray",
+        "Date",
+        "Date",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "bea8305fea9d6e4fc356d03bbcd6839fa96942840058af74b6d993f9d1269212"
+}

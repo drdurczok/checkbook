@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT group_key AS \"group_key!\", label AS \"label!\", value AS \"value!: Decimal\"\n           FROM net_worth_month_components\n           WHERE household_id = $1 AND month_id = $2\n           ORDER BY group_key, sort_order, label",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "group_key!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "label!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "value!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "c6d1fda71a679fdcf9a3c03ad57b5e31241f4aaae6fdc9185ca1ad693430ae41"
+}

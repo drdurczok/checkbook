@@ -1,0 +1,55 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT e.category_id AS \"category_id!\",\n                sum(e.amount)::numeric AS \"total_amount!: Decimal\",\n                count(*) AS \"entry_count!\",\n                min(e.entry_date) AS first_entry_date,\n                max(e.entry_date) AS last_entry_date,\n                count(DISTINCT date_trunc('month', e.entry_date)) AS \"month_count!\"\n         FROM ledger_entries e\n         WHERE e.household_id = $1 AND e.direction = 'expense'\n           AND e.status = 'actual' AND e.category_id IS NOT NULL\n           AND e.entry_date IS NOT NULL\n           AND e.owner_scope = ANY($2)\n           AND ($3::date IS NULL OR e.entry_date >= $3)\n           AND ($4::date IS NULL OR e.entry_date <= $4)\n         GROUP BY e.category_id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "category_id!",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "total_amount!: Decimal",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "entry_count!",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 3,
+        "name": "first_entry_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "last_entry_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "month_count!",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      true,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "b9db9eeab55e64dcb5a46ade94d89c4432c63776a195d97ff319562a9c6235a9"
+}

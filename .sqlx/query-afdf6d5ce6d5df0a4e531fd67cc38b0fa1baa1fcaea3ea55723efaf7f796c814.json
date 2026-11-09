@@ -1,0 +1,53 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, name, utility_group_type, started_on, ended_on, notes\n         FROM properties WHERE household_id = $1 AND id = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "utility_group_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "notes",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "afdf6d5ce6d5df0a4e531fd67cc38b0fa1baa1fcaea3ea55723efaf7f796c814"
+}

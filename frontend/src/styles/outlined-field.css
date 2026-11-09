@@ -1,0 +1,155 @@
+/* Opt-in field primitive. Never reuse the legacy inline-field/record-add-field
+   classes here: their mobile and descendant rules alter control geometry. */
+.outlined-field {
+  --field-height: 3.5rem;
+  --field-label-size: 0.75rem;
+  --field-label-line: 1rem;
+  --field-padding: 0.8rem;
+  min-width: 0;
+  align-self: start;
+  color: rgb(var(--ink));
+}
+
+.outlined-field .outlined-field__shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: var(--field-height);
+  padding: 0 var(--field-padding);
+  border-radius: 0.55rem;
+  background: rgb(var(--surface-lowest));
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Only the outline participates in fieldset/legend layout. Its upper edge is
+   half a legend-line above the shell, placing the actual border at shell top. */
+.outlined-field .outlined-field__outline {
+  position: absolute;
+  inset: calc(var(--field-label-line) / -2) 0 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0 calc(var(--field-padding) - 0.3rem);
+  border: 1px solid rgb(var(--outline));
+  border-radius: inherit;
+  pointer-events: none;
+  background: transparent;
+}
+
+.outlined-field__outline legend {
+  width: auto;
+  max-width: 100%;
+  height: var(--field-label-line);
+  margin: 0;
+  padding: 0;
+  font-size: var(--field-label-size);
+  font-weight: 600;
+  line-height: var(--field-label-line);
+  letter-spacing: normal;
+  white-space: nowrap;
+  visibility: hidden;
+}
+
+.outlined-field__outline legend span { display: inline-block; padding: 0 0.3rem; }
+.outlined-field:not(.has-value) .outlined-field__outline legend { max-width: 0; }
+
+.outlined-field .outlined-field__label {
+  position: absolute;
+  top: calc(var(--field-label-line) / -2);
+  left: var(--field-padding);
+  max-width: calc(100% - 2 * var(--field-padding));
+  color: rgb(var(--mist));
+  font-size: var(--field-label-size);
+  font-weight: 600;
+  line-height: var(--field-label-line);
+  letter-spacing: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: text;
+}
+
+.outlined-field:not(.has-value) .outlined-field__label {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.outlined-field__control { display: flex; align-items: center; flex: 1; min-width: 0; }
+.outlined-field .outlined-field__icon,
+.outlined-field .outlined-field__trailing { display: flex; align-items: center; flex: none; color: rgb(var(--mist)); }
+.outlined-field__icon > svg { width: 1rem; height: 1rem; }
+.outlined-field .outlined-field__trailing { font-size: 0.78rem; font-weight: 600; }
+.outlined-field__trailing .is-empty { opacity: 0.55; }
+
+.outlined-field .outlined-field__input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 2.75rem;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: normal;
+}
+
+.outlined-field .outlined-field__native-select { appearance: none; cursor: pointer; }
+.outlined-field .outlined-field__native-select option { color: rgb(var(--ink)); background: rgb(var(--surface)); }
+.outlined-field.is-native-select:not(.has-value) .outlined-field__native-select { color: rgb(var(--mist)); }
+
+.outlined-field .outlined-field__input:focus { background: transparent; box-shadow: none; outline: 0; }
+.outlined-field .outlined-field__input::placeholder { color: rgb(var(--mist)); opacity: 0.7; }
+.outlined-field .outlined-field__input:disabled { cursor: not-allowed; }
+.outlined-field.is-disabled { opacity: 0.65; }
+.outlined-field__shell:focus-within { box-shadow: 0 0 0 3px rgb(var(--accent) / 0.16); }
+.outlined-field__shell:focus-within .outlined-field__outline { border-color: rgb(var(--accent)); }
+.outlined-field__shell:focus-within .outlined-field__label { color: rgb(var(--accent)); }
+.outlined-field.is-invalid .outlined-field__outline { border-color: rgb(var(--danger)); }
+.outlined-field.is-invalid .outlined-field__label,
+.outlined-field .outlined-field__error { color: rgb(var(--danger)); }
+.outlined-field .outlined-field__hint,
+.outlined-field .outlined-field__error { margin-top: 0.4rem; font-size: 0.8rem; line-height: 1.5; overflow-wrap: anywhere; }
+.outlined-field .outlined-field__hint { color: rgb(var(--mist)); }
+
+/* Notes keep natural multiline flow; typing does not change their shell size. */
+.outlined-field.is-multiline .outlined-field__shell { height: auto; min-height: 8rem; align-items: flex-start; padding-block: 0.75rem; }
+.outlined-field.is-multiline .outlined-field__icon { margin-top: 0.25rem; }
+.outlined-field.is-multiline .outlined-field__input { height: 6.5rem; resize: vertical; line-height: 1.5; }
+
+/* Native date segments need their own placeholder on browsers that ignore it. */
+.outlined-field.is-date:not(.has-value):not(:focus-within) .outlined-field__label {
+  top: 50%; left: var(--field-padding); width: auto; height: auto;
+  transform: translateY(-50%); clip-path: none; font-size: 1rem; font-weight: 400; opacity: 0.7; pointer-events: none;
+}
+.outlined-field.is-date.has-icon:not(.has-value):not(:focus-within) .outlined-field__label { left: calc(var(--field-padding) + 1.5rem); }
+.outlined-field.is-date:not(.has-value):not(:focus-within) input { color: transparent; }
+
+.outlined-field .outlined-select__trigger { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; text-align: left; cursor: pointer; }
+.outlined-select__trigger-meta { display: grid; min-width: 0; line-height: 1.25; }
+.outlined-select__trigger-meta > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.outlined-select__trigger-meta.is-placeholder { color: rgb(var(--mist)); opacity: 0.7; }
+.outlined-select__chevron { flex: none; width: 1rem; height: 1rem; color: rgb(var(--mist)); }
+.outlined-field .outlined-select__trigger-meta small,
+.outlined-field .outlined-select__option-meta small { color: rgb(var(--mist)); font-size: 0.75rem; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.outlined-select__menu { position: absolute; top: calc(100% + 6px); z-index: 30; overflow-y: auto; overscroll-behavior: contain; border: 1px solid rgb(var(--outline)); border-radius: 0.55rem; padding: 0.3rem; background: rgb(var(--surface)); box-shadow: 0 8px 24px rgb(var(--shadow) / 0.18); }
+.outlined-select__menu.is-above { top: auto; bottom: calc(100% + 6px); }
+.outlined-select__option { padding: 0.55rem 0.65rem; border-radius: 0.3rem; cursor: pointer; }
+.outlined-select__option.is-active { background: rgb(var(--accent) / 0.08); }
+.outlined-select__option.is-highlighted { outline: 1px solid rgb(var(--accent)); outline-offset: -1px; background: rgb(var(--accent) / 0.12); }
+.outlined-select__option-meta { display: grid; grid-template-columns: auto 1fr; column-gap: 0.45rem; align-items: center; }
+.outlined-select__option-meta small { grid-column: 2; }
+.outlined-select__option-meta > span:first-child { display: flex; align-items: center; }
+.outlined-select__option-meta svg { width: 1rem; height: 1rem; }
+@media (forced-colors: active) {
+  .outlined-field__shell:focus-within .outlined-field__outline { border: 2px solid Highlight; }
+  .outlined-select__option.is-highlighted { outline-color: Highlight; }
+}

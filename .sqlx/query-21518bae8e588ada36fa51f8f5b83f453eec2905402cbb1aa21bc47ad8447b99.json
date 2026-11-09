@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO properties (household_id,name,category,valuation,valuation_date,status,data_source,utilities_enabled,expenses_enabled)\n         VALUES ($1,'Contracts house','property',100,CURRENT_DATE,'active','app_manual',true,true) RETURNING id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "21518bae8e588ada36fa51f8f5b83f453eec2905402cbb1aa21bc47ad8447b99"
+}

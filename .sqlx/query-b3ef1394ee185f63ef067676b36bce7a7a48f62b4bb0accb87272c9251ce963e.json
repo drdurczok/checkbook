@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO audit_events\n        (household_id,actor_user_id,event_type,resource_type,resource_id,payload)\n        VALUES ($1,$2,'utility_deleted','utility_service',$3,$4)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Jsonb"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b3ef1394ee185f63ef067676b36bce7a7a48f62b4bb0accb87272c9251ce963e"
+}

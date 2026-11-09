@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_services (household_id, service_key, label, service_kind, unit)\n         VALUES ($1,$2,$3,$4,$5)\n         ON CONFLICT (household_id, service_key) DO UPDATE SET\n            label = EXCLUDED.label, service_kind = EXCLUDED.service_kind,\n            unit = EXCLUDED.unit, updated_at = now()\n         RETURNING id, (xmax = 0) AS \"inserted!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "inserted!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      null
+    ]
+  },
+  "hash": "d7f748917b742d4fb244b94645d98e8cf07eaf4c180113c5631d4e1b5b47bdd9"
+}

@@ -1,0 +1,45 @@
+.expense-name {
+  position: relative;
+  min-width: 0;
+}
+
+.expense-name__suggestions {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  inset-inline: 0;
+  z-index: 25;
+  display: grid;
+  max-height: min(16rem, 30dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgb(var(--outline));
+  border-radius: 0.65rem;
+  padding: 0.3rem;
+  background: rgb(var(--surface));
+  box-shadow: 0 18px 40px rgb(var(--shadow) / 0.2);
+}
+
+.expense-name__suggestion {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+  border: 0;
+  border-radius: 0.45rem;
+  padding: 0.65rem 0.75rem;
+  background: transparent;
+  color: rgb(var(--ink));
+  text-align: start;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.expense-name__suggestion small {
+  color: rgb(var(--mist));
+}
+
+.expense-name__suggestion:hover,
+.expense-name__suggestion[aria-selected="true"],
+.expense-name__suggestion:focus-visible {
+  background: rgb(var(--accent) / 0.1);
+  color: rgb(var(--accent));
+}

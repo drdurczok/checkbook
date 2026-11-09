@@ -1,0 +1,79 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT id, description, amount, entry_date, owner_scope, notes,\n                data_source, category_id, subcategory_id,\n                extra_payload AS \"extra_payload!: Value\"\n         FROM ledger_entries\n         WHERE household_id = $1 AND direction = 'expense' AND status = 'actual'\n           AND (category_id = $2 OR subcategory_id = $2)\n           AND owner_scope = ANY($3)\n         ORDER BY entry_date DESC NULLS LAST, created_at DESC\n         LIMIT $4",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "entry_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "data_source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "category_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 8,
+        "name": "subcategory_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 9,
+        "name": "extra_payload!: Value",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "TextArray",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ]
+  },
+  "hash": "6b3c2df2246ea638c50e27642219bf791d249a324c7d9d987ce2aee2d07082f4"
+}

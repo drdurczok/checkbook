@@ -1,0 +1,22 @@
+services:
+  seed:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile
+      target: production
+    command: ["seed-development"]
+    environment:
+      DATABASE_URL: postgresql://checkbook_app:${DB_APP_PASSWORD:-checkbook-app}@postgres:5432/checkbook
+      SEED_EMAIL: ${SEED_EMAIL:-owner@checkbook.local}
+      SEED_FULL_NAME: ${SEED_FULL_NAME:-Checkbook Owner}
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+    restart: "no"
+    networks:
+      - checkbook-network
+
+  api:
+    depends_on:
+      seed:
+        condition: service_completed_successfully

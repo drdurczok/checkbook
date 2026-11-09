@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE utility_services s SET sort_order=$3,updated_at=now()\n             FROM utility_contracts c\n             WHERE c.household_id=$1 AND c.id=$2 AND s.household_id=c.household_id AND s.id=c.service_id",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Int8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "bda7dbb6780406e5e26b47e2aa426305771496f63d3bd1f75074f5abe67e2c31"
+}

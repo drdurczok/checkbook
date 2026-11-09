@@ -1,0 +1,33 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO loan_payments\n                (household_id, loan_id, payment_date, total_payment, principal_amount,\n                 interest_amount, extra_payment, remaining_balance, source_key,\n                 completed, interest_balance, schedule_order)\n             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)\n             ON CONFLICT (household_id, source_key) DO UPDATE SET\n                loan_id = EXCLUDED.loan_id, payment_date = EXCLUDED.payment_date,\n                total_payment = EXCLUDED.total_payment, principal_amount = EXCLUDED.principal_amount,\n                interest_amount = EXCLUDED.interest_amount, extra_payment = EXCLUDED.extra_payment,\n                remaining_balance = EXCLUDED.remaining_balance,\n                completed = EXCLUDED.completed, interest_balance = EXCLUDED.interest_balance,\n                schedule_order = EXCLUDED.schedule_order, updated_at = now()\n             WHERE NOT loan_payments.completed\n             RETURNING (xmax = 0) AS \"inserted!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "inserted!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Text",
+        "Bool",
+        "Numeric",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "720d988194b19e06a4cffd86545037e0429f725f5712deabec26a50ac9b87bb9"
+}

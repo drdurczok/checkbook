@@ -1,0 +1,140 @@
+# Logs
+*.log
+*.log.*
+logs/
+
+# Claude Code
+.claude
+
+# Reports and Results
+reports/*
+results/*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+.local_venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.tox/
+.npm/
+target/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables: only reviewed generic examples may be tracked.
+.env
+.env.*
+!.env.example
+!.env.production.template
+.envrc
+*.env
+
+# Private source data, local databases, agent worktrees and publication output
+/data-import/
+/.dsh-pg/
+/.agents/
+/private-data/
+/exports/
+/backups/
+/public-snapshot/
+/public-snapshot*.tar*
+*.csv
+*.xlsx
+*.xls
+*.ods
+*.dump
+*.sql.gz
+*.sql.zst
+*.tar.gz
+*.tgz
+*.zip
+*.pem
+*.key
+# The sole checked-in private key is a deliberately public test fixture.
+!crates/checkbook-api/tests/fixtures/private_rsa_key_pkcs8.pem
+
+# Deploy SSH keys
+checkbook-deploy
+checkbook-deploy.pub
+infrastructure/scripts/*-deploy
+infrastructure/scripts/*-deploy.pub
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Data files
+data/backtests/*
+data/market_data/*
+data/exports/*
+!data/.gitkeep
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+.deploy/
+
+
+# Docker
+docker-compose.override.yml
+
+# Alembic
+alembic/versions/*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups
+*.bak
+*.backup
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json

@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT EXISTS(SELECT 1 FROM utility_bills\n           WHERE household_id=$1 AND utility_contract_id=$2\n             AND (date_trunc('month',charge_date)::date < $3\n               OR ($4::date IS NOT NULL AND date_trunc('month',charge_date)::date > $4))) AS \"exists!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "exists!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "eedc77fb9f7fc719f0f79ebd2057d98142d8a080489ac3c7db3880416acf034e"
+}

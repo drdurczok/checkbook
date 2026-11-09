@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO utility_contract_prices (household_id,utility_contract_id,effective_on,price) VALUES ($1,$2,$3,$4)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date",
+        "Numeric"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "394e95347ad61ae186e6f8428834a481e87233eb79487095027fa2169fed0be5"
+}

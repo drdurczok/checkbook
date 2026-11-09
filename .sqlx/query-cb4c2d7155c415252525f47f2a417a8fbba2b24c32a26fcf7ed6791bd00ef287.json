@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE household_settings\n         SET backup_path = $2, backup_retention = $3, updated_at = now()\n         WHERE household_id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "cb4c2d7155c415252525f47f2a417a8fbba2b24c32a26fcf7ed6791bd00ef287"
+}

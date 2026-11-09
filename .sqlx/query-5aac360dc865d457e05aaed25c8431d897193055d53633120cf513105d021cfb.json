@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT initcap(replace(account.account_type, '_', ' ')) AS \"label!\",\n                sum(latest.balance)::numeric AS \"amount!: Decimal\"\n         FROM financial_accounts account\n         JOIN LATERAL (\n             SELECT snapshot.balance\n             FROM account_balance_snapshots snapshot\n             WHERE snapshot.household_id = account.household_id\n               AND snapshot.account_id = account.id\n               AND snapshot.source_key NOT LIKE $3\n             ORDER BY snapshot.effective_date DESC, snapshot.created_at DESC\n             LIMIT 1\n         ) latest ON true\n         WHERE account.household_id = $1 AND account.account_kind = 'asset'\n           AND account.owner_scope = ANY($2)\n         GROUP BY account.account_type",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "label!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Text"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "5aac360dc865d457e05aaed25c8431d897193055d53633120cf513105d021cfb"
+}

@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT EXISTS(SELECT 1 FROM utility_months WHERE household_id=$1\n         AND property_id IS NOT DISTINCT FROM $2 AND contract_id IS NOT DISTINCT FROM $3\n         AND period=$4 AND completed) AS \"completed!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "completed!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "3daa8c33b9a0fbb2d3c8f57680744a4468ee1ff0644ad8221223bfd3f20d6624"
+}

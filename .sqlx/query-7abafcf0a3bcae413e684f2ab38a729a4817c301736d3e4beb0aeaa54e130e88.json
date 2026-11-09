@@ -1,0 +1,38 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT date_trunc('month', e.entry_date)::date AS \"period!\",\n                COALESCE(grp.name, category.name, 'Uncategorized') AS \"label!\",\n                sum(e.amount)::numeric AS \"amount!: Decimal\"\n         FROM ledger_entries e\n         LEFT JOIN categories category\n           ON category.household_id = e.household_id AND category.id = e.category_id\n         LEFT JOIN expense_groups grp\n           ON grp.household_id = category.household_id\n          AND grp.id = category.expense_group_id\n         WHERE e.household_id = $1 AND e.direction = 'expense'\n           AND e.owner_scope = ANY($2) AND e.entry_date IS NOT NULL\n           AND (e.status = 'actual' OR ($5 AND e.status = 'planned'))\n           AND ($3::date IS NULL OR e.entry_date >= $3)\n           AND ($4::date IS NULL OR e.entry_date <= $4)\n         GROUP BY 1, 2 ORDER BY 1, 2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "period!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 1,
+        "name": "label!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount!: Decimal",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "7abafcf0a3bcae413e684f2ab38a729a4817c301736d3e4beb0aeaa54e130e88"
+}

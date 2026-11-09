@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT EXISTS(\n            SELECT 1 FROM pg_catalog.pg_tables\n            WHERE schemaname = 'public' AND tablename = '_sqlx_migrations'\n         ) AS \"exists!\"",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "exists!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "a1530209d00370620610f06b9e559af47617db62a015bbc540ae1752874a0d3d"
+}

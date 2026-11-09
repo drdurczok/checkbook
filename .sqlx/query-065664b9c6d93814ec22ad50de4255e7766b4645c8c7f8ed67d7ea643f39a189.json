@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE payday_templates SET recurrence_id=$3,starts_on=$4 WHERE household_id=$1 AND id=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "065664b9c6d93814ec22ad50de4255e7766b4645c8c7f8ed67d7ea643f39a189"
+}

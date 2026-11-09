@@ -1,0 +1,73 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT r.id,r.reading,b.id AS bill_id,b.unit_rate,b.entry_mode,b.owner_scope,b.amount_source,b.utility_contract_id,b.charge_date\n        FROM utility_meter_readings r JOIN utility_bills b ON b.household_id=r.household_id AND b.id=r.utility_bill_id\n        WHERE b.household_id=$1 AND b.service_id=$2\n        AND (($3='property' AND b.property_id=$4) OR ($3='contract' AND b.contract_id=$4))\n        ORDER BY b.owner_scope,b.charge_date,b.id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "reading",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "bill_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "unit_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "entry_mode",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "amount_source",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "utility_contract_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 8,
+        "name": "charge_date",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "9247f4a025e0d5791997ce0f1eba73ac243997e38ac3010131d41eb0cca09db3"
+}

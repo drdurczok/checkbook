@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT DISTINCT\n            CASE\n                WHEN income_source_id IS NOT NULL THEN 'source:' || income_source_id::text\n                ELSE 'description:' || lower(trim(description))\n            END AS \"identity!\",\n            date_trunc('month', entry_date)::date AS \"period!\"\n         FROM ledger_entries\n         WHERE household_id = $1\n           AND direction = 'income'\n           AND entry_date IS NOT NULL\n           AND (\n                status = 'actual'\n                OR (status = 'planned' AND planning_occurrence_id IS NULL)\n           )",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "identity!",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "period!",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "5b1865cc359e269b5d79c8526025f8c8e9aef08e96d7b2d1885de3ee0063755e"
+}

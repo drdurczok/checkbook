@@ -1,0 +1,77 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT p.id, p.name, p.category, p.account_type, p.valuation, p.valuation_date,\n                p.started_on, p.ended_on, p.depreciation_rate, p.depreciation_enabled\n         FROM properties p LEFT JOIN financial_accounts a\n           ON a.household_id = p.household_id AND a.id = p.account_id\n         WHERE p.household_id = $1 AND COALESCE(a.owner_scope, 'joint') = ANY($2)\n         ORDER BY p.id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "category",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "account_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "valuation",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "valuation_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 6,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 8,
+        "name": "depreciation_rate",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 9,
+        "name": "depreciation_enabled",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "26f43be8d4e502fac6cbce04d4118ea2dc5eaa566b44ecfd6ab0e342ff535c3f"
+}

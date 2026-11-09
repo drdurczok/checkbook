@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE payday_templates SET ends_before=GREATEST(starts_on,$3) WHERE household_id=$1 AND recurrence_id=$2 AND (ends_before IS NULL OR ends_before > $3)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "8309383a9edafba6d0501176c146bd6172829a95f201bb15be5acfcd4c7a8f00"
+}

@@ -1,0 +1,54 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT s.service_key,s.unit,s.service_kind,c.start_date,c.end_date,c.tracking_mode\n             FROM utility_contracts c JOIN utility_services s\n             ON s.household_id=c.household_id AND s.id=c.service_id\n             WHERE c.household_id=$1 AND c.property_id=$2 AND c.id=$3",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "service_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "unit",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "service_kind",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "start_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 4,
+        "name": "end_date",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "tracking_mode",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "5199a92ae74623eebbb81d8803478a8dcf43007847ba7ff487db28c34a561edd"
+}

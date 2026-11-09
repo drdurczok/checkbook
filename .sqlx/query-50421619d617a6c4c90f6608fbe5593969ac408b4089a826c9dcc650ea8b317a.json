@@ -1,0 +1,72 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE income_sources\n         SET name = $3, source_type = $4, owner_scope = $5, started_on = $6,\n             ended_on = $7, notes = $8, sort_order = $9, updated_at = now()\n         WHERE household_id = $1 AND id = $2\n         RETURNING id, name, source_type, owner_scope, started_on, ended_on,\n                   notes, sort_order",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "source_type",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "owner_scope",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "started_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "ended_on",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 6,
+        "name": "notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "sort_order",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Date",
+        "Date",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "50421619d617a6c4c90f6608fbe5593969ac408b4089a826c9dcc650ea8b317a"
+}

@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT price_date FROM holding_price_cache WHERE household_id = $1 AND ticker = $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "price_date",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      true
+    ]
+  },
+  "hash": "d408cc56ffee73a385d333f1188eebbb448367ed5c356088da2fd550ed2a3389"
+}

@@ -1,0 +1,57 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT e.category_id,e.subcategory_id,c.name AS \"category_name?\",s.name AS \"subcategory_name?\",date_trunc('month',e.entry_date)::date AS \"month!\",sum(e.amount)::numeric AS \"amount!\" FROM ledger_entries e LEFT JOIN categories c ON c.household_id=e.household_id AND c.id=e.category_id LEFT JOIN categories s ON s.household_id=e.household_id AND s.id=e.subcategory_id WHERE e.household_id=$1 AND e.status='actual' AND e.direction='expense' AND e.owner_scope=ANY($2) AND ((e.entry_date >= $3 AND e.entry_date < $4) OR (e.entry_date >= $5 AND e.entry_date < $6)) GROUP BY e.category_id,e.subcategory_id,c.name,s.name,date_trunc('month',e.entry_date)",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "category_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "subcategory_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "category_name?",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "subcategory_name?",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "month!",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 5,
+        "name": "amount!",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "TextArray",
+        "Date",
+        "Date",
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "ba79cbec895b1d43fb9c3a90d3c8a672e293f5d074c6d90187deb5c8431f64b7"
+}

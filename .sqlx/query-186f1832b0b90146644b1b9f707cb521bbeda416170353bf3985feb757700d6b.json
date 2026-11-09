@@ -1,0 +1,48 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT account_id, original_balance, current_balance, schedule_opening_balance, source_key FROM loans\n         WHERE household_id = $1 AND id = $2 AND owner_scope = ANY($3)\n         FOR UPDATE",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "account_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "original_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "current_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "schedule_opening_balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "source_key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "186f1832b0b90146644b1b9f707cb521bbeda416170353bf3985feb757700d6b"
+}

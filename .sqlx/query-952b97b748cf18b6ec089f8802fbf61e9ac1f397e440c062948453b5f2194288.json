@@ -1,0 +1,24 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT effective_on FROM utility_contract_prices WHERE household_id=$1 AND utility_contract_id=$2 AND effective_on>$3 ORDER BY effective_on LIMIT 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "effective_on",
+        "type_info": "Date"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "952b97b748cf18b6ec089f8802fbf61e9ac1f397e440c062948453b5f2194288"
+}

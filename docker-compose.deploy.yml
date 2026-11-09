@@ -1,0 +1,58 @@
+services:
+  postgres:
+    ports: !reset []
+
+  migrate:
+    image: ${API_IMAGE}
+    build: !reset null
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+
+  bootstrap:
+    image: ${API_IMAGE}
+    build: !reset null
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      DB_APP_PASSWORD: ${DB_APP_PASSWORD}
+
+  api:
+    image: ${API_IMAGE}
+    build: !reset null
+    environment:
+      DATABASE_URL: ${APP_DATABASE_URL}
+      APP_ENV: production
+      LISTEN_ADDRESS: 0.0.0.0:8000
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      DEV_AUTH_ENABLED: "false"
+      DEV_AUTH_LISTEN_ADDRESS: ""
+      SESSION_HOURS: ${SESSION_HOURS:-24}
+      MAINTENANCE_INTERVAL_SECONDS: ${MAINTENANCE_INTERVAL_SECONDS:-900}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      CLOUDFLARE_ACCESS_TEAM_DOMAIN: ${CLOUDFLARE_ACCESS_TEAM_DOMAIN}
+      CLOUDFLARE_ACCESS_AUDIENCE: ${CLOUDFLARE_ACCESS_AUDIENCE}
+      BACKUP_ADMIN_ROOT: /var/lib/checkbook/backups
+      ADMIN_LISTEN_ADDRESS: ${ADMIN_LISTEN_ADDRESS:-}
+      ADMIN_SERVICE_TOKEN: ${ADMIN_SERVICE_TOKEN:-}
+      DATA_LOAD_STAGING_ROOT: ${DATA_LOAD_STAGING_ROOT:-}
+    ports: !reset []
+    volumes:
+      - ${BACKUP_HOST_PATH}:/var/lib/checkbook/backups
+      - ${DATA_LOAD_HOST_PATH}:/var/lib/checkbook/data-loads
+
+  frontend:
+    image: ${FRONTEND_IMAGE}
+    build: !reset null
+    ports: !override
+      - "127.0.0.1:${FRONTEND_HOST_PORT:-13009}:80"
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    depends_on:
+      frontend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - checkbook-network

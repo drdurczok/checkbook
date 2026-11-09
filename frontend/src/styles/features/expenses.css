@@ -1,0 +1,422 @@
+/* Continuous expense history with sticky month separators. */
+.expense-group-panel--retired,
+.expense-row--retired {
+	filter: grayscale(1);
+	color: rgb(var(--mist) / 0.72);
+}
+
+.expense-group-panel--retired .expense-group-title,
+.expense-group-panel--retired .detail-row span,
+.expense-group-panel--retired .detail-row strong,
+.expense-group-panel--retired .detail-row small,
+.detail-row.expense-row--retired span,
+.detail-row.expense-row--retired strong,
+.detail-row.expense-row--retired small {
+	color: rgb(var(--mist) / 0.72);
+}
+
+.expense-retired-label {
+	margin-left: 0.5rem;
+	font-size: 0.7rem;
+	font-weight: 500;
+	color: rgb(var(--mist) / 0.72);
+}
+
+.entry-ledger { padding: 0 0.5rem; }
+.entry-selection-hint { margin: 0 0 0.5rem; color: rgb(var(--mist) / 0.72); font-size: 0.75rem; }
+.entry-month + .entry-month { margin-top: 1rem; }
+.entry-month-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 0.5rem; min-height: 3rem; padding: 0.65rem 0; border-bottom: 1px solid rgb(var(--outline) / 0.55); background: rgb(var(--surface)); }
+.entry-month-label { margin: 0; font-size: 0.9rem; font-weight: 750; }
+.entry-month-header small { color: rgb(var(--mist) / 0.72); font-size: 0.72rem; }
+.entry-month-header strong { margin-left: auto; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.entry-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: start;
+	gap: 0.3rem 1rem;
+	width: 100%;
+	min-height: 4.5rem;
+	padding: 0.9rem 0.35rem;
+	border: 0;
+	border-radius: 0.4rem;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 0.85rem;
+	text-align: left;
+	cursor: pointer;
+	touch-action: pan-y;
+	user-select: none;
+	-webkit-touch-callout: none;
+}
+.entry-row + .entry-row { border-top: 1px solid rgb(var(--outline) / 0.3); }
+.entry-row:hover { background: rgb(var(--surface-lowest)); }
+.entry-row.is-selected { background: rgb(var(--accent) / 0.1); box-shadow: inset 3px 0 rgb(var(--accent)); }
+.entry-row:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; }
+.entry-row:disabled { cursor: default; opacity: 0.6; }
+.entry-name { min-width: 0; font-weight: 650; overflow-wrap: anywhere; }
+.entry-meta { grid-column: 1 / -1; display: flex; min-width: 0; gap: 0.5rem; color: rgb(var(--mist) / 0.72); font-size: 0.75rem; }
+.entry-meta time, .entry-owner { flex-shrink: 0; }
+.entry-note { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.entry-amount { justify-self: end; white-space: nowrap; font-size: 0.85rem; font-variant-numeric: tabular-nums; font-weight: 750; }
+.entry-selection-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.4rem; }
+.entry-selection-count { color: rgb(var(--mist) / 0.8); font-size: 0.78rem; white-space: nowrap; }
+.modal-backdrop.expense-entry-backdrop { align-items: flex-end; padding: 0; }
+.modal-backdrop > .modal-shell.expense-entry-sheet { width: min(38rem, 100%); height: auto; max-height: 85dvh; margin: 0 auto; padding: 1.25rem 1.25rem max(1.25rem, env(safe-area-inset-bottom)); border-radius: 1.25rem 1.25rem 0 0; overflow-y: auto; }
+.expense-entry-sheet-body { display: grid; gap: 0.65rem; overflow-wrap: anywhere; }
+.expense-entry-sheet-body p { margin: 0; color: rgb(var(--mist)); }
+.expense-entry-sheet-actions { display: grid; gap: 0.4rem; margin-top: 0.75rem; }
+.expense-entry-sheet-actions .button { justify-content: flex-start; min-height: 3rem; }
+.expense-entry-sheet .record-add-form { display: grid; gap: 0.85rem; }
+@media (max-width: 600px) {
+	.entry-ledger { padding: 0; }
+	.entry-month-header small { display: none; }
+	.entry-row { gap: 0.3rem 0.65rem; }
+}
+
+/* Secondary context inside a stat tile (delta vs average, month name). */
+.chart-stat-grid strong small {
+	margin-left: 0.4rem;
+	color: rgb(var(--mist) / 0.72);
+	font-size: 0.7rem;
+	font-weight: 700;
+}
+
+/* The month-over-average delta never breaks mid-token, and when the tile is
+   too narrow for the qualifier the qualifier drops off instead of the line
+   wrapping (phones, via the .vs-avg-label rule in the mobile block). */
+.chart-stat-grid strong small.is-positive,
+.chart-stat-grid strong small.is-negative {
+	white-space: nowrap;
+}
+
+/* Out-specifies `.chart-stat-grid span` (which would force the label onto
+   its own block line, tiny and uppercased) and inherits the small's look. */
+.chart-stat-grid strong small .vs-avg-label {
+	margin-left: 0.15rem;
+	color: inherit;
+	font-size: inherit;
+	text-transform: none;
+}
+
+.expense-group-panel > .panel__header {
+	align-items: flex-start;
+	margin-bottom: 0.35rem;
+}
+
+.expense-group-monthly {
+	display: block;
+	margin-bottom: 1rem;
+	color: rgb(var(--mist) / 0.72);
+	font-size: 0.8rem;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.expense-inherited-icon {
+	display: inline-block;
+	flex: 0 0 auto;
+	width: 0.9rem;
+	height: 0.9rem;
+	color: rgb(var(--mist) / 0.65);
+	vertical-align: -0.12em;
+}
+
+.entry-label .expense-inherited-icon {
+	margin-left: 0.4rem;
+}
+
+.expense-category-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-width: 0;
+}
+
+/* Only the options button reserves space beside the category label. */
+.expense-group-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+.expense-group-title .expense-group-name {
+	min-width: 0;
+	overflow: hidden;
+	color: inherit;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.expense-group-title small {
+	flex: 0 0 auto;
+}
+
+/* The detail modal's summary grid must always paint both rows. Its height
+   is engine-sensitive: the grid clips via overflow:hidden (rounded cells)
+   inside the modal's scrolling flex body, and some mobile engines miscompute
+   the intrinsic min-height of such a grid and clip the second row — reported
+   on mobile as "only one row of 2 statistics". Pin it structurally: no flex
+   shrink, exactly two declared rows, and a definite content-based height. */
+.expense-detail-stats {
+	flex: 0 0 auto;
+	grid-template-rows: auto auto;
+	height: max-content;
+}
+
+/* Tailwind's space-y margin-bottom on the summary grid stacks with the
+   page-stack gap; cancel it when the filter row follows so the chips sit an
+   even, tightened distance from the stats above and the charts below. */
+.expense-summary-grid:has(+ .expense-quick-filters) {
+	margin-bottom: 0;
+}
+
+/* Group filter chips below the summary stats. These took over from the mix
+   chart's in-chart legend so one selection drives the charts and the
+   category tables; All leads, Ungrouped trails. Negative block margins
+   tighten the page-stack gap so the row hugs the stats and charts. */
+.expense-quick-filters {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.4rem;
+	min-width: 0;
+	margin-block: -0.5rem;
+}
+
+.expense-filter-row {
+	display: flex;
+	flex: 1;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	min-width: 0;
+	max-height: 2rem;
+	overflow: hidden;
+}
+
+.expense-filter-row.is-expanded { max-height: none; }
+.expense-filter-row button { flex-shrink: 0; }
+
+/* Collapsed, every category chip shrinks to its colored dot so the whole
+   palette stays available in one row; only All keeps its label. When the
+   dots overflow, that single row scrolls horizontally — with the scrollbar
+   chrome hidden so no extra indicator appears. The labels stay in the
+   accessibility tree — they are clipped from view, not removed — so each
+   dot button keeps its category name. */
+.expense-filter-row:not(.is-expanded) {
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scrollbar-width: none;
+}
+
+.expense-filter-row:not(.is-expanded)::-webkit-scrollbar { display: none; }
+
+.expense-filter-row:not(.is-expanded) button:not(.expense-filter-all) {
+	justify-content: center;
+	width: 2rem;
+	padding-inline: 0;
+}
+
+.expense-filter-row:not(.is-expanded) button:not(.expense-filter-all) .expense-filter-label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.expense-filter-toggle {
+	display: grid;
+	place-items: center;
+	flex: 0 0 2rem;
+	height: 2rem;
+	border-radius: 999px;
+	color: rgb(var(--ink));
+	background: rgb(var(--surface));
+	cursor: pointer;
+}
+.expense-filter-toggle svg { width: 1rem; height: 1rem; }
+.expense-filter-toggle:focus-visible { outline: 2px solid rgb(var(--accent)); }
+
+.expenses-page .panel,
+.expenses-page .grid--two > .panel + .panel {
+	border: 0;
+	padding-left: 0;
+}
+.expenses-page .expense-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* With section dividers gone, the recurring panel can sit right under the
+   chart strip instead of adding its header's top padding to the page gap. */
+.expenses-page > .expense-charts + .panel > .panel__header { padding-top: 0; }
+
+.expense-chart-track { display: grid; gap: 1.5rem; min-width: 0; }
+.expense-chart-track--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.expense-chart-slide { min-width: 0; }
+
+/* The shared stacked-chart SVG pins a 230px-tall box. On a narrow swipe
+   slide the drawing scales by width and letterboxes inside that box, adding
+   a wide blank band between the title and the plot. Scale by width like the
+   line chart so both plots start right under their headers. */
+.expense-chart-slide .stacked-chart svg { height: auto; }
+
+/* Footer column under the chart strip: the selected-category pill ("legend")
+   centers on its own row with the swipe pager dots below it. */
+.expense-chart-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 0.35rem;
+}
+
+.expense-chart-filter-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 2rem;
+	padding: 0.25rem 0.75rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 999px;
+	background: rgb(var(--surface));
+	color: rgb(var(--ink));
+	font-size: 0.78rem;
+	font-weight: 700;
+}
+
+.expense-chart-filter-pill i {
+	flex-shrink: 0;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 999px;
+}
+
+.expense-chart-pager { display: none; }
+
+@media (max-width: 767px) {
+	.expense-chart-track--pair {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		overscroll-behavior-x: contain;
+	}
+	.expense-chart-track--pair > .expense-chart-slide {
+		flex: 0 0 100%;
+		scroll-snap-align: start;
+	}
+	.expense-chart-pager {
+		display: flex;
+		gap: 0.35rem;
+	}
+	.expense-chart-pager button {
+		display: grid;
+		place-items: center;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		border: 0;
+		background: none;
+		cursor: pointer;
+	}
+	.expense-chart-pager button:focus-visible {
+		outline: 2px solid rgb(var(--accent));
+		border-radius: 999px;
+	}
+	.expense-chart-pager-dot {
+		width: 0.35rem;
+		height: 0.35rem;
+		border-radius: 999px;
+		background: rgb(var(--mist));
+		transition: background-color 0.12s ease;
+	}
+	.expense-chart-pager button[aria-current='true'] .expense-chart-pager-dot {
+		background: rgb(var(--accent));
+	}
+}
+
+.expense-filter-row button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 2rem;
+	padding: 0.25rem 0.75rem;
+	border: 1px solid rgb(var(--outline) / 0.9);
+	border-radius: 999px;
+	background: rgb(var(--surface));
+	color: rgb(var(--mist) / 0.9);
+	font-size: 0.78rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition:
+		border-color 0.12s ease,
+		color 0.12s ease,
+		background 0.12s ease;
+}
+
+.expense-filter-row button:hover {
+	border-color: rgb(var(--accent) / 0.5);
+	color: rgb(var(--ink));
+}
+
+.expense-filter-row button.is-active {
+	border-color: rgb(var(--accent) / 0.65);
+	background: rgb(var(--accent) / 0.12);
+	color: rgb(var(--accent));
+}
+
+.expense-filter-row i {
+	flex-shrink: 0;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 999px;
+}
+
+/* New/Edit group modal shares the record-add mobile anatomy: header row,
+   flexible form row. `space-between` seats the action bar at the bottom of
+   the full-height phone dialog instead of right under short fields. */
+.expense-group-modal.quick-add-modal {
+	grid-template-rows: auto minmax(0, 1fr);
+}
+
+.expense-group-modal .record-add-form {
+	align-content: space-between;
+}
+
+/* The category editor renders through the shared FormSheet: its mobile
+   bottom-sheet chrome (frosted backdrop, content sizing, padded header,
+   compact centered footer) lives in the .modal-sheet primitives. Only the
+   palette selection styling is specific to this window. */
+.expense-group-modal [role="radiogroup"] [role="radio"] {
+	box-shadow: inset 0 0 0 1px rgb(var(--shadow) / 0.18);
+}
+
+.expense-group-modal [role="radiogroup"] [role="radio"][aria-checked="true"] {
+	box-shadow:
+		0 0 0 2px rgb(var(--surface)),
+		0 0 0 4px rgb(var(--accent));
+}
+
+@media (max-width: 767px) {
+	/* Thumb-sized swatches on phones; the 4px selection ring needs room. */
+	.expense-group-modal [role="radiogroup"] [role="radio"] {
+		width: 2.25rem;
+		height: 2.25rem;
+	}
+
+	/* Stat tiles halve their width: drop the "vs avg" qualifier rather than
+	   letting the delta wrap to its own line. */
+	.chart-stat-grid strong small .vs-avg-label {
+		display: none;
+	}
+
+	/* One header row, always: the name ellipsizes and the kebab stays flush
+	   right instead of wrapping below the title (the shared mobile panel
+	   header wraps by default for panels with wide controls). */
+	.expense-group-panel .panel__header {
+		flex-wrap: nowrap;
+	}
+}
